@@ -66,13 +66,22 @@ function gg () { # Double-grep (grep with files resulting of the first grep)
 }
 
 function bak() { # Move target to *.bak
-    mv -v $1{,.bak}
+    T=$1;
+    if [ "${T:0-1}" = "/" ]; then
+        T=${T%%/}; # Strip trailing / of directories
+    fi
+    mv -v $T{,.bak}
 }
 
 function unbak() { # Revert previously bak'd target
-    if [ "${1:0-4}" = ".bak" ]; then
-        mv -v ${1} ${1::3}
+    T=$1;
+    if [ "${T:0-1}" = "/" ]; then
+        T=${T%%/}; # Strip trailing / of directories
+    fi
+
+    if [ "${T:0-4}" = ".bak" ]; then
+        mv -v ${T} ${T%%.bak}
     else
-        echo "No .bak extension, ignoring: $1"
+        echo "No .bak extension, ignoring: $T"
     fi
 }
