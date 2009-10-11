@@ -3,24 +3,14 @@ if [[ $- != *i* ]] ; then
     return
 fi
 
-if [ -f ~/.bash_private ]; then
-    # Load private functions and variables not fit for public consumption
-    source ~/.bash_private
-fi
+# Load auxiliary configurations
+LOAD_FILES="~/.bash_private ~/.bash_aliases"
 
-# Augment environment with user-local installs
-export PYTHONPATH=~/local/lib/python2.6:$PYTHONPATH
-export PATH=~/local/bin:$PATH
-
-# Colorize ls by default
-if [ "$TERM" != "dumb" ]; then
-    export LS_OPTIONS='--color=auto'
-    export GREP_OPTIONS='--color=auto'
-    export GREP_COLOR='1;32'
-fi
- 
-
-
+for F in $LOAD_FILES; do
+    if [ -f $F ]; then
+        source $F
+    fi
+done
 
 # Gentoo-specific helpers
 
@@ -29,10 +19,6 @@ alias listmodules="find /lib/modules/*/ -type f -iname '*.o' -or -iname '*.ko'"
 
 
 # Helper functions
-
-alias ,="ls -lAGh"
-alias ..="cd .."
-alias -- -="cd -"
 
 function c () { # Substitute for `cd`
     cd "${*}"
