@@ -30,7 +30,11 @@ alias listmodules="find /lib/modules/*/ -type f -iname '*.o' -or -iname '*.ko'"
 
 
 
-# Generic stuff
+# Helper functions
+
+alias ,="ls -lAGh"
+alias ..="cd .."
+alias -- -="cd -"
 
 function c () { # Substitute for `cd`
     cd "${*}"
