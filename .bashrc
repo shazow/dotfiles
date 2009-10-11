@@ -46,6 +46,15 @@ function f () { # Find file in cwd
     find . -name "*${*}*"
 }
 
+function fcd() { # Find directory under cwd and cd into it
+    TARGET=$(find . -name "*${*}*" -type d | head -n1)
+    if [ $TARGET ]; then
+        cd $TARGET
+    else
+        echo "Directory not found: ${*}"; return
+    fi
+}
+
 function p () { # Find process
     ps aux | grep "${*}"
 }
