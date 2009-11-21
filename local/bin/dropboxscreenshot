@@ -1,21 +1,39 @@
 #!/bin/bash
 # Script for taking a screenshot from a selected area and pushing it straight
-# into dropbox (with a predictable naming scheme).
+# into dropbox (with an unpredictable naming scheme).
 #
 # Requires:
 # * scrot
 # * xclip
 
+### CHANGE THESE VARIABLES:
+
+# Where do you want to save the screenshots?
 SCREENSHOT_DIR=~/Dropbox/Public/screenshots
+
+# What's your dropbox user id? (Get it by sharing a file and looking in the URL)
 USER_ID=1156750
 
-name="screenshot_$(date '+%Y-%m-%d')"
-filename="${name}_0.png"
-if [ -e $SCREENSHOT_DIR/$filename ]; then
-    count=$(ls $SCREENSHOT_DIR/${name}* | wc -l)
-    filename="${name}_${count}.png"
+###
+
+if [ ! -d $SCREENSHOT_DIR ]; then
+    mkdir -p $SCREENSHOT_DIR
 fi
+
+name="screenshot_$(date '+%Y-%m-%d')"
+
+# Make it hard to guess
+random_string=$(cat /dev/urandom | tr -dc "[:alnum:]" | head -c4)
+
+# Get the appropriate count
+count=$(find $SCREENSHOT_DIR -name "$name*.png" | wc -l)
+
+# Compose full filename
+filename="${name}_${count}_${random_string}.png"
+
 echo "Taking screenshot: $filename"
 
 scrot -s $SCREENSHOT_DIR/$filename || exit -1
+
+# Copy to clipboard
 echo "https://dl.dropbox.com/u/$USER_ID/screenshots/$filename" | xclip
