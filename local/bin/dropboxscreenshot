@@ -7,6 +7,8 @@
 # * xclip
 
 SCREENSHOT_DIR=~/Dropbox/Public/screenshots
+USER_ID=1156750
+
 name="screenshot_$(date '+%Y-%m-%d')"
 filename="${name}_0.png"
 if [ -e $SCREENSHOT_DIR/$filename ]; then
@@ -16,4 +18,4 @@ fi
 echo "Taking screenshot: $filename"
 
 scrot -s $SCREENSHOT_DIR/$filename || exit -1
-echo "https://dl.dropbox.com/u/1156750/screenshots/$filename" | xclip
+echo "https://dl.dropbox.com/u/$USER_ID/screenshots/$filename" | xclip
