@@ -66,3 +66,5 @@ function unbak() { # Revert previously bak'd target
         echo "No .bak extension, ignoring: $t"
     fi
 }
+
+function say() { echo "$*" | festival --tts; }

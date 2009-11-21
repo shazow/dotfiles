@@ -1,0 +1,14 @@
+#!/bin/bash
+
+SCREENSHOT_DIR=~/Dropbox/Public/screenshots
+name="screenshot_$(date '+%Y-%m-%d')"
+count=0
+filename="${name}_${count}.png"
+if [ -e $SCREENSHOT_DIR/$filename ]; then
+    count=$(ls $SCREENSHOT_DIR/${name}* | wc -l)
+    filename="${name}_${count}.png"
+fi
+echo "Taking screenshot: $filename"
+
+scrot -s $SCREENSHOT_DIR/$filename || exit -1
+echo "https://dl.dropbox.com/u/1156750/screenshots/$filename" | xclip
