@@ -1,9 +1,14 @@
 #!/bin/bash
+# Script for taking a screenshot from a selected area and pushing it straight
+# into dropbox (with a predictable naming scheme).
+#
+# Requires:
+# * scrot
+# * xclip
 
 SCREENSHOT_DIR=~/Dropbox/Public/screenshots
 name="screenshot_$(date '+%Y-%m-%d')"
-count=0
-filename="${name}_${count}.png"
+filename="${name}_0.png"
 if [ -e $SCREENSHOT_DIR/$filename ]; then
     count=$(ls $SCREENSHOT_DIR/${name}* | wc -l)
     filename="${name}_${count}.png"
