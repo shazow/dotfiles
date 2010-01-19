@@ -46,6 +46,11 @@ function gg () { # Double-grep (grep with files resulting of the first grep)
     grep -Irl ${1} . | xargs grep -I ${2}
 }
 
+function mailfile() { # Send file to a given email address as attachment
+    # uuenview can be replaced with uuencode (bin depends on the distro)
+    uuenview "$1" | mail -s "$(basename $1)" $2
+}
+
 function bak() { # Move target to *.bak
     t=$1;
     if [ "${t:0-1}" = "/" ]; then
@@ -68,3 +73,5 @@ function unbak() { # Revert previously bak'd target
 }
 
 function say() { echo "$*" | festival --tts; }
+
+function w() { watch -dn1 $*; }
