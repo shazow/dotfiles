@@ -36,4 +36,4 @@ echo "Taking screenshot: $filename"
 scrot -s $SCREENSHOT_DIR/$filename || exit -1
 
 # Copy to clipboard
-echo "https://dl.dropbox.com/u/$USER_ID/screenshots/$filename" | xclip
+echo "http://dl.dropbox.com/u/$USER_ID/screenshots/$filename" | xclip
