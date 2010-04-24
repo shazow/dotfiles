@@ -9,7 +9,8 @@ if [ "$TERM" != "dumb" ]; then
     export GREP_COLOR='0;32'
 fi
 
-# OSX Doesn't support LS_OPTIONS et al.
+# OSX-specific settings
 if [ "$(uname)" == "Darwin" ]; then
+    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
     export CLICOLOR=1
 fi
