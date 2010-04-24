@@ -75,3 +75,19 @@ function unbak() { # Revert previously bak'd target
 function say() { echo "$*" | festival --tts; }
 
 function w() { watch -dn1 $*; }
+
+
+# Workspace navigation functions
+
+function go() {
+    to=$1
+    if [ ! "$to" ]; then
+        # Go to previous destination
+	to=$(grep "^go " ~/.bash_history | tail -n1 | cut -d ' ' -f2-)
+    fi
+
+    cd ~/projects/$to
+
+    # Load project profile (e.g. virtualenv)
+    [ -e .profile ] && . .profile
+}

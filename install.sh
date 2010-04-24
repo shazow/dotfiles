@@ -50,5 +50,5 @@ copy "$path/.gvimrc" ~/.gvimrc
 
 if [ "$(uname)" == "Darwin" ]; then
 	include_into "~/.bash_profile" ~/.profile
-	include_into "~/.bashrc" ~/.profile
+	include_into "~/.bashrc" ~/.bash_profile
 fi
