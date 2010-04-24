@@ -16,13 +16,26 @@ function include_into() {
 	echo ". $1" >> $2
 }
 
-# Link files
-if [ "$(uname)" == "Darwin" ]; then
-	include_into "$path/.bash_profile" ~/.profile
-	include_into "$path/.bashrc" ~/.profile
-else
-	include_into "$path/.bash_profile" ~/.bash_profile
-	include_into "$path/.bashrc" ~/.bashrc
-fi
+function copy() {
+	if test -e $2; then
+		read -n1 -p "Target '$2' already exists, overwrite? [y/N]\n" r
+		echo ""
+		if [ "$r" != "y" ]; then
+			return;
+		fi
+	fi;
+	echo "Copying: $1 -> $2";
+	cp -r "$1" "$2"
+}
 
+include_into "$path/.bash_profile" ~/.bash_profile
+include_into "$path/.bashrc" ~/.bashrc
 include_into "$path/.bash_aliases" ~/.bash_aliases
+
+copy "$path/.vim" ~/.vim
+copy "$path/.vimrc" ~/.vimrc
+copy "$path/.gvimrc" ~/.gvimrc
+
+if [ "$(uname)" == "Darwin" ]; then
+	include_into "~/.bash_profile" ~/.profile
+fi
