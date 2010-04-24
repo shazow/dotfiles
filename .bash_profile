@@ -11,5 +11,5 @@ fi
 
 # OSX Doesn't support LS_OPTIONS et al.
 if [ "$(uname)" == "Darwin" ]; then
-    alias ls="ls -G"
+    export CLICOLOR=1
 fi
