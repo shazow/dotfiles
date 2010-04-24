@@ -18,8 +18,10 @@ function include_into() {
 
 function copy() {
 	if test -e $2; then
-		read -n1 -p "Target '$2' already exists, overwrite? [y/N]\n" r
-		echo ""
+		read -n1 -p "Target '$2' already exists, overwrite? [y/N] " r
+		if [ "$r" != "" ]; then
+			echo ""
+		fi
 		if [ "$r" != "y" ]; then
 			return;
 		fi
