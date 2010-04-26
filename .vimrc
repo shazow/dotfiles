@@ -1,35 +1,56 @@
+"Keep all temporary and backup files in one place
+set backup
+set backupdir=~/.vim/backup
+set directory=~/.vim/tmp
+
 map <C-Insert> <Esc>:tabnew<CR>
 
-set et
-set wrap!
-set guifont=Bitstream\ Vera\ Sans\ Mono\ 9
-"set smartindent    " EVIL. Breaks filetype indenting. Don't enable.
 "set autoindent     " EVIL. Breaks filetype indenting. Don't enable
-set sw=4
-"set expandtab
+"set smartindent    " EVIL. Breaks filetype indenting. Don't enable.
+
+set autochdir
+set autoindent
+set backspace=start,indent,eol
+set cmdheight=2     " Annoying 'hit enter' message when using PIDA, get rid of it
+set expandtab
+set hidden
+set history=1000
+set ignorecase
+set incsearch
+set noinsertmode
+set nostartofline
+set number
+set hlsearch
 set shiftwidth=4
 set softtabstop=4
-set expandtab
-"set smarttab
-set autochdir
-set hlsearch        " Highlight searc
-set cmdheight=2     " Annoying 'hit enter' message when using PIDA, get rid of it
+set showcmd
+set wildchar=<TAB>
+set wildmenu
+set wildmode=list:longest
+set wrap!
+set viminfo='100,f1
+
 nmap <F2> :wall<NL> " Save all on F2
 im :<CR> :<CR><TAB>
 map <F1> <esc>
 imap <F1> <esc>
 
-" Enable line numbers
-set number
+noremap Y y$
 
-set viminfo='100,f1
+" Buffer navigation
+map <Leader>, <C-^>
+map <Leader>] :bnext<CR>
+map <Leader>[ :bprev<CR>
+map <Leader>ls :buffers<CR>
 
+" Alternatives for Esc to exit insert mode.
+imap jj <ESC>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" filetype customizations
-filetype indent on
+" Filetype customizations
+syntax on
 filetype on
-syntax enable
+filetype plugin on
+filetype indent on
 
 
 set list listchars=tab:>\ ,trail:.,extends:$,nbsp:_
@@ -48,13 +69,17 @@ augroup mkd
   autocmd BufRead *.txt  set ai formatoptions=tcroqn2 comments=n:>
 augroup END
 
-set showcmd
+" Markdown
+augroup mkd
+  autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:>
+augroup END
 
 
-"Keep all temporary and backup files in one place
-set backup
-set backupdir=~/.vim/backup
-set directory=~/.vim/tmp
+function! StripWhitespace ()
+    exec ':%s/\s*$//g'
+endfunction
+noremap <leader>t :call StripWhitespace ()<CR>
+
 
 "Fast reloading of the .vimrc
 map <leader>s :source ~/.vimrc<cr>
