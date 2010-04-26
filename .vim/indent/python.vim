@@ -14,7 +14,7 @@ setlocal expandtab
 setlocal nolisp
 setlocal autoindent
 setlocal indentexpr=GetPythonIndent(v:lnum)
-setlocal indentkeys=!^F,o,O,<:>,0),0],0},=elif,=except,0#
+setlocal indentkeys=!^F,o,O,<:>,0),0],0},=elif,0#
 
 let s:maxoff = 50
 
@@ -159,7 +159,13 @@ function! GetPythonIndent(lnum)
     
     " If the previous line is blank, keep the same indentation
     if pline =~ '^\s*$'
-        return -1
+	 " return -1
+	 " The previous behaviour did annoying things when you skipped a line
+	 " before a comment. This matches the indentation level of the line
+	 " *after* the last non-blank line (so that if it's a blockstart 
+	 " that's the last line you're getting the indent level for the 
+	 " block instead of the statement that starts/precedes it).
+        return GetPythonIndent(prevnonblank(plnum) + 1)
     endif
     
     " If this line is explicitly joined, try to find an indentation that looks
