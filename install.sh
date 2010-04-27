@@ -11,14 +11,14 @@ if [ "$1" == "-n" ]; then
     no_all=true
 fi
 
-function include_into() {
-    if test -e $2 && $(grep -q ". $1" $2);  then
+function append_into() {
+    if test -e $2 && $(grep -q "$1" $2);  then
         echo "Already sourced, skipping: $1 -> $2"
         return 1
     fi
 
     echo "Adding source: $1 -> $2"
-    echo ". $1" >> $2
+    echo "$1" >> $2
 }
 
 function copy() {
@@ -39,16 +39,18 @@ function copy() {
     cp -r "$1" "$2"
 }
 
-include_into "$path/.bash_profile" ~/.bash_profile
-include_into "$path/.bashrc" ~/.bashrc
-include_into "$path/.bash_aliases" ~/.bash_aliases
+append_into "export DOTFILES_PATH=$path" ~/.bash_profile
+append_into ". $path/.bash_profile" ~/.bash_profile
+append_into ". $path/.bashrc" ~/.bashrc
+append_into ". $path/.bash_aliases" ~/.bash_aliases
 
 copy "$path/local" ~/local
 copy "$path/.vim" ~/.vim
 copy "$path/.vimrc" ~/.vimrc
 copy "$path/.gvimrc" ~/.gvimrc
+copy "$path/.screenrc" ~/.screenrc
 
 if [ "$(uname)" == "Darwin" ]; then
-    include_into "~/.bash_profile" ~/.profile
-    include_into "~/.bashrc" ~/.bash_profile
+    append_into ". ~/.bash_profile" ~/.profile
+    append_into ". ~/.bashrc" ~/.bash_profile
 fi
