@@ -8,7 +8,6 @@ map <C-Insert> <Esc>:tabnew<CR>
 "set autoindent     " EVIL. Breaks filetype indenting. Don't enable
 "set smartindent    " EVIL. Breaks filetype indenting. Don't enable.
 
-set autochdir
 set autoindent
 set backspace=start,indent,eol
 set cmdheight=2     " Annoying 'hit enter' message when using PIDA, get rid of it
@@ -29,6 +28,12 @@ set wildmenu
 set wildmode=list:longest
 set wrap!
 set viminfo='100,f1
+
+if exists('+autochdir')
+  set autochdir
+else
+  autocmd BufEnter * silent! lcd %:p:h:gs/ /\\ /
+endif
 
 nmap <F2> :wall<NL> " Save all on F2
 im :<CR> :<CR><TAB>

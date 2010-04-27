@@ -3,6 +3,11 @@ if [[ $- != *i* ]] ; then
     return
 fi
 
+if [ "$TERM" == "screen" ]; then
+    # Screen doesn't load .bash_profile?
+    . $DOTFILES_PATH/.bash_profile
+fi
+
 # Load auxiliary configurations
 load_files=(~/.bash_private ~/.bash_aliases)
 

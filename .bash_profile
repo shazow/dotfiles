@@ -20,6 +20,15 @@ fi
 
 # Colorize the prompt
 if [ "$PS1" ]; then
+    host_format="\[\033[01;32m\]"
+    user_format="\[\033[01;32m\]"
+    path_format="\[\033[01;34m\]"
+    input_format="\[\033[00m\]"
+
+    if [ "$SSH_CONNECTION" ]; then
+        host_format="\[\033[01;36m\]"
+    fi
+
     case $TERM in
     xterm*)
         PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}"; echo -ne "\007"'
@@ -27,8 +36,17 @@ if [ "$PS1" ]; then
     screen)
         PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$H
 OME/~}"; echo -ne "\033\\"'
+        path_format="\[\033[00;33m\]"
         ;;
     esac
+
+    if [[ ${EUID} == 0 ]] ; then
+            PS1="${host_format}\h\${path_format} \W \$${input_format} "
+    else
+            PS1="${user_format}\u${host_format}@\h${path_format} \w \$${input_format} "
+    fi
+
     shopt -s checkwinsize
-    [ "$PS1" = "\\s-\\v\\\$ " ] && PS1="[\u@\h \W]\\$ "
 fi
+
+
