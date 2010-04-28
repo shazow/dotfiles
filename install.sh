@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Get the absolute path of the dotfiles
-oldpath=$PWD
-cd $(dirname $0)
-path=$PWD
-cd $OLDPATH
+oldpath="$PWD"
+cd $(dirname "$0")
+path="$PWD"
+cd "$OLDPATH"
 
 no_all=false
 if [ "$1" == "-n" ]; then
@@ -12,21 +12,21 @@ if [ "$1" == "-n" ]; then
 fi
 
 function append_into() {
-    if test -e $2 && $(grep -q "$1" $2);  then
+    if test -e "$2" && $(grep -q "$1" "$2");  then
         echo "Already sourced, skipping: $1 -> $2"
         return 1
     fi
 
     echo "Adding source: $1 -> $2"
-    echo "$1" >> $2
+    echo "$1" >> "$2"
 }
 
 function copy() {
-    if test -e $2; then
+    if test -e "$2"; then
         if $no_all; then
             echo "Skipping: $2"
             return
-        fi        
+        fi
         read -n1 -p "Target '$2' already exists, overwrite? [y/N] " r
         if [ "$r" != "" ]; then
             echo ""
