@@ -84,15 +84,33 @@ function w() { watch -dn1 $*; }
 
 # Workspace navigation functions
 
-function go() {
+function go() { # Jump to a project (and activate environment)
     to=$1
     if [ ! "$to" ]; then
-        # Go to previous destination
-	to=$(grep "^go " ~/.bash_history | tail -n1 | cut -d ' ' -f2-)
+        # Go to the last go'ne destination
+        to=$(grep "^go " ~/.bash_history | tail -n1 | cut -d ' ' -f2-)
     fi
 
     cd ~/projects/$to
 
     # Load project profile (e.g. virtualenv)
     [ -e .profile ] && . .profile
+}
+
+function up() { # cd to root of repository
+    old_pwd="$PWD";
+    while [ 1 ]; do
+        cd ..
+        if [ "$PWD" == "/" ]; then
+            cd "$old_pwd"
+            echo "No repository found, returned to $PWD"
+            return 1
+        fi
+        for repo in ".git" ".hg" ".svn"; do
+            if [ -d "$repo" ]; then
+                echo "Found $repo at $PWD"
+                return 0;
+            fi
+        done
+    done
 }
