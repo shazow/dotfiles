@@ -106,7 +106,7 @@ function up() { # cd to root of repository
             echo "No repository found, returned to $PWD"
             return 1
         fi
-        for repo in ".git" ".hg" ".svn"; do
+        for repo in ".git" ".hg"; do
             if [ -d "$repo" ]; then
                 echo "Found $repo at $PWD"
                 return 0;
