@@ -26,8 +26,11 @@ set showcmd
 set wildchar=<TAB>
 set wildmenu
 set wildmode=list:longest
-set wrap!
+set nowrap
 set viminfo='100,f1
+
+set nolinebreak
+set textwidth=0
 
 if exists('+autochdir')
   set autochdir
@@ -55,7 +58,7 @@ imap jj <ESC>
 syntax on
 filetype on
 filetype plugin on
-filetype indent on
+"filetype indent on
 
 
 set list listchars=tab:>\ ,trail:.,extends:$,nbsp:_
@@ -92,3 +95,5 @@ map <leader>s :source ~/.vimrc<cr>
 map <leader>e :e! ~/.vimrc<cr>
 "When .vimrc is edited, reload it
 autocmd! bufwritepost vimrc source ~/.vimrc
+
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
