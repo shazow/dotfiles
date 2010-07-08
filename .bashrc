@@ -54,7 +54,7 @@ function gg () { # Double-grep (grep with files resulting of the first grep)
 function greplace () { # Grep in cwd and replace $1 with $2 in-line
     grep -Irl "$1" . | while read i; do
         echo "Replacing: $i"
-        /usr/bin/perl -p -i -e "s/$1/$2/g" "$i"
+        perl -p -i -e "s/$1/$2/g" "$i"
     done
 }
 
