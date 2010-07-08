@@ -21,7 +21,7 @@ done
 # Helper functions
 
 function c () { # Substitute for `cd`
-    cd "$*"
+    cd *${*}*
     pwd
     ls
 }
@@ -49,6 +49,13 @@ function g () { # Grep in cwd
 
 function gg () { # Double-grep (grep with files resulting of the first grep)
     grep -Irl ${1} . | xargs grep -I ${2}
+}
+
+function greplace () { # Grep in cwd and replace $1 with $2 in-line
+    grep -Irl "$1" . | while read i; do
+        echo "Replacing: $i"
+        /usr/bin/perl -p -i -e "s/$1/$2/g" "$i"
+    done
 }
 
 function mailfile() { # Send file to a given email address as attachment
