@@ -39,10 +39,6 @@ endif
 
 nmap <F2> :wall<NL> " Save all on F2
 im :<CR> :<CR><TAB>
-map <F1> <esc>
-imap <F1> <esc>
-
-noremap Y y$
 
 " Buffer navigation
 map <Leader>, <C-^>
