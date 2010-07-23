@@ -5,7 +5,6 @@ set directory=~/.vim/tmp
 
 map <C-Insert> <Esc>:tabnew<CR>
 
-"set autoindent     " EVIL. Breaks filetype indenting. Don't enable
 "set smartindent    " EVIL. Breaks filetype indenting. Don't enable.
 
 set autoindent
