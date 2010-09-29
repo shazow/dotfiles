@@ -1,9 +1,2 @@
-#!/usr/bin/env python
-
-import simplejson
-import pprint
-import sys
-
-if __name__ == "__main__":
-    o = simplejson.load(sys.stdin)
-    pprint.pprint(o)
+#!/bin/bash
+python -m json.tool # Requires python 2.6

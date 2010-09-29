@@ -1,0 +1,13 @@
+startup_message off
+nethack on
+
+termcapinfo xterm* ti@:te@
+vbell off
+autodetach on
+altscreen on
+defscrollback 10000
+defutf8 on
+
+hardstatus alwayslastline
+hardstatus string '%{= kw}[ %{= kb}%H%{= kw} ][%= %{= kw}%?%-Lw%?%{= kW}%n*%f %t%?%?%{= kw}%?%+Lw%?%?%= ][ %{r}%l%{w} ]%{w}[%{r} %d/%m/%y %C %A %{w}]%{w}'
+
