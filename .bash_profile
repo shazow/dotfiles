@@ -1,6 +1,6 @@
 # Augment environment with user-local installs
-export PYTHONPATH=~/local/lib/python2.6:$PYTHONPATH
 export PATH=~/local/bin:$PATH:/sbin
+export HISTSIZE=10000
 
 # Colorize ls by default
 if [ "$TERM" != "dumb" ]; then
