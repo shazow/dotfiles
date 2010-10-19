@@ -84,7 +84,9 @@ function unbak() { # Revert previously bak'd target
     fi
 }
 
-function say() { echo "$*" | festival --tts; }
+if [ ! "$(which say)" ]; then
+    function say() { echo "$*" | festival --tts; }
+fi
 
 function w() { watch -dn1 $*; }
 

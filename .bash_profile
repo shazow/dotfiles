@@ -1,6 +1,6 @@
 # Augment environment with user-local installs
-export PYTHONPATH=~/local/lib/python2.6:$PYTHONPATH
-export PATH=~/local/bin:$PATH:/sbin
+export PYTHONPATH=$PYTHONPATH
+export PATH=~/local/bin:/usr/local/bin:$PATH:/sbin
 
 HISTCONTROL=ignoreboth
 shopt -s histappend
