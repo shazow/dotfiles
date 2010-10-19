@@ -1,0 +1,39 @@
+#!/bin/sh
+# Manage a single-file git repository
+#
+# WARNING: This only half-works. Forward commits are fine but branching and reverting
+# doesn't work because git hardlinks objects around and it conflicts with this approach.
+#
+# Example:
+# $ touch foo
+# $ gitlet foo init # (Creates .foo.git and hardlinks .foo.git/foo -> foo)
+# $ gitlet foo commit -a -m 'Import'
+# $ echo 'bar' > foo
+# $ gitlet foo commit -a -m 'Added bar.'
+# $ gitlet foo status
+
+target="$1"
+repo=".$target.git"
+cmd="$2"
+
+GIT_WORK_TREE="$repo"
+GIT_DIR="$repo/.git"
+GIT_CMD="git --work-tree=$GIT_WORK_TREE --git-dir=$GIT_DIR"
+
+if [ "$cmd" == "init" ]; then
+    mkdir "$repo"
+    ln "$target" "$repo/$target"
+fi
+
+if [ ! -d "$repo" ]; then
+    echo "error: repository does not exist: $repo"
+    exit 1
+fi
+
+shift
+
+$GIT_CMD $*
+
+if [ "$cmd" == "init" ]; then
+    $GIT_CMD add "$target"
+fi

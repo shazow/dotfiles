@@ -1,6 +1,7 @@
 # Augment environment with user-local installs
 export PYTHONPATH=$PYTHONPATH
 export PATH=~/local/bin:/usr/local/bin:$PATH:/sbin
+export HISTSIZE=10000
 
 HISTCONTROL=ignoreboth
 shopt -s histappend
