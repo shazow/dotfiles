@@ -1,11 +1,10 @@
 " Vim color file
 "
-" Author: Tomas Restrepo <tomas@winterdom.com>
+" Modified by:
+"   Andrey Petrov <andrey.petrov@shazow.net>
 "
-" Note: Based on the monokai theme for textmate
-" by Wimer Hazenberg and its darker variant 
-" by Hamish Stuart Macpherson
-"
+" Based on Molokai, by:
+"   Tomas Restrepo <tomas@winterdom.com>
 
 hi clear
 
@@ -18,14 +17,7 @@ if version > 580
         syntax reset
     endif
 endif
-let g:colors_name="molokai"
-
-if exists("g:molokai_original")
-    let s:molokai_original = g:molokai_original
-else
-    let s:molokai_original = 0
-endif
-
+let g:colors_name="mylokai"
 
 hi Boolean         guifg=#AE81FF
 hi Character       guifg=#E6DB74
@@ -74,7 +66,7 @@ hi PreCondit       guifg=#A6E22E               gui=bold
 hi PreProc         guifg=#A6E22E
 hi Question        guifg=#66D9EF
 hi Repeat          guifg=#F92672               gui=bold
-hi Search          guifg=#FFFFFF guibg=#455354
+hi Search          guifg=#1d122f guibg=#ee7373
 " marks column
 hi SignColumn      guifg=#A6E22E guibg=#232526
 hi SpecialChar     guifg=#F92672               gui=bold
@@ -94,7 +86,7 @@ hi StorageClass    guifg=#FD971F               gui=italic
 hi Structure       guifg=#66D9EF
 hi Tag             guifg=#F92672               gui=italic
 hi Title           guifg=#ef5939
-hi Todo            guifg=#FFFFFF guibg=bg      gui=bold
+hi Todo            guifg=#d56825 guibg=bg      gui=bold
 
 hi Typedef         guifg=#66D9EF
 hi Type            guifg=#66D9EF               gui=none
@@ -106,21 +98,12 @@ hi Visual                        guibg=#403D3D
 hi WarningMsg      guifg=#FFFFFF guibg=#333333 gui=bold
 hi WildMenu        guifg=#66D9EF guibg=#000000
 
-if s:molokai_original == 1
-   hi Normal          guifg=#F8F8F2 guibg=#272822
-   hi Comment         guifg=#75715E
-   hi CursorLine                    guibg=#3E3D32
-   hi CursorColumn                  guibg=#3E3D32
-   hi LineNr          guifg=#BCBCBC guibg=#3B3A32
-   hi NonText         guifg=#BCBCBC guibg=#3B3A32
-else
-   hi Normal          guifg=#F8F8F2 guibg=#1B1D1E
-   hi Comment         guifg=#465457
-   hi CursorLine                    guibg=#293739
-   hi CursorColumn                  guibg=#293739
-   hi LineNr          guifg=#BCBCBC guibg=#232526
-   hi NonText         guifg=#BCBCBC guibg=#232526
-end
+hi Normal          guifg=#F8F8F2 guibg=#1B1D1E
+hi Comment         guifg=#546568
+hi CursorLine                    guibg=#293739
+hi CursorColumn                  guibg=#293739
+hi LineNr          guifg=#BCBCBC guibg=#232526
+hi NonText         guifg=#BCBCBC guibg=#232526
 
 "
 " Support for 256-color terminal
