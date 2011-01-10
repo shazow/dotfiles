@@ -15,7 +15,6 @@ fi
 
 # OSX-specific settings
 if [ "$(uname)" == "Darwin" ]; then
-    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
     export CLICOLOR=1
 fi
 
