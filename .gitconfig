@@ -4,6 +4,12 @@
 
 [alias]
     last = log -1 HEAD
+    serve = daemon --reuseaddr --base-path=. --export-all --verbose --enable=receive-pack
+
+    diff2 = diff --color-words --ignore-all-space --patience
+    log2 = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+
+    deploy = "!merge(){ git checkout $2 && git merge $1 && git push $2 && git checkout ${1#refs/heads/}; }; merge $(git symbolic-ref HEAD) $1"
 
 [color]
     ui = auto
@@ -29,3 +35,7 @@
     changed = yellow
     untracked = cyan
     nobranch = red
+
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
