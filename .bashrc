@@ -88,6 +88,10 @@ if [ ! "$(which say &> /dev/null )" ]; then
     function say() { echo "$*" | festival --tts; }
 fi
 
+function vmod() { # Open modified git files usin `v`
+    v $(git status | grep 'modified:' | cut -d ' ' -f4 | xargs);
+}
+
 function w() { watch -dn1 $*; }
 
 
