@@ -43,14 +43,14 @@ append_into "export DOTFILES_PATH=$path" ~/.bash_profile
 append_into ". $path/.bash_aliases" ~/.bash_aliases
 append_into ". $path/.bash_profile" ~/.bash_profile
 append_into ". $path/.bashrc" ~/.bashrc
+append_into '. $DOTFILES_PATH/.vimrc' ~/.vimrc
 
 copy "$path/local" ~/local
 
 copy "$path/.gitconfig" ~/.gitconfig
-copy "$path/.gvimrc" ~/.gvimrc
 copy "$path/.screenrc" ~/.screenrc
-copy "$path/.vim" ~/.vim
-copy "$path/.vimrc" ~/.vimrc
+
+mkdir -p ~/.vim/{backup,tmp}
 
 if [ "$(uname)" == "Darwin" ]; then
     append_into ". ~/.bash_profile" ~/.profile
