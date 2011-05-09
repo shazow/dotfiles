@@ -48,3 +48,5 @@ EOF
 " Rope
 map <leader>j :RopeGotoDefinition<CR>
 map <leader>r :RopeRename<CR>
+
+call pathogen#runtime_append_all_bundles()

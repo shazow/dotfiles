@@ -24,7 +24,7 @@ function append_into() {
 function copy() {
     if test -e "$2"; then
         if $no_all; then
-            echo "Skipping: $2"
+            echo "Skipping: cp -r '$1' '$2'"
             return
         fi
         read -n1 -p "Target '$2' already exists, overwrite? [y/N] " r
@@ -39,6 +39,23 @@ function copy() {
     cp -r "$1" "$2"
 }
 
+function nuke() {
+    if test -e "$1"; then
+        if $no_all; then
+            echo "Skipping: rm -rf $1"
+            return
+        fi
+        read -n1 -p "Directory '$1' already exists, delete it and replace? [y/N] " r
+        if [ "$r" != "" ]; then
+            echo ""
+        fi
+        if [ "$r" != "y" ]; then
+            return
+        fi
+        rm -rf "$1"
+    fi;
+}
+
 append_into "export DOTFILES_PATH=$path" ~/.bash_profile
 append_into ". $path/.bash_aliases" ~/.bash_aliases
 append_into ". $path/.bash_profile" ~/.bash_profile
@@ -50,6 +67,7 @@ copy "$path/local" ~/local
 copy "$path/.gitconfig" ~/.gitconfig
 copy "$path/.screenrc" ~/.screenrc
 
+nuke ~/.vim
 mkdir -p ~/.vim/{backup,tmp}
 
 if [ "$(uname)" == "Darwin" ]; then
