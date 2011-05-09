@@ -2,6 +2,7 @@
 set backup
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
+set viminfo=~/.vim/info
 
 set expandtab
 set history=1000
