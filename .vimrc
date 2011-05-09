@@ -11,6 +11,10 @@ set history=1000
 set number
 set nowrap
 
+syntax on " Syntax highlighting
+filetype on " Try to detect filetypes
+filetype plugin indent on " Enable loading indent file for filetype
+
 set foldmethod=indent
 set foldlevel=99
 
