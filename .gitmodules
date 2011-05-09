@@ -34,9 +34,6 @@
 [submodule ".vim/bundle/py.test"]
 	path = .vim/bundle/py.test
 	url = https://github.com/alfredodeza/pytest.vim.git
-[submodule ".vim/bundle/tasklist"]
-	path = .vim/bundle/tasklist
-	url = https://github.com/vim-scripts/TaskList.vim.git
 [submodule ".vim/bundle/nerdtree"]
 	path = .vim/bundle/nerdtree
 	url = https://github.com/vim-scripts/The-NERD-tree.git

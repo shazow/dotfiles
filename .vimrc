@@ -31,22 +31,11 @@ set fillchars=fold:-
 function! StripWhitespace ()
     exec ':%s/\s*$//g'
 endfunction
-noremap <leader>t :call StripWhitespace ()<CR>
+noremap <leader><space> :call StripWhitespace ()<CR>
 
-" Add the virtualenv's site-packages to vim path
-py << EOF
-import os.pat
-import sys
-import vim
-if os.environ['VIRTUAL_ENV']:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    sys.path.insert(0, project_base_dir)
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    execfile(activate_this, dict(__file__=activate_this))
-EOF
+" Pathogen Bundles
+call pathogen#runtime_append_all_bundles()
 
-" Rope
+"" Rope
 map <leader>j :RopeGotoDefinition<CR>
 map <leader>r :RopeRename<CR>
-
-call pathogen#runtime_append_all_bundles()
