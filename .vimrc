@@ -10,6 +10,12 @@ set expandtab
 set history=1000
 set number
 set nowrap
+set nostartofline " Maintain cursor column position across rows
+
+" Search
+set hlsearch
+set incsearch
+set ignorecase
 
 syntax on " Syntax highlighting
 filetype on " Try to detect filetypes
