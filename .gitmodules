@@ -37,3 +37,6 @@
 [submodule ".vim/bundle/closetags"]
 	path = .vim/bundle/closetags
 	url = https://github.com/vim-scripts/closetag.vim.git
+[submodule ".vim/bundle/FuzzyFinder"]
+	path = .vim/bundle/FuzzyFinder
+	url = https://github.com/vim-scripts/FuzzyFinder.git
