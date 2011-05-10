@@ -13,9 +13,6 @@
 [submodule ".vim/bundle/supertab"]
 	path = .vim/bundle/supertab
 	url = https://github.com/ervandew/supertab.git
-[submodule ".vim/bundle/minibufexpl"]
-	path = .vim/bundle/minibufexpl
-	url = https://github.com/sontek/minibufexpl.vim.git
 [submodule ".vim/bundle/command-t"]
 	path = .vim/bundle/command-t
 	url = https://github.com/wincent/Command-T.git
