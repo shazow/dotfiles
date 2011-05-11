@@ -21,9 +21,11 @@ syntax on " Syntax highlighting
 filetype on " Try to detect filetypes
 filetype plugin indent on " Enable loading indent file for filetype
 
-set foldmethod=indent
-set foldlevel=99
+" Indentation per filetype
+au FileType html,css,mako,js setlocal expandtab tabstop=4
+au FileType python setlocal expandtab shiftwidth=4 tabstop=4
 
+" Keep vim's directory context same as the current buffer
 if exists('+autochdir')
   set autochdir
 else
