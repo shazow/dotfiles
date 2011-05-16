@@ -1,308 +1,294 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+"=============================================================================
+"
+"     FileName: python.vim
+"         Desc: 修改了缩进的bug
+"
+"       Author: dantezhu - http://www.vimer.cn
+"        Email: zny2008@gmail.com
+"
+"      Created: 2011-02-21 23:55:50
+"      Version: 0.0.9
+"      History:
+"               0.0.9 | dantezhu | 2011-03-15 10:15:05 | 注释和string不缩进
+"               0.0.8 | dantezhu | 2011-03-10 18:41:15 | 之前修正的有点问题
+"               0.0.7 | dantezhu | 2011-03-10 11:06:01 | 向cindent看齐，函数名
+"                                                      | 太短则和匹配的地方对齐
+"               0.0.6 | dantezhu | 2011-02-26 23:45:18 | 只约束是字母太弱了，
+"                                                      | 还有数字和下划线
+"               0.0.5 | dantezhu | 2011-02-26 23:28:16 | 修正对调用函数时，多
+"                                                      | 行参数的)的缩进
+"               0.0.4 | dantezhu | 2011-02-24 19:32:14 | 之前的fix有问题，重写
+"               0.0.3 | dantezhu | 2011-02-22 14:53:40 | 修正了Comment或者
+"                                                      | String中存在:时就会缩
+"                                                      | 进的问题
+"               0.0.2 | dantezhu | 2011-02-22 01:15:53 | 增加了对class,if,elif
+"                                                      | 等的兼容
+"               0.0.1 | dantezhu | 2011-02-21 23:55:50 | initialization
+"
+"=============================================================================
 
-<head>
-  <link rel="Stylesheet" type="text/css" href="/css/style.css" >
-  <title>indent/python.vim - An alternative indentation script for python : vim online</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <meta name="KEYWORDS" content="Vim, Vi IMproved, text editor, home, documentation, tips, scripts, news">
-  <link rel="shortcut icon" type="image/x-icon" href="/images/vim_shortcut.ico">
-</head>
+" Python indent file
+" Language:	    Python
+" Maintainer:	    Eric Mc Sween <em@tomcom.de>
+" Original Author:  David Bustos <bustos@caltech.edu> 
+" Last Change:      2004 Jun 07
 
-<body topmargin="0" leftmargin="0" marginheight="0" marginwidth="0" bgcolor="#ffffff"> 
+" Only load this indent file when no other was loaded.
+if exists("b:did_indent")
+    finish
+endif
+let b:did_indent = 1
 
-<!-- HEADER, SPONSOR IMAGE, VIM IMAGE AND BOOK AD -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
-  <tr>
-    <td colspan="4" class="lightbg"><img src="/images/spacer.gif" width="1" height="5" alt=""></td>
-  </tr>
-  <tr>
-  <td class="lightbg">&nbsp;&nbsp;&nbsp;</td>
-  <td class="lightbg" align="left"><a href="/sponsor/index.php"><img src="/images/sponsorvim.gif" alt="sponsor Vim development" border="0"></a></td>
-    <td class="lightbg" align="center"><a href="/index.php"><img src="/images/vim_header.gif" border="0" alt="Vim logo"></a></td>
-    <td class="lightbg" align="right"><a href="http://iccf-holland.org/click5.html"><img src="/images/buyhelplearn.gif" alt="Vim Book Ad" border="0"></a></td>
-  </tr>
-  <tr>
-    <td colspan="4" class="lightbg"><img src="/images/spacer.gif" width="1" height="5" alt=""></td>
-  </tr>
-  <tr>
-    <td colspan="4" class="darkbg"><img src="/images/spacer.gif" width="1" height="10" alt=""></td>
-  </tr>
-</table>
-<!-- THE PAGE BODY: BETWEEN HEADER AND FOOTER -->
+setlocal expandtab
+setlocal nolisp
+setlocal autoindent
+setlocal indentexpr=GetPythonIndent(v:lnum)
+setlocal indentkeys=!^F,o,O,<:>,0),0],0},=elif,=except
 
-<table cellpadding="0" cellspacing="0" border="0" width="100%">
-  <col width="180">
-  <col width="1">
+let s:maxoff = 50
 
-  <tr valign="top">
-    <td class="sidebar">
-      <table width="180" cellpadding="4" cellspacing="0" border="0">
-        <tr valign="top">
-          <td class="sidebar">
-
-<!-- INCLUDE THE PAGE NAVIGATION -->
-<table width="100%" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
-    <tr>
-        <td><small>not logged in (<a href="/login.php">login</a>)</small></td>
-    </tr>
-    <tr><td>
-<small>&nbsp;</small>
-<form action="http://www.google.com/cse" id="cse-search-box">
-  <div>
-    <input type="hidden" name="cx" value="partner-pub-3005259998294962:bvyni59kjr1" />
-    <input type="hidden" name="ie" value="ISO-8859-1" />
-    <input type="text" name="q" size="20" />
-    <br>
-    <input type="submit" name="sa" value="Search" />
-  </div>
-</form>
-<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
-    </td></tr>
-    <tr>
-        <td><img src="/images/spacer.gif" alt="" border="0" width="1" height="1"></td>
-    </tr>
-    <tr>
-        <td class="darkbg"><img src="/images/spacer.gif" alt='' border="0" height="3"></td>
-    </tr>
-    <tr>
-        <td><img src="/images/spacer.gif" alt="" border="0" width="1" height="2"></td>
-    </tr>
-        <tr>
-            <td class="sidebarheader"><a href="/index.php">Home</a></td>
-        </tr>
-        <tr>
-            <td class="sidebarheader"><a href="/search.php">Advanced search</a></td>
-        </tr>
-    <tr>
-        <td><img src="/images/spacer.gif" alt="" border="0" width="1" height="7"></td>
-    </tr>
-    <tr>
-        <td class="checker"><img src="/images/spacer.gif" alt='' border="0" height="1"></td>
-    </tr>
-    <tr>
-        <td><img src="/images/spacer.gif" alt="" border="0" width="1" height="7"></td>
-    </tr>
-        <tr>
-            <td class="sidebarheader"><a href="/about.php">About Vim</a></td>
-        </tr>
-        <tr>
-            <td class="sidebarheader"><a href="/community.php">Community</a></td>
-        </tr>
-        <tr>
-            <td class="sidebarheader"><a href="/news/news.php">News</a></td>
-        </tr>
-        <tr>
-            <td class="sidebarheader"><a href="/sponsor/index.php">Sponsoring</a></td>
-        </tr>
-        <tr>
-            <td class="sidebarheader"><a href="/trivia.php">Trivia</a></td>
-        </tr>
-        <tr>
-            <td class="sidebarheader"><a href="/docs.php">Documentation</a></td>
-        </tr>
-        <tr>
-            <td class="sidebarheader"><a href="/download.php">Download</a></td>
-        </tr>
-    <tr>
-        <td><img src="/images/spacer.gif" alt="" border="0" width="1" height="7"></td>
-    </tr>
-    <tr>
-        <td class="checker"><img src="/images/spacer.gif" alt='' border="0" height="1"></td>
-    </tr>
-    <tr>
-        <td><img src="/images/spacer.gif" alt="" border="0" width="1" height="7"></td>
-    </tr>
-        <tr>
-            <td class="sidebarheader"><a href="/scripts/index.php">Scripts</a></td>
-        </tr>
-        <tr>
-            <td class="sidebarheader"><a href="/tips/index.php">Tips</a></td>
-        </tr>
-        <tr>
-            <td class="sidebarheader"><a href="/account/index.php">My Account</a></td>
-        </tr>
-    <tr>
-        <td><img src="/images/spacer.gif" alt="" border="0" width="1" height="7"></td>
-    </tr>
-    <tr>
-        <td class="checker"><img src="/images/spacer.gif" alt='' border="0" height="1"></td>
-    </tr>
-    <tr>
-        <td><img src="/images/spacer.gif" alt="" border="0" width="1" height="7"></td>
-    </tr>
-        <tr>
-            <td class="sidebarheader"><a href="/huh.php">Site Help</a></td>
-        </tr>
-</table>
-
-            <table width="172" cellpadding="0" cellspacing="0" border="0">
-              <tr><td><img src="/images/spacer.gif" alt="" border="0" width="1" height="8"></td></tr>
-              <tr><td class="darkbg"><img src="/images/spacer.gif" width="1" height="3" alt=""></td></tr>
-            </table>
-            <br>
-
-<!-- INCLUDE THE PAGE SIDEBAR TEXT -->
-&nbsp;
-
-          </td>
-        </tr>
-      </table>
-    </td>
-
-    <td class="darkbg"><img src="/images/spacer.gif" width="1" height="1" border="0" alt=""><br></td>
-    <td>
-      <table width="100%" cellpadding="10" cellspacing="0" border="0" bordercolor="red">
-        <tr>
-          <td valign="top">
-
-<span class="txth1">indent/python.vim : An alternative indentation script for python</span> 
-
-<br>
-<br>
-
-<!-- karma table -->
-<table cellpadding="4" cellspacing="0" border="1" bordercolor="#000066">
-<tr>
-  <td class="lightbg"><b>&nbsp;script karma&nbsp;</b></td>
-  <td>
-    Rating <b>1359/402</b>,
-    Downloaded by 15635  </td>
-  <td class="lightbg">
-  <b>&nbsp;Comments, bugs, improvements&nbsp;</b>
-  </td>
-  <td>
-    <a href="http://vim.wikia.com/wiki/Script:974">Vim wiki</a>
-  </td>  
-</tr>
-</table>
-<p>
-
-<table cellspacing="0" cellpadding="0" border="0">
-<tr><td class="prompt">created by</td></tr>
-<tr><td><a href="/account/profile.php?user_id=2913">Eric Mc Sween</a></td></tr>
-<tr><td>&nbsp;</td></tr>
-<tr><td class="prompt">script type</td></tr>
-<tr><td>indent</td></tr>
-<tr><td>&nbsp;</td></tr>
-<tr><td class="prompt">description</td></tr>
-<tr><td>This indentation script for python tries to match more closely what is suggested in PEP 8 (<a target="_blank" href="http://www.python.org/peps/pep-0008.html">http://www.python.org/peps/pep-0008.html</A>).&nbsp;&nbsp;In particular, it handles continuation lines implied by open (parentheses), [brackets] and {braces} correctly and it indents multiline if/for/while statements differently.<br><br>Comments are welcome!<br></td></tr>
-<tr><td>&nbsp;</td></tr>
-<tr><td class="prompt">install details</td></tr>
-<tr><td>Drop the script in your ~/.vim/indent directory.</td></tr>
-<tr><td>&nbsp;</td></tr>
-</table>
-
-<!-- rating table -->
-<form name="rating">
-<input type="hidden" name="script_id" value="974">
-<table cellpadding="4" cellspacing="0" border="1" bordercolor="#000066">
-<tr>
-  <td class="lightbg"><b>rate this script</b></td>
-  <td valign="middle">
-    <input type="radio" name="rating" value="life_changing">Life Changing
-    <input type="radio" name="rating" value="helpful">Helpful
-    <input type="radio" name="rating" value="unfulfilling">Unfulfilling&nbsp;
-    <input type="submit" value="rate">
-  </td>
-</tr>
-</table>
-</form>
-<span class="txth2">script versions</span> (<a href="add_script_version.php?script_id=974">upload new version</a>)
-<p>
-Click on the package to download.
-<p>
-
-<table cellspacing="2" cellpadding="4" border="0" width="100%">
-<tr class='tableheader'>
-        <th valign="top">package</th>
-    <th valign="top">script version</th>
-    <th valign="top">date</th>
-    <th valign="top">Vim version</th>
-    <th valign="top">user</th>
-    <th valign="top">release notes</th>
-</tr>
-<tr>
-        <td class="rowodd" valign="top" nowrap><a href="download_script.php?src_id=4316">python.vim</a></td>
-    <td class="rowodd" valign="top" nowrap><b>0.3</b></td>
-    <td class="rowodd" valign="top" nowrap><i>2005-05-23</i></td>
-    <td class="rowodd" valign="top" nowrap>6.0</td>
-    <td class="rowodd" valign="top"><i><a href="/account/profile.php?user_id=2913">Eric Mc Sween</a></i></td>
-    <td class="rowodd" valign="top" width="2000">Changes:<br>- Update one shiftwidth instead of aligning with parens that stand at the end of a line.</td>
-</tr>
-<tr>
-        <td class="roweven" valign="top" nowrap><a href="download_script.php?src_id=3105">python.vim</a></td>
-    <td class="roweven" valign="top" nowrap><b>0.2</b></td>
-    <td class="roweven" valign="top" nowrap><i>2004-06-07</i></td>
-    <td class="roweven" valign="top" nowrap>6.0</td>
-    <td class="roweven" valign="top"><i><a href="/account/profile.php?user_id=2913">Eric Mc Sween</a></i></td>
-    <td class="roweven" valign="top" width="2000">Changes:<br>- Fix: skip parentheses in strings and comments.<br>- Line up elif/else and except/finally with the most probable corresponding if or try statement.<br>- Dedent after 'pass'. (Jeffrey Collins)</td>
-</tr>
-<tr>
-        <td class="rowodd" valign="top" nowrap><a href="download_script.php?src_id=2981">python.vim</a></td>
-    <td class="rowodd" valign="top" nowrap><b>0.1</b></td>
-    <td class="rowodd" valign="top" nowrap><i>2004-04-26</i></td>
-    <td class="rowodd" valign="top" nowrap>6.0</td>
-    <td class="rowodd" valign="top"><i><a href="/account/profile.php?user_id=2913">Eric Mc Sween</a></i></td>
-    <td class="rowodd" valign="top" width="2000">Initial upload</td>
-</tr>
-</table>
-<!-- finish off the framework -->
-          </td>
-        </tr>
-      </table>
-    </td>
-
-  </tr>
-</table>
-
-<!-- END OF THE PAGE BODY: BETWEEN HEADER AND FOOTER -->
-
-<table width="100%" cellpadding="0" cellspacing="0" border="0" bordercolor="red">
-  <tr><td colspan="4"><img src="/images/spacer.gif" width="1" height="5" alt=""></td></tr>
-  <tr><td colspan="4" bgcolor="#000000"><img src="/images/spacer.gif" height="2" width="1" alt=""></td></tr>
-  <tr><td colspan="4"><img src="/images/spacer.gif" width="1" height="5" alt=""></td></tr>
-  <tr>
-    <td><img src="/images/spacer.gif" width="5" height="1" alt=""></td>
-
-    <td align="left" valign="top"><small>
-      If you have questions or remarks about this site, visit the
-      <a href="http://vimonline.sf.net">vimonline development</a> pages.
-      Please use this site responsibly.
-      <br> 
-      
-      Questions about <a href="http://www.vim.org/about.php">Vim</a> should go
-      to the <a href="http://www.vim.org/maillist.php">maillist</a>.
-      Help Bram <a href="http://iccf-holland.org/">help Uganda</a>.
-      </small>
-	&nbsp;
-	&nbsp;
-
-	<!-- Start of StatCounter Code -->
-	<script type="text/javascript" language="javascript">
-	var sc_project=1417324; 
-	var sc_invisible=1; 
-	var sc_partition=11; 
-	var sc_security="d41633bc"; 
-	</script>
-
-	<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js"></script><noscript><a href="http://www.statcounter.com/" target="_blank"><img  src="http://c12.statcounter.com/counter.php?sc_project=1417324&java=0&security=d41633bc&invisible=0" alt="free tracking" border="0"></a> </noscript>
-	<!-- End of StatCounter Code -->
-          </td>
-
-    <td align="right" valign="top">
-      		<a href="http://sourceforge.net/projects/vim" rel="nofollow"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=8&type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>
-    </td>
-
-    <td><img src="/images/spacer.gif" width="5" height="1" alt=""></td>
-  </tr>
-
+" Find backwards the closest open parenthesis/bracket/brace.
+function! s:SearchParensPair()
+    let line = line('.')
+    let col = col('.')
     
-  <tr><td colspan="4"><img src="/images/spacer.gif" width="1" height="5" alt=""></td>
-  
-  </tr>
-</table>
+    " Skip strings and comments and don't look too far
+    let skip = "line('.') < " . (line - s:maxoff) . " ? dummy :" .
+                \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? ' .
+                \ '"string\\|comment"'
 
-</body>
-</html>
+    " Search for parentheses
+    call cursor(line, col)
+    let parlnum = searchpair('(', '', ')', 'bW', skip)
+    let parcol = col('.')
 
+    " Search for brackets
+    call cursor(line, col)
+    let par2lnum = searchpair('\[', '', '\]', 'bW', skip)
+    let par2col = col('.')
+
+    " Search for braces
+    call cursor(line, col)
+    let par3lnum = searchpair('{', '', '}', 'bW', skip)
+    let par3col = col('.')
+
+    " Get the closest match
+    if par2lnum > parlnum || (par2lnum == parlnum && par2col > parcol)
+        let parlnum = par2lnum
+        let parcol = par2col
+    endif
+    if par3lnum > parlnum || (par3lnum == parlnum && par3col > parcol)
+        let parlnum = par3lnum
+        let parcol = par3col
+    endif 
+
+    " Put the cursor on the match
+    if parlnum > 0
+        call cursor(parlnum, parcol)
+    endif
+    return parlnum
+endfunction
+
+" Find the start of a multi-line statement
+function! s:StatementStart(lnum)
+    let lnum = a:lnum
+    while 1
+        if getline(lnum - 1) =~ '\\$'
+            let lnum = lnum - 1
+        else
+            call cursor(lnum, 1)
+            let maybe_lnum = s:SearchParensPair()
+            if maybe_lnum < 1
+                return lnum
+            else
+                let lnum = maybe_lnum
+            endif
+        endif
+    endwhile
+endfunction
+
+" Find the block starter that matches the current line
+function! s:BlockStarter(lnum, block_start_re)
+    let lnum = a:lnum
+    let maxindent = 10000       " whatever
+    while lnum > 1
+        let lnum = prevnonblank(lnum - 1)
+        if indent(lnum) < maxindent
+            if getline(lnum) =~ a:block_start_re
+                return lnum
+            else 
+                let maxindent = indent(lnum)
+                " It's not worth going further if we reached the top level
+                if maxindent == 0
+                    return -1
+                endif
+            endif
+        endif
+    endwhile
+    return -1
+endfunction
+                
+function! GetPythonIndent(lnum)
+
+    " First line has indent 0
+    if a:lnum == 1
+        return 0
+    endif
+
+"Add-Begin by dantezhu in 2011-03-15 10:14:01
+"修正注释和字符串缩进的问题
+    " If the start of the line is in a string don't change the indent.
+    if has('syntax_items')
+               \ && synIDattr(synID(a:lnum, col('.')-1, 1), 'name') =~ '\(Comment\|String\)$'
+       return -1
+    endif
+"Add-End
+
+    " If we can find an open parenthesis/bracket/brace, line up with it.
+    call cursor(a:lnum, 1)
+    let parlnum = s:SearchParensPair()
+    if parlnum > 0
+        let parcol = col('.')
+        let closing_paren = match(getline(a:lnum), '^\s*[])}]') != -1
+        if match(getline(parlnum), '[([{]\s*$', parcol - 1) != -1
+            if closing_paren
+                "Mod-Begin by dantezhu in 2011-02-21 23:38:24
+                "FROM
+                "return indent(parlnum)
+                "TO
+                "为了支持如下的格式:
+                "def fun(
+                "    a,
+                "    b
+                "    ):
+                "    print a,b
+                "又不影响如下格式:
+                "val = {
+                "    (
+                "        1,
+                "        2
+                "    ):1
+                "}
+
+                "Add-Begin by dantezhu in 2011-02-26 23:23:08
+                "增加了对
+                "x = user.getdata1_(
+                "   a,
+                "   b,
+                "   c
+                "   )
+                "的支持
+                if match(getline(parlnum), '\(\a\|\d\|_\)\s*(\s*$', 0) != -1
+                    "增加了对
+                    "x(
+                    "    1,
+                    "    2,
+                    "    3
+                    " )
+                    "user.login(
+                    "    1,
+                    "    2,
+                    "    3
+                    "    )
+                    " 的支持
+                    if (parcol -1 - indent(parlnum)) < 4
+                        return parcol - 1
+                    else
+                        return indent(parlnum) + &sw
+                    endif
+                endif
+                "Add-End
+                if match(getline(a:lnum), ')\s*:') != -1 && 
+                            \ match(getline(parlnum), '\(def\|class\|if\|elif\|while\)\(\s\+\|(\)') != -1
+                    return indent(parlnum) + &sw
+                else
+                    return indent(parlnum)
+                endif
+                "Mod-End
+            else
+                return indent(parlnum) + &sw
+            endif
+        else
+            if closing_paren
+                return parcol - 1
+            else
+                return parcol
+            endif
+        endif
+    endif
+
+    " Examine this line
+    let thisline = getline(a:lnum)
+    let thisindent = indent(a:lnum)
+
+    " If the line starts with 'elif' or 'else', line up with 'if' or 'elif'
+    if thisline =~ '^\s*\(elif\|else\)\>'
+        let bslnum = s:BlockStarter(a:lnum, '^\s*\(if\|elif\)\>')
+        if bslnum > 0
+            return indent(bslnum)
+        else
+            return -1
+        endif
+    endif
+
+    " If the line starts with 'except' or 'finally', line up with 'try'
+    " or 'except'
+    if thisline =~ '^\s*\(except\|finally\)\>'
+        let bslnum = s:BlockStarter(a:lnum, '^\s*\(try\|except\)\>')
+        if bslnum > 0
+            return indent(bslnum)
+        else
+            return -1
+        endif
+    endif
+
+    " Examine previous line
+    let plnum = a:lnum - 1
+    let pline = getline(plnum)
+    let sslnum = s:StatementStart(plnum)
+
+    " If the previous line is blank, keep the same indentation
+    if pline =~ '^\s*$'
+        return -1
+    endif
+
+    " If this line is explicitly joined, try to find an indentation that looks
+    " good. 
+    if pline =~ '\\$'
+        let compound_statement = '^\s*\(if\|while\|for\s.*\sin\|except\)\s*'
+            let maybe_indent = matchend(getline(sslnum), compound_statement)
+            if maybe_indent != -1
+                return maybe_indent
+            else
+                return indent(sslnum) + &sw * 2
+            endif
+        endif
+
+        " If the previous line ended with a colon, indent relative to
+        " statement start.
+        if pline =~ ':\s*$'
+            "Mod-Begin by dantezhu in 2011-02-24 19:30:52
+            "FROM
+            "return indent(sslnum) + &sw
+            "TO
+            let t_col = match(pline,':\s*$')+1
+            if synIDattr(synID(a:lnum-1, t_col, 1), 'name') !~ '\(Comment\|String\)$'
+                return indent(sslnum) + &sw
+            endif
+            "Mod-End
+        endif
+
+        " If the previous line was a stop-execution statement or a pass
+        if getline(sslnum) =~ '^\s*\(break\|continue\|raise\|return\|pass\)\>'
+            " See if the user has already dedented
+            if indent(a:lnum) > indent(sslnum) - &sw
+                " If not, recommend one dedent
+                return indent(sslnum) - &sw
+            endif
+            " Otherwise, trust the user
+            return -1
+        endif
+
+        " In all other cases, line up with the start of the previous statement.
+        return indent(sslnum)
+    endfunction
