@@ -17,12 +17,20 @@ set hlsearch
 set incsearch
 set ignorecase
 
+" Autocomplete
+set wildmode=list:longest
+
+" Pathogen Bundles
+call pathogen#runtime_append_all_bundles()
+
+
 syntax on " Syntax highlighting
 filetype on " Try to detect filetypes
 filetype plugin indent on " Enable loading indent file for filetype
 
+
 " Indentation per filetype
-au FileType html,css,mako,js setlocal expandtab tabstop=4
+au FileType html,css,js,mako setlocal expandtab shiftwidth=4 tabstop=4
 au FileType python setlocal expandtab shiftwidth=4 tabstop=4
 
 " Keep vim's directory context same as the current buffer
@@ -45,9 +53,13 @@ function! StripWhitespace ()
 endfunction
 noremap <leader><space> :call StripWhitespace ()<CR>
 
-" Pathogen Bundles
-call pathogen#runtime_append_all_bundles()
+
+
+" Bundles:
 
 "" Rope
 map <leader>j :RopeGotoDefinition<CR>
 map <leader>r :RopeRename<CR>
+
+"" Nerdtree
+nnoremap <leader>n :NERDTreeToggle<CR>
