@@ -60,7 +60,8 @@ append_into "export DOTFILES_PATH=$path" ~/.bash_profile
 append_into ". $path/.bash_aliases" ~/.bash_aliases
 append_into ". $path/.bash_profile" ~/.bash_profile
 append_into ". $path/.bashrc" ~/.bashrc
-append_into '. $DOTFILES_PATH/.vimrc' ~/.vimrc
+append_into 'source $DOTFILES_PATH/.vimrc' ~/.vimrc
+append_into 'source $DOTFILES_PATH/.gvimrc' ~/.gvimrc
 
 copy "$path/local" ~/local
 
