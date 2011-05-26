@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Update submodules
+# TODO: cd into dotfiles root first
+git submodule init
+git submodule update
+git submodule foreach git submodule init
+git submodule foreach git submodule update
+
 # Get the absolute path of the dotfiles
 oldpath="$PWD"
 cd $(dirname "$0")
