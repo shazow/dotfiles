@@ -6,7 +6,11 @@ set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
 set viminfo='10,\"100,:20,%,n~/.vim/viminfo
 
-set expandtab
+set tabstop=4 " Tab
+set shiftwidth=4 " Indent
+set softtabstop=4 " Backspace
+set expandtab " Convert tabs to spaces
+
 set history=1000
 set number
 set nowrap
@@ -27,11 +31,6 @@ call pathogen#runtime_append_all_bundles()
 syntax on " Syntax highlighting
 filetype on " Try to detect filetypes
 filetype plugin indent on " Enable loading indent file for filetype
-
-
-" Indentation per filetype
-au FileType html,css,js,mako,htmldjango setlocal expandtab shiftwidth=4 tabstop=4
-au FileType python setlocal expandtab shiftwidth=4 tabstop=4
 
 " Keep vim's directory context same as the current buffer
 if exists('+autochdir')
