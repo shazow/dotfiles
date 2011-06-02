@@ -32,8 +32,8 @@ function f () { # Find file in cwd
 
 function fcd() { # Find directory under cwd and cd into it
     target=$(find . -name "*$**" -type d | head -n1)
-    if [ $target ]; then
-        cd $target
+    if [ "$target" ]; then
+        cd "$target"
     else
         echo "Directory not found: $*"; return
     fi
@@ -55,6 +55,35 @@ function greplace () { # Grep in cwd and replace $1 with $2 in-line
     grep -Irl "$1" . | while read i; do
         echo "Replacing: $i"
         perl -p -i -e "s/$1/$2/g" "$i"
+    done
+}
+
+function random () { # Print a random number between two input values. (Default 1,n or 0,1)
+    a="$1"
+    b="$2"
+    if [ ! "$a" ]; then
+        a="0";
+        b="1";
+    elif [ ! "$b" ]; then
+        b="$a";
+        a="1";
+    fi
+    range="$[ $b - $a + 1]";
+    echo "$[ ( $RANDOM % $range ) + $a ]";
+}
+
+function randomline () { # Given a number of lines, read from stdin and echo a random one.
+    if [ ! "$1" ]; then
+        echo "Must specify how many lines to consider."
+        return 1
+    fi
+    count="$(random 1 $1)";
+    while read line; do
+        if [ "$count" == "1" ]; then
+            echo "$line";
+            break;
+        fi
+        count="$[ $count - 1 ]";
     done
 }
 

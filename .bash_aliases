@@ -3,6 +3,9 @@ alias ,="ls -lAGh"
 alias ..="cd .."
 alias -- -="cd -"
 
+alias lsdir='find . -type d -depth 1'
+alias cdrandom='cd "$(lsdir | randomline $(lsdir | wc -l))"'
+
 # Application shortcuts
 if [ "$(uname)" == "Darwin" ]; then 
 	alias v="open -a MacVim --"
