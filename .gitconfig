@@ -4,7 +4,7 @@
 
 [alias]
     last = log -1 HEAD
-    serve = daemon --reuseaddr --base-path=. --export-all --verbose --enable=receive-pack
+    serve = daemon --reuseaddr --base-path=. --export-all --verbose --enable=receive-pack --listen=0.0.0.0
 
     diff2 = diff --color-words --ignore-all-space --patience
     log2 = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
