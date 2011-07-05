@@ -43,3 +43,6 @@
 [submodule ".vim/bundle/mako"]
 	path = .vim/bundle/mako
 	url = https://github.com/sophacles/vim-bundle-mako.git
+[submodule ".vim/bundle/matchit"]
+	path = .vim/bundle/matchit
+	url = https://github.com/edsono/vim-matchit.git
