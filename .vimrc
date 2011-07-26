@@ -23,10 +23,12 @@ set ignorecase
 
 " Autocomplete
 set wildmode=list:longest
+set wildignore+=*.o,*.obj,*.pyc
 
 " Pathogen Bundles
+filetype off
 call pathogen#runtime_append_all_bundles()
-
+call pathogen#helptags()
 
 syntax on " Syntax highlighting
 filetype on " Try to detect filetypes
@@ -38,9 +40,6 @@ if exists('+autochdir')
 else
   autocmd BufEnter * silent! lcd %:p:h:gs/ /\\ /
 endif
-
-" Alternatives for Esc to exit insert mode.
-imap jj <ESC>
 
 " Reveal rogue spaces
 set list listchars=tab:>\ ,trail:.,extends:$,nbsp:_
@@ -62,3 +61,13 @@ map <leader>r :RopeRename<CR>
 
 "" Nerdtree
 nnoremap <leader>n :NERDTreeToggle<CR>
+
+"" Pep8
+let g:pep8_map='<leader>8'
+
+"" SuperTab
+au FileType python set omnifunc=pythoncomplete#Complete
+let g:SuperTabDefaultCompletionType = "context"
+
+" Matchit
+autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
