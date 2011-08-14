@@ -25,6 +25,10 @@ set ignorecase
 set wildmode=list:longest
 set wildignore+=*.o,*.obj,*.pyc
 
+" Highlight content beyond col79
+highlight OverLength ctermbg=red ctermfg=white guibg=#2b2d2d
+match OverLength /\%80v.\+/
+
 " Pathogen Bundles
 filetype off
 call pathogen#runtime_append_all_bundles()
