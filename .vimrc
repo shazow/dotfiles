@@ -23,10 +23,20 @@ set ignorecase
 
 " Autocomplete
 set wildmode=list:longest
+set wildignore+=*.o,*.obj,*.pyc
+
+" Highlight content beyond col79
+highlight ColorColumn ctermbg=grey ctermfg=white guibg=#2b2d2d
+if exists('+colorcolumn')
+    set colorcolumn=80
+else
+    match ColorColumn /\%80v.\+/
+endif
 
 " Pathogen Bundles
+filetype off
 call pathogen#runtime_append_all_bundles()
-
+call pathogen#helptags()
 
 syntax on " Syntax highlighting
 filetype on " Try to detect filetypes
@@ -34,13 +44,10 @@ filetype plugin indent on " Enable loading indent file for filetype
 
 " Keep vim's directory context same as the current buffer
 if exists('+autochdir')
-  set autochdir
+    set autochdir
 else
-  autocmd BufEnter * silent! lcd %:p:h:gs/ /\\ /
+    autocmd BufEnter * silent! lcd %:p:h:gs/ /\\ /
 endif
-
-" Alternatives for Esc to exit insert mode.
-imap jj <ESC>
 
 " Reveal rogue spaces
 set list listchars=tab:>\ ,trail:.,extends:$,nbsp:_
@@ -62,3 +69,13 @@ map <leader>r :RopeRename<CR>
 
 "" Nerdtree
 nnoremap <leader>n :NERDTreeToggle<CR>
+
+"" Pep8
+let g:pep8_map='<leader>8'
+
+"" SuperTab
+au FileType python set omnifunc=pythoncomplete#Complete
+let g:SuperTabDefaultCompletionType = "context"
+
+" Matchit
+autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
