@@ -25,6 +25,7 @@ hi Number          guifg=#AE81FF
 hi String          guifg=#E6DB74
 hi Conditional     guifg=#F92672               gui=bold
 hi Constant        guifg=#AE81FF               gui=bold
+hi ColorColumn     guibg=#2b2d2d
 hi Cursor          guifg=#000000 guibg=#F8F8F0
 hi Debug           guifg=#BCA3A3               gui=bold
 hi Define          guifg=#66D9EF
@@ -113,6 +114,7 @@ if &t_Co > 255
    hi Character       ctermfg=144
    hi Number          ctermfg=135
    hi String          ctermfg=144
+   hi ColorColumn     ctermbg=grey ctermfg=white
    hi Conditional     ctermfg=161               cterm=bold
    hi Constant        ctermfg=135               cterm=bold
    hi Cursor          ctermfg=16  ctermbg=253
