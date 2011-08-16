@@ -20,6 +20,11 @@ set number
 set nowrap
 set nostartofline " Maintain cursor column position across rows
 
+if has("gui_macvim")
+    set macmeta " Necessary for using meta key in mappings on OSX
+    let macvim_skip_cmd_opt_movement = 1 " Prevent MacVim from mapping fake HOME/END to M-arrow keys.
+endif
+
 " Search
 set hlsearch
 set incsearch
@@ -42,19 +47,19 @@ map <leader>\ :noh<return> " Turn off highlighting
 
 "" Navigation
 """ Panes
-map <C-right> <C-w>l
-map <C-left> <C-w>h
-map <C-down> <C-w>j
-map <C-up> <C-w>k
+map <M-right> <C-w>l
+map <M-left> <C-w>h
+map <M-down> <C-w>j
+map <M-up> <C-w>k
 
-map <C-delete> :close<CR>
-map <C-insert> :split<CR>
-map <C-home> :vsplit<CR>
+map <M-,> :split<CR>
+map <M-.> :vsplit<CR>
+map <M-/> :close<CR>
 
 """ Buffers
-map <C-]> :bnext<CR>
-map <C-[> :bprev<CR>
-map <C-backspace> :bdelete<CR>
+map <M-]> :bnext<CR>
+map <M-[> :bprev<CR>
+map <M-backspace> :bdelete<CR>
 
 " Pathogen Bundles
 filetype off
