@@ -52,9 +52,12 @@ map <M-left> <C-w>h
 map <M-down> <C-w>j
 map <M-up> <C-w>k
 
-map <M-,> :split<CR>
-map <M-.> :vsplit<CR>
-map <M-/> :close<CR>
+map <M-,> :split<CR> " Horizontal split
+map <M-.> :vsplit<CR> " Vertical split
+map <M-/> :close<CR> 
+
+map <M-<> <C-w>t<C-w>K " Convert vertical to horizontal split
+map <M->> <C-w>t<C-w>H " Convert horizontal to vertical split
 
 """ Buffers
 map <M-]> :bnext<CR>
