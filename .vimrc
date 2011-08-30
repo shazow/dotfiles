@@ -45,6 +45,10 @@ endif
 " General mappings
 map <leader>\ :noh<return> " Turn off highlighting
 
+"" Spare the pinky-finger
+noremap ; :
+noremap , ;
+
 "" Navigation
 """ Panes
 map <M-right> <C-w>l
@@ -110,3 +114,6 @@ let g:SuperTabDefaultCompletionType = "context"
 
 " Matchit
 autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
+
+" vim-indent-guides
+let g:indent_guides_auto_colors = 0

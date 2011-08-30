@@ -3,6 +3,7 @@
     email = andrey.petrov@shazow.net
 
 [alias]
+    undo = reset --soft HEAD^
     last = log -1 HEAD
     serve = daemon --reuseaddr --base-path=. --export-all --verbose --enable=receive-pack --listen=0.0.0.0
 
