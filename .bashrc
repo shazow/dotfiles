@@ -126,6 +126,8 @@ function w() { watch -dn1 $*; }
 
 # Workspace navigation functions
 
+PROJECTS_DIR=~/projects
+
 function go() { # Jump to a project (and activate environment)
     to=$1
     if [ ! "$to" ]; then
@@ -133,11 +135,16 @@ function go() { # Jump to a project (and activate environment)
         to=$(grep "^go " ~/.bash_history | tail -n1 | cut -d ' ' -f2-)
     fi
 
-    cd ~/projects/$to
+    cd $PROJECTS_DIR/$to
 
     # Load project profile (e.g. virtualenv)
     [ -e .profile ] && . .profile
 }
+
+function _complete_go() { # Autocomplete function for go
+    COMPREPLY=( $(compgen -W "$(ls $PROJECTS_DIR/)" -- "${COMP_WORDS[$COMP_CWORD]}") )
+}
+complete -F _complete_go go
 
 function up() { # cd to root of repository
     old_pwd="$PWD";
