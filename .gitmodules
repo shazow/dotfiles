@@ -52,3 +52,9 @@
 [submodule ".vim/bundle/html5"]
 	path = .vim/bundle/html5
 	url = https://github.com/shazow/html5.vim.git
+[submodule ".vim/bundle/javascript"]
+	path = .vim/bundle/javascript
+	url = https://github.com/pangloss/vim-javascript.git
+[submodule ".vim/bundles/css-color"]
+	path = .vim/bundles/css-color
+	url = https://github.com/skammer/vim-css-color.git
