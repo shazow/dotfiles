@@ -148,6 +148,11 @@ function! GetPythonIndent(lnum)
     call cursor(a:lnum, 1)
     let parlnum = s:SearchParensPair()
     if parlnum > 0
+        " dw: added
+        if parlnum < (a:lnum - 1)
+            return indent(a:lnum - 1)
+        endif
+
         let parcol = col('.')
         let closing_paren = match(getline(a:lnum), '^\s*[])}]') != -1
         if match(getline(parlnum), '[([{]\s*$', parcol - 1) != -1
