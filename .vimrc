@@ -70,8 +70,7 @@ map <M-backspace> :bdelete<CR>
 
 " Pathogen Bundles
 filetype off
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+call pathogen#infect()
 
 syntax on " Syntax highlighting
 filetype on " Try to detect filetypes
