@@ -119,3 +119,10 @@ let g:indent_guides_auto_colors = 0
 
 " FuzzyFinder
 map <leader>t :FufFile<CR>
+
+
+" Extra:
+
+"" Fix bug in css syntax highlighting overriding css-color.
+"" FIXME: Remove when https://github.com/ChrisYip/Better-CSS-Syntax-for-Vim/issues/4 is fixed
+au Filetype css source $DOTFILES_PATH/.vim/bundle/css-color/after/syntax/css.vim
