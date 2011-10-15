@@ -1,60 +1,80 @@
 [submodule ".vim/bundle/fugitive"]
 	path = .vim/bundle/fugitive
 	url = http://github.com/tpope/vim-fugitive.git
+	ignore = dirty
 [submodule ".vim/bundle/snipmate"]
 	path = .vim/bundle/snipmate
 	url = https://github.com/msanders/snipmate.vim.git
+	ignore = dirty
 [submodule ".vim/bundle/git"]
 	path = .vim/bundle/git
 	url = https://github.com/tpope/vim-git.git
+	ignore = dirty
 [submodule ".vim/bundle/supertab"]
 	path = .vim/bundle/supertab
 	url = https://github.com/ervandew/supertab.git
+	ignore = dirty
 [submodule ".vim/bundle/pyflakes"]
 	path = .vim/bundle/pyflakes
 	url = https://github.com/kevinw/pyflakes-vim.git
+	ignore = dirty
 [submodule ".vim/bundle/ack"]
 	path = .vim/bundle/ack
 	url = https://github.com/mileszs/ack.vim.git
+	ignore = dirty
 [submodule ".vim/bundle/pydoc"]
 	path = .vim/bundle/pydoc
 	url = https://github.com/fs111/pydoc.vim.git
+	ignore = dirty
 [submodule ".vim/bundle/pep8"]
 	path = .vim/bundle/pep8
 	url = https://github.com/vim-scripts/pep8.git
+	ignore = dirty
 [submodule ".vim/bundle/py.test"]
 	path = .vim/bundle/py.test
 	url = https://github.com/alfredodeza/pytest.vim.git
+	ignore = dirty
 [submodule ".vim/bundle/nerdtree"]
 	path = .vim/bundle/nerdtree
 	url = https://github.com/vim-scripts/The-NERD-tree.git
+	ignore = dirty
 [submodule ".vim/bundle/ropevim"]
 	path = .vim/bundle/ropevim
 	url = https://github.com/sontek/rope-vim.git
+	ignore = dirty
 [submodule ".vim/bundle/closetags"]
 	path = .vim/bundle/closetags
 	url = https://github.com/vim-scripts/closetag.vim.git
+	ignore = dirty
 [submodule ".vim/bundle/FuzzyFinder"]
 	path = .vim/bundle/FuzzyFinder
 	url = https://github.com/vim-scripts/FuzzyFinder.git
+	ignore = dirty
 [submodule ".vim/bundle/l9"]
 	path = .vim/bundle/l9
 	url = https://github.com/slack/vim-l9.git
+	ignore = dirty
 [submodule ".vim/bundle/mako"]
 	path = .vim/bundle/mako
 	url = https://github.com/sophacles/vim-bundle-mako.git
+	ignore = dirty
 [submodule ".vim/bundle/matchit"]
 	path = .vim/bundle/matchit
 	url = https://github.com/edsono/vim-matchit.git
+	ignore = dirty
 [submodule ".vim/bundle/vim-indent-guides"]
 	path = .vim/bundle/vim-indent-guides
 	url = git://github.com/nathanaelkane/vim-indent-guides.git
+	ignore = dirty
 [submodule ".vim/bundle/html5"]
 	path = .vim/bundle/html5
 	url = https://github.com/shazow/html5.vim.git
+	ignore = dirty
 [submodule ".vim/bundle/javascript"]
 	path = .vim/bundle/javascript
 	url = https://github.com/pangloss/vim-javascript.git
+	ignore = dirty
 [submodule ".vim/bundle/css-color"]
 	path = .vim/bundle/css-color
 	url = https://github.com/skammer/vim-css-color.git
+	ignore = dirty
