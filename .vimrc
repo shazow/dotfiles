@@ -97,10 +97,6 @@ noremap <leader><space> :call StripWhitespace ()<CR>
 
 " Bundles:
 
-"" Rope
-map <leader>j :RopeGotoDefinition<CR>
-map <leader>r :RopeRename<CR>
-
 "" Nerdtree
 nnoremap <leader>n :NERDTreeToggle<CR>
 

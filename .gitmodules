@@ -38,10 +38,6 @@
 	path = .vim/bundle/nerdtree
 	url = https://github.com/vim-scripts/The-NERD-tree.git
 	ignore = dirty
-[submodule ".vim/bundle/ropevim"]
-	path = .vim/bundle/ropevim
-	url = https://github.com/sontek/rope-vim.git
-	ignore = dirty
 [submodule ".vim/bundle/closetags"]
 	path = .vim/bundle/closetags
 	url = https://github.com/vim-scripts/closetag.vim.git
