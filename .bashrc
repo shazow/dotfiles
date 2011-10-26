@@ -127,6 +127,7 @@ function w() { watch -dn1 $*; }
 # Workspace navigation functions
 
 PROJECTS_DIR=~/projects
+ENV_DIR=~/env
 
 function go() { # Jump to a project (and activate environment)
     to=$1
@@ -145,6 +146,32 @@ function _complete_go() { # Autocomplete function for go
     COMPREPLY=( $(compgen -W "$(ls $PROJECTS_DIR/)" -- "${COMP_WORDS[$COMP_CWORD]}") )
 }
 complete -F _complete_go go
+
+function create_virtualenv() { # Make a fresh virtualenv [for some existing directory [with a give environment name]]
+    if [ "$VIRTUAL_ENV" ]; then
+        deactivate
+    fi
+    if [ "$1" ]; then
+        name="$(basename $1)"
+        path=$1
+    else
+        name="$(basename $PWD)"
+        path="$PWD"
+    fi
+    if [ "$2" ]; then
+        name="$2"
+    fi
+
+    env_path="$ENV_DIR/$name"
+    if [ -d "$env_path" ]; then
+        echo "$env_path already exists. Activating and aborting."
+        source "$env_path/bin/activate"
+        return 1;
+    fi
+    virtualenv "$env_path" -p $(which python)
+    ln -s "$env_path/bin/activate" "$path/.profile"
+    source "$env_path/bin/activate"
+}
 
 function up() { # cd to root of repository
     old_pwd="$PWD";
