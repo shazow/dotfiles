@@ -58,10 +58,6 @@
 	path = .vim/bundle/matchit
 	url = https://github.com/edsono/vim-matchit.git
 	ignore = dirty
-[submodule ".vim/bundle/vim-indent-guides"]
-	path = .vim/bundle/vim-indent-guides
-	url = git://github.com/nathanaelkane/vim-indent-guides.git
-	ignore = dirty
 [submodule ".vim/bundle/html5"]
 	path = .vim/bundle/html5
 	url = https://github.com/shazow/html5.vim.git
