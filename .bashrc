@@ -113,7 +113,7 @@ function unbak() { # Revert previously bak'd target
     fi
 }
 
-if [ ! "$(which say &> /dev/null )" ]; then
+if [ ! which say &> /dev/null ]; then
     function say() { echo "$*" | festival --tts; }
 fi
 
