@@ -110,9 +110,6 @@ let g:SuperTabDefaultCompletionType = "context"
 " Matchit
 autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
 
-" vim-indent-guides
-let g:indent_guides_auto_colors = 0
-
 " FuzzyFinder
 map <leader>t :FufFile<CR>
 
