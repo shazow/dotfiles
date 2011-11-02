@@ -1,0 +1,5 @@
+#!/bin/bash
+target="$1"
+shift
+convert $* -append "$target"
+optipng -o7 "$target"
