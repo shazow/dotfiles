@@ -7,9 +7,9 @@ set directory=~/.vim/tmp
 set viminfo='10,\"100,:20,%,n~/.vim/viminfo
 
 " General settings
-set tabstop=4 " Tab
-set shiftwidth=4 " Indent
-set softtabstop=4 " Backspace
+set tabstop=2 " Tab
+set shiftwidth=2 " Indent
+set softtabstop=2 " Backspace
 set expandtab " Convert tabs to spaces
 
 set ruler " Position at the bottom of the screen
@@ -38,8 +38,6 @@ set wildignore+=*.o,*.obj,*.pyc
 
 if exists('+colorcolumn')
     set colorcolumn=80
-else
-    match ColorColumn /\%80v.\+/
 endif
 
 " General mappings
