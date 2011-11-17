@@ -7,9 +7,11 @@ set directory=~/.vim/tmp
 set viminfo='10,\"100,:20,%,n~/.vim/viminfo
 
 " General settings
-set tabstop=2 " Tab
-set shiftwidth=2 " Indent
-set softtabstop=2 " Backspace
+set encoding=utf-8
+set termencoding=utf-8
+set tabstop=4 " Tab
+set shiftwidth=4 " Indent
+set softtabstop=4 " Backspace
 set expandtab " Convert tabs to spaces
 
 set ruler " Position at the bottom of the screen
