@@ -47,7 +47,6 @@ map <leader>\ :noh<return> " Turn off highlighting
 
 "" Spare the pinky-finger
 noremap ; :
-noremap , ;
 
 "" Navigation
 """ Panes
