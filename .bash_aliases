@@ -11,6 +11,7 @@ if [ "$(uname)" == "Darwin" ]; then
 	alias v="open -a MacVim --"
 else
 	alias v="gvim"
+  alias vv="gvim --remote-silent"
 fi
 
 # Gentoo-specific helpers

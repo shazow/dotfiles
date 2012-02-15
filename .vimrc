@@ -109,9 +109,6 @@ let g:SuperTabDefaultCompletionType = "context"
 " Matchit
 autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
 
-" FuzzyFinder
-map <leader>t :FufFile<CR>
-
 
 " Extra:
 
