@@ -50,55 +50,55 @@ map <leader>\ :noh<return> " Turn off highlighting
 ""   vim, so we need two versions of these two-key bindings. :'(
 if has("gui_running")
   """ Panes
-  map <M-right> <C-w>l " (alt-right)
-  map <M-left> <C-w>h " (alt-left)
-  map <M-down> <C-w>j " (alt-down)
-  map <M-up> <C-w>k " (alt-up)
+  nnoremap <M-right> <C-w>l " (alt-right)
+  nnoremap <M-left> <C-w>h " (alt-left)
+  nnoremap <M-down> <C-w>j " (alt-down)
+  nnoremap <M-up> <C-w>k " (alt-up)
 
-  map <M-,> :split<CR> " Horizontal split (alt-,)
-  map <M-.> :vsplit<CR> " Vertical split (alt-.)
-  map <M-/> :close<CR> : Close split (alt-/)
+  nnoremap <M-,> :split<CR> " Horizontal split (alt-,)
+  nnoremap <M-.> :vsplit<CR> " Vertical split (alt-.)
+  nnoremap <M-/> :close<CR> : Close split (alt-/)
 
-  map <M-k> <C-w>t<C-w>K " Convert vertical to horizontal split (alt-<)
-  map <M-l> <C-w>t<C-w>H " Convert horizontal to vertical split (alt->)
+  nnoremap <M-k> <C-w>t<C-w>K " Convert vertical to horizontal split (alt-<)
+  nnoremap <M-l> <C-w>t<C-w>H " Convert horizontal to vertical split (alt->)
 
   """ Buffers
-  map <M-]> :bnext<CR>
-  map <M-[> :bprev<CR>
-  map <M-\> :bdelete<CR>
+  nnoremap <M-]> :bnext<CR>
+  nnoremap <M-[> :bprev<CR>
+  nnoremap <M-\> :bdelete<CR>
 
   """ Tabs
-  map <M->> :tabnext<CR>
-  map <M-<> :tabprev<CR>
-  map <M-?> :tabclose<CR>
-  map <M-M> :tabnew<CR>
+  nnoremap <M->> :tabnext<CR>
+  nnoremap <M-<> :tabprev<CR>
+  nnoremap <M-?> :tabclose<CR>
+  nnoremap <M-M> :tabnew<CR>
 
 else
   " (These are the same bindings as above, but generated using insert alt-v input.)
 
   """ Panes
-  map [1;3C <C-w>l " (alt-right)
-  map [1;3D <C-w>h " (alt-left)
-  map [1;3B <C-w>j " (alt-down)
-  map [1;3A <C-w>k " (alt-up)
+  nnoremap [1;3C <C-w>l " (alt-right)
+  nnoremap [1;3D <C-w>h " (alt-left)
+  nnoremap [1;3B <C-w>j " (alt-down)
+  nnoremap [1;3A <C-w>k " (alt-up)
 
-  map , :split<CR> " Horizontal split (alt-,)
-  map . :vsplit<CR> " Vertical split (alt-.)
-  map / :close<CR> : Close split (alt-/)
+  nnoremap , :split<CR> " Horizontal split (alt-,)
+  nnoremap . :vsplit<CR> " Vertical split (alt-.)
+  nnoremap / :close<CR> : Close split (alt-/)
 
-  map k <C-w>t<C-w>K " Convert vertical to horizontal split (alt-<)
-  map l <C-w>t<C-w>H " Convert horizontal to vertical split (alt->)
+  nnoremap k <C-w>t<C-w>K " Convert vertical to horizontal split (alt-<)
+  nnoremap l <C-w>t<C-w>H " Convert horizontal to vertical split (alt->)
 
   """ Buffers
-  map ] :bnext<CR>
-  map [ :bprev<CR>
-  map \ :bdelete<CR>
+  nnoremap ] :bnext<CR>
+  nnoremap [ :bprev<CR>
+  nnoremap \ :bdelete<CR>
 
   """ Tabs
-  map > :tabnext<CR>
-  map < :tabprev<CR>
-  map ? :tabclose<CR>
-  map M :tabnew<CR>
+  nnoremap > :tabnext<CR>
+  nnoremap < :tabprev<CR>
+  nnoremap ? :tabclose<CR>
+  nnoremap M :tabnew<CR>
 endif
 
 " Pathogen Bundles
