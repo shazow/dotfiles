@@ -45,27 +45,61 @@ endif
 " General mappings
 map <leader>\ :noh<return> " Turn off highlighting
 
-"" Spare the pinky-finger
-noremap ; :
-
 "" Navigation
-""" Panes
-map <M-right> <C-w>l
-map <M-left> <C-w>h
-map <M-down> <C-w>j
-map <M-up> <C-w>k
+""   Note: Terminal-based vim parses these key inputs differently than GUI-based
+""   vim, so we need two versions of these two-key bindings. :'(
+if has("gui_running")
+  """ Panes
+  map <M-right> <C-w>l " (alt-right)
+  map <M-left> <C-w>h " (alt-left)
+  map <M-down> <C-w>j " (alt-down)
+  map <M-up> <C-w>k " (alt-up)
 
-map <M-,> :split<CR> " Horizontal split
-map <M-.> :vsplit<CR> " Vertical split
-map <M-/> :close<CR> 
+  map <M-,> :split<CR> " Horizontal split (alt-,)
+  map <M-.> :vsplit<CR> " Vertical split (alt-.)
+  map <M-/> :close<CR> : Close split (alt-/)
 
-map <M-<> <C-w>t<C-w>K " Convert vertical to horizontal split
-map <M->> <C-w>t<C-w>H " Convert horizontal to vertical split
+  map <M-k> <C-w>t<C-w>K " Convert vertical to horizontal split (alt-<)
+  map <M-l> <C-w>t<C-w>H " Convert horizontal to vertical split (alt->)
 
-""" Buffers
-map <M-]> :bnext<CR>
-map <M-[> :bprev<CR>
-map <M-backspace> :bdelete<CR>
+  """ Buffers
+  map <M-]> :bnext<CR>
+  map <M-[> :bprev<CR>
+  map <M-\> :bdelete<CR>
+
+  """ Tabs
+  map <M->> :tabnext<CR>
+  map <M-<> :tabprev<CR>
+  map <M-?> :tabclose<CR>
+  map <M-M> :tabnew<CR>
+
+else
+  " (These are the same bindings as above, but generated using insert alt-v input.)
+
+  """ Panes
+  map [1;3C <C-w>l " (alt-right)
+  map [1;3D <C-w>h " (alt-left)
+  map [1;3B <C-w>j " (alt-down)
+  map [1;3A <C-w>k " (alt-up)
+
+  map , :split<CR> " Horizontal split (alt-,)
+  map . :vsplit<CR> " Vertical split (alt-.)
+  map / :close<CR> : Close split (alt-/)
+
+  map k <C-w>t<C-w>K " Convert vertical to horizontal split (alt-<)
+  map l <C-w>t<C-w>H " Convert horizontal to vertical split (alt->)
+
+  """ Buffers
+  map ] :bnext<CR>
+  map [ :bprev<CR>
+  map \ :bdelete<CR>
+
+  """ Tabs
+  map > :tabnext<CR>
+  map < :tabprev<CR>
+  map ? :tabclose<CR>
+  map M :tabnew<CR>
+endif
 
 " Pathogen Bundles
 filetype off
