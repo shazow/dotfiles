@@ -161,8 +161,11 @@ function create_virtualenv() { # Make a fresh virtualenv [for some existing dire
     if [ "$2" ]; then
         name="$2"
     fi
-
-    env_path="$ENV_DIR/$name"
+    if [ "$1" == "." ]; then
+        env_path=".env"
+    else
+        env_path="$ENV_DIR/$name"
+    fi
     if [ -d "$env_path" ]; then
         echo "$env_path already exists. Activating and aborting."
         source "$env_path/bin/activate"
