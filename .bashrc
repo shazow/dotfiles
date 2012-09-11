@@ -163,6 +163,7 @@ function create_virtualenv() { # Make a fresh virtualenv [for some existing dire
     fi
     if [ "$1" == "." ]; then
         env_path=".env"
+        name="$(basename $PWD)"
     else
         env_path="$ENV_DIR/$name"
     fi
@@ -171,7 +172,7 @@ function create_virtualenv() { # Make a fresh virtualenv [for some existing dire
         source "$env_path/bin/activate"
         return 1;
     fi
-    virtualenv "$env_path" -p $(which python)
+    virtualenv "$env_path" -p "$(which python)" --prompt="($name)"
     ln -s "$env_path/bin/activate" "$path/.profile"
     source "$env_path/bin/activate"
 }
