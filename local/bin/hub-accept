@@ -1,0 +1,23 @@
+#!/bin/bash
+# hub-accept [INTO_BRANCH]
+#
+# Merge the current branch into INTO_BRANCH, and delete the current branch.
+
+set -e
+
+into_branch="$1"
+
+if [ ! "$into_branch" ]; then
+    into_branch="master"
+fi
+
+current_branch=$(git symbolic-ref HEAD | cut -d"/" -f 3-)
+
+if [ "$current_branch" = "$into_branch" ]; then
+    echo "Can't accept a branch into itself."
+    exit 1
+fi
+
+git checkout "$into_branch"
+git merge "$current_branch"
+git branch -d "$current_branch"

@@ -1,0 +1,19 @@
+#!/bin/bash
+# hub-pull REPO_URI [BRANCH]
+#
+# Pull BRANCH (or master) from REPO_URI into a sensibly-named local branch.
+
+set -e
+
+repo_uri="$1"
+author="$(basename $(dirname $repo_uri))"
+remote_branch="$2"
+
+if [ ! "$branch" ]; then
+    branch="master"
+fi
+
+local_branch="downstream/$author/$branch"
+
+git fetch "$repo_uri" "$remote_branch:$local_branch"
+git checkout "$local_branch"
