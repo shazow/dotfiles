@@ -5,12 +5,39 @@
 
 set -e
 
+
+function strip() {
+    read input
+    num="$1"
+    echo ${input:num:-num} # FIXME: OSX doesn't like this.
+}
+
+function get_clone_url() {
+    # Given a URL like: https://github.com/shazow/myproject/pull/123
+    # Query the Github API and print the clone URL of the pull request target.
+    pull_path="$(echo $1 | cut -d '/' -f4-)"
+    api_target="https://api.github.com/repos/${pull_path/\/pull\///pulls/}"
+    curl -s "$api_target" | grep -o -m 1 '"clone_url": ".*"' | cut -d ' ' -f2- | strip 1
+}
+
+
 repo_uri="$1"
 author="$(basename $(dirname $repo_uri))"
 remote_branch="$2"
 
 if [ ! "$branch" ]; then
     branch="master"
+fi
+
+if [ "$(echo $repo_uri | grep 'https://github.com/.*/pull/')" ]; then
+    echo -n "Querying Github API for clone target: "
+    repo_uri="$(get_clone_url \"$repo_uri\")"
+    echo "$repo_uri"
+fi
+
+if [ ! "$repo_uri" ]; then
+    echo "Clone target not found."
+    exit 1
 fi
 
 local_branch="downstream/$author/$branch"
