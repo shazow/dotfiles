@@ -4,6 +4,7 @@
 
 [alias]
     undo = reset --soft HEAD^
+    undo = commit -c ORIG_HEAD
     last = log -1 HEAD
     serve = daemon --reuseaddr --base-path=. --export-all --verbose --enable=receive-pack --listen=0.0.0.0
 

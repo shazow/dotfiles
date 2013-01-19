@@ -22,12 +22,6 @@ function get_clone_url() {
 
 
 repo_uri="$1"
-author="$(basename $(dirname $repo_uri))"
-remote_branch="$2"
-
-if [ ! "$branch" ]; then
-    branch="master"
-fi
 
 if [ "$(echo $repo_uri | grep 'https://github.com/.*/pull/')" ]; then
     echo -n "Querying Github API for clone target: "
@@ -38,6 +32,13 @@ fi
 if [ ! "$repo_uri" ]; then
     echo "Clone target not found."
     exit 1
+fi
+
+author="$(basename $(dirname $repo_uri))"
+remote_branch="$2"
+
+if [ ! "$branch" ]; then
+    branch="master"
 fi
 
 local_branch="downstream/$author/$branch"
