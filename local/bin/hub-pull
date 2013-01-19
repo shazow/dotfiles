@@ -35,13 +35,13 @@ if [ ! "$repo_uri" ]; then
 fi
 
 author="$(basename $(dirname $repo_uri))"
-remote_branch="$2"
+remote_branch="$2" # FIXME: Override this if using github query
 
-if [ ! "$branch" ]; then
-    branch="master"
+if [ ! "$remote_branch" ]; then
+    remote_branch="master"
 fi
 
-local_branch="downstream/$author/$branch"
+local_branch="downstream/$author/$remote_branch"
 
 git fetch "$repo_uri" "$remote_branch:$local_branch"
 git checkout "$local_branch"
