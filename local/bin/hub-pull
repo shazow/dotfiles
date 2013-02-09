@@ -9,7 +9,8 @@ set -e
 function strip() {
     read input
     num="$1"
-    echo ${input:num:-num} # FIXME: OSX doesn't like this.
+    len="${#input}"
+    echo ${input:num:len-num-1}
 }
 
 function get_clone_url() {
