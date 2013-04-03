@@ -17,13 +17,16 @@ Bundle "tomtom/tlib_vim"
 Bundle "honza/snipmate-snippets"
 
 "" Other
-Bundle 'Shougo/neocomplcache'
-Bundle 'alfredodeza/pytest.vim'
-Bundle 'edsono/vim-matchit'
 "Bundle 'ervandew/supertab'
+Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/neosnippet'
+Bundle 'alfredodeza/pytest.vim'
+Bundle 'amirh/HTML-AutoCloseTag'
+Bundle 'edsono/vim-matchit'
 Bundle 'fs111/pydoc.vim'
-Bundle 'garbas/vim-snipmate'
 Bundle 'gmarik/vundle'
+Bundle 'godlygeek/csapprox'
+Bundle 'hail2u/vim-css3-syntax'
 Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'kevinw/pyflakes-vim'
 Bundle 'kien/ctrlp.vim'
@@ -39,6 +42,7 @@ Bundle 'scrooloose/syntastic'
 Bundle 'shazow/html5.vim'
 Bundle 'skammer/vim-css-color'
 Bundle 'sophacles/vim-bundle-mako'
+Bundle 'spf13/vim-autoclose'
 Bundle 'tpope/vim-surround'
 Bundle 'vim-scripts/closetag.vim'
 Bundle 'vim-scripts/pep8'
@@ -316,7 +320,7 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     let g:neosnippet#snippets_directory='~/.vim/bundle/snipmate-snippets/snippets'
 
     " Enable neosnippet snipmate compatibility mode
-    let g:neosnippet#enable_snipmate_compatibility = 1        
+    let g:neosnippet#enable_snipmate_compatibility = 1
 
     " For snippet_complete marker.
     if has('conceal')
