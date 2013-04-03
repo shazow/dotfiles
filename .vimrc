@@ -60,6 +60,7 @@ set directory=~/.vim/tmp
 set viminfo='10,\"100,:20,%,n~/.vim/viminfo
 if has('persistent_undo')
     set undofile
+    set undodir=~/.vim/undo
     set undolevels=100 " Maximum number of changes that can be undone
     set undoreload=1000 " Maximum number lines to save for undo on a buffer reload
 endif
