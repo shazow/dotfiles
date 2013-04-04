@@ -1,10 +1,31 @@
+set nocompatible
 set runtimepath=$DOTFILES_PATH/.vim,$VIMRUNTIME
 
+" Enable vundle
+filetype on
+filetype off
+set runtimepath+=$DOTFILES_PATH/.vim/bundle/vundle/
+call vundle#rc()
+source $DOTFILES_PATH/.vimrc.bundles
+
+
+" Syntax and encoding
+syntax on " Syntax highlighting
+filetype on " Try to detect filetypes
+filetype plugin indent on " Enable loading indent file for filetype
+scriptencoding utf-8
+
 " Keep all temporary and backup files in ~/.vim
-set backup
-set backupdir=~/.vim/backup
-set directory=~/.vim/tmp
 set viminfo='10,\"100,:20,%,n~/.vim/viminfo
+set backup
+set backupdir=~/.vim/backup " Backup
+set directory=~/.vim/tmp " Swap
+if has('persistent_undo')
+    set undofile
+    set undodir=~/.vim/undo " Undo
+    set undolevels=100 " Maximum number of changes that can be undone
+    set undoreload=1000 " Maximum number lines to save for undo on a buffer reload
+endif
 
 " General settings
 set encoding=utf-8
@@ -18,6 +39,8 @@ set ruler " Position at the bottom of the screen
 set shortmess=atI " Avoid 'press a key' prompt
 
 set history=1000
+set spell " Spell checking on
+set hidden " Allow buffer switching without saving
 set number
 set nowrap
 set nostartofline " Maintain cursor column position across rows
@@ -45,6 +68,12 @@ endif
 " General mappings
 map <leader>\ :noh<return> " Turn off highlighting
 
+" Fix home and end keybindings for screen, particularly on mac
+map [F $
+imap [F $
+map [H g0
+imap [H g0
+
 "" Navigation
 ""   Note: Terminal-based vim parses these key inputs differently than GUI-based
 ""   vim, so we need two versions of these two-key bindings. :'(
@@ -57,7 +86,7 @@ if has("gui_running")
 
   nnoremap <M-,> :split<CR> " Horizontal split (alt-,)
   nnoremap <M-.> :vsplit<CR> " Vertical split (alt-.)
-  nnoremap <M-/> :close<CR> : Close split (alt-/)
+  nnoremap <M-/> :close<CR> " Close split (alt-/)
 
   nnoremap <M-k> <C-w>t<C-w>K " Convert vertical to horizontal split (alt-<)
   nnoremap <M-l> <C-w>t<C-w>H " Convert horizontal to vertical split (alt->)
@@ -84,7 +113,7 @@ else
 
   nnoremap , :split<CR> " Horizontal split (alt-,)
   nnoremap . :vsplit<CR> " Vertical split (alt-.)
-  nnoremap / :close<CR> : Close split (alt-/)
+  nnoremap / :close<CR> " Close split (alt-/)
 
   nnoremap k <C-w>t<C-w>K " Convert vertical to horizontal split (alt-<)
   nnoremap l <C-w>t<C-w>H " Convert horizontal to vertical split (alt->)
@@ -101,13 +130,6 @@ else
   nnoremap M :tabnew<CR>
 endif
 
-" Pathogen Bundles
-filetype off
-call pathogen#infect()
-
-syntax on " Syntax highlighting
-filetype on " Try to detect filetypes
-filetype plugin indent on " Enable loading indent file for filetype
 
 " Keep vim's directory context same as the current buffer
 if exists('+autochdir')
@@ -125,23 +147,6 @@ function! StripWhitespace ()
     exec ':%s/\s*$//g'
 endfunction
 noremap <leader><space> :call StripWhitespace ()<CR>
-
-
-
-" Bundles:
-
-"" Nerdtree
-nnoremap <leader>n :NERDTreeToggle<CR>
-
-"" Pep8
-let g:pep8_map='<leader>8'
-
-"" SuperTab
-au FileType python set omnifunc=pythoncomplete#Complete
-let g:SuperTabDefaultCompletionType = "context"
-
-" Matchit
-autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
 
 
 " Extra:

@@ -76,7 +76,7 @@ copy "$path/.gitconfig" ~/.gitconfig
 copy "$path/.screenrc" ~/.screenrc
 
 nuke ~/.vim
-mkdir -p ~/.vim/{backup,tmp}
+mkdir -p ~/.vim/{backup,tmp,undo}
 
 if [ "$(uname)" == "Darwin" ]; then
     append_into ". ~/.bash_profile" ~/.profile
