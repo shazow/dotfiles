@@ -39,7 +39,6 @@ set ruler " Position at the bottom of the screen
 set shortmess=atI " Avoid 'press a key' prompt
 
 set history=1000
-set spell " Spell checking on
 set hidden " Allow buffer switching without saving
 set number
 set nowrap
