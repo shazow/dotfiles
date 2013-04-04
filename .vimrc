@@ -59,19 +59,12 @@ set wildmode=list:longest
 set wildignore+=*.o,*.obj,*.pyc
 
 " Highlight content beyond col79
-
 if exists('+colorcolumn')
     set colorcolumn=80
 endif
 
 " General mappings
 map <leader>\ :noh<return> " Turn off highlighting
-
-" Fix home and end keybindings for screen, particularly on mac
-map [F $
-imap [F $
-map [H g0
-imap [H g0
 
 "" Navigation
 ""   Note: Terminal-based vim parses these key inputs differently than GUI-based
@@ -105,28 +98,28 @@ else
   " (These are the same bindings as above, but generated using insert alt-v input.)
 
   """ Panes
-  nnoremap [1;3C <C-w>l " (alt-right)
-  nnoremap [1;3D <C-w>h " (alt-left)
-  nnoremap [1;3B <C-w>j " (alt-down)
-  nnoremap [1;3A <C-w>k " (alt-up)
+  "nnoremap <Esc>C <C-w>l " (alt-right)
+  "nnoremap <Esc>D <C-w>h " (alt-left)
+  "nnoremap <Esc>B <C-w>j " (alt-down)
+  "nnoremap <Esc>A <C-w>k " (alt-up)
 
-  nnoremap , :split<CR> " Horizontal split (alt-,)
-  nnoremap . :vsplit<CR> " Vertical split (alt-.)
-  nnoremap / :close<CR> " Close split (alt-/)
+  nnoremap ≤ :split<CR> " Horizontal split (alt-,)
+  nnoremap ≥ :vsplit<CR> " Vertical split (alt-.)
+  nnoremap ÷ :close<CR> " Close split (alt-/)
 
-  nnoremap k <C-w>t<C-w>K " Convert vertical to horizontal split (alt-<)
-  nnoremap l <C-w>t<C-w>H " Convert horizontal to vertical split (alt->)
+  nnoremap ¬ <C-w>t<C-w>K " Convert vertical to horizontal split (alt-l)
+  nnoremap ˚ <C-w>t<C-w>H " Convert horizontal to vertical split (alt-k)
 
   """ Buffers
-  nnoremap ] :bnext<CR>
-  nnoremap [ :bprev<CR>
-  nnoremap \ :bdelete<CR>
+  nnoremap “ :bnext<CR> " alt-[
+  nnoremap ‘ :bprev<CR> " alt-]
+  nnoremap « :bdelete<CR> " alt-\
 
   """ Tabs
-  nnoremap > :tabnext<CR>
-  nnoremap < :tabprev<CR>
-  nnoremap ? :tabclose<CR>
-  nnoremap M :tabnew<CR>
+  nnoremap ¯ :tabnext<CR> " alt->
+  nnoremap ˘ :tabprev<CR> " alt-<
+  nnoremap ¿ :tabclose<CR> " alt-?
+  nnoremap Â :tabnew<CR> " alt-M
 endif
 
 
