@@ -25,7 +25,6 @@ Bundle 'python_match.vim'
 Bundle 'pythoncomplete'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'scrooloose/syntastic'
-Bundle 'spf13/vim-autoclose'
 Bundle 'tpope/vim-surround'
 Bundle 'vim-scripts/closetag.vim'
 Bundle 'vim-scripts/pep8'
@@ -40,13 +39,14 @@ Bundle 'skammer/vim-css-color'
 Bundle 'sophacles/vim-bundle-mako'
 
 
-" Bundle configuration:
+" Bundle configuration: (Largely borrowed from spf13)
+
 
 "" Pep8
 let g:pep8_map='<leader>8'
 
 "" AutoCloseTag
-au FileType xhtml,xml ru ftplugin/html/autoclosetag.vim
+au FileType xhtml,xml,mako ru ftplugin/html/autoclosetag.vim
 
 " Matchit
 autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
@@ -64,12 +64,9 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
 
     " Some convenient mappings
-    inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
-    inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-    inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-    inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-    inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
-    inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
+    inoremap <expr><CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+    inoremap <expr><Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+    inoremap <expr><Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 
     " Automatically open and close the popup menu / preview window
     au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
@@ -123,16 +120,8 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     let g:neocomplcache_keyword_patterns._ = '\h\w*'
 
     " Plugin key-mappings.
-
-    " These two lines conflict with the default digraph mapping of <C-K>
-    " If you prefer that functionality, add
-    " let g:spf13_no_neosnippet_expand = 1
-    " in your .vimrc.bundles.local file
-
-    if !exists('g:spf13_no_neosnippet_expand')
-        imap <C-k> <Plug>(neosnippet_expand_or_jump)
-        smap <C-k> <Plug>(neosnippet_expand_or_jump)
-    endif
+    inoremap <C-k> <Plug>(neosnippet_expand_or_jump)
+    snoremap <C-k> <Plug>(neosnippet_expand_or_jump)
 
     inoremap <expr><C-g> neocomplcache#undo_completion()
     inoremap <expr><C-l> neocomplcache#complete_common_string()
@@ -149,7 +138,7 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
 
     " <C-h>, <BS>: close popup and delete backword char.
     inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><C-y> neocomplcache#close_popup()
+    inoremap <expr><C-h> neocomplcache#close_popup()
 
     " Enable omni completion.
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
