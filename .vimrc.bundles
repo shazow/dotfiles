@@ -37,6 +37,7 @@ Bundle 'saltstack/salt-vim.git'
 Bundle 'shazow/html5.vim'
 Bundle 'skammer/vim-css-color'
 Bundle 'sophacles/vim-bundle-mako'
+Bundle 'groenewege/vim-less'
 
 
 " Bundle configuration: (Largely borrowed from spf13)

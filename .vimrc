@@ -145,4 +145,4 @@ noremap <leader><space> :call StripWhitespace ()<CR>
 
 "" Fix bug in css syntax highlighting overriding css-color.
 "" FIXME: Remove when https://github.com/ChrisYip/Better-CSS-Syntax-for-Vim/issues/4 is fixed
-au Filetype css source $DOTFILES_PATH/.vim/bundle/css-color/after/syntax/css.vim
+au Filetype css,less source ~/.vim/bundle/vim-css-color/after/syntax/css.vim
