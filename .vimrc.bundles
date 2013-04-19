@@ -40,8 +40,8 @@ Bundle 'groenewege/vim-less'
 "" Disabled
 " These are swell, but lag the bejesus out of large files. Need to
 " investigate:
-"Bundle 'Shougo/neocomplcache'
-"Bundle 'Shougo/neosnippet'
+Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/neosnippet'
 
 
 " Bundle configuration: (Largely borrowed from spf13)
@@ -54,6 +54,23 @@ au FileType xhtml,xml,mako ru ftplugin/html/autoclosetag.vim
 
 " Matchit
 autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
+
+" ctrlp {
+    let g:ctrlp_working_path_mode = 2
+    nnoremap <silent> <D-t> :CtrlP<CR>
+    nnoremap <silent> <D-r> :CtrlPMRU<CR>
+    let g:ctrlp_custom_ignore = {
+        \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+        \ 'file': '\.exe$\|\.so$\|\.dll$' }
+
+    let g:ctrlp_user_command = {
+        \ 'types': {
+            \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
+            \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+        \ },
+        \ 'fallback': 'find %s -type f'
+    \ }
+"}
 
 " OmniComplete {
     if has("autocmd") && exists("+omnifunc")
@@ -77,23 +94,6 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     set completeopt=menu,preview,longest
 " }
 
-" ctrlp {
-    let g:ctrlp_working_path_mode = 2
-    nnoremap <silent> <D-t> :CtrlP<CR>
-    nnoremap <silent> <D-r> :CtrlPMRU<CR>
-    let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-        \ 'file': '\.exe$\|\.so$\|\.dll$' }
-
-    let g:ctrlp_user_command = {
-        \ 'types': {
-            \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
-            \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-        \ },
-        \ 'fallback': 'find %s -type f'
-    \ }
-"}
-
 " neocomplcache {
     let g:acp_enableAtStartup = 0
     let g:neocomplcache_enable_at_startup = 1
@@ -103,12 +103,19 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     let g:neocomplcache_enable_auto_delimiter = 1
     let g:neocomplcache_max_list = 15
     let g:neocomplcache_force_overwrite_completefunc = 1
+    let g:neocomplcache_disable_auto_complete = 1 " Disable auto popup.
+
+    inoremap <expr><TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>"
+    function! s:check_back_space()"{{{
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1] =~ '\s'
+    endfunction"}}
 
     " SuperTab like snippets behavior.
-    imap <silent><expr><TAB> neosnippet#expandable() ?
-                \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
-                \ "\<C-e>" : "\<TAB>")
-    smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
+    "imap <silent><expr><TAB> neosnippet#expandable() ?
+    "            \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
+    "            \ "\<C-e>" : "\<TAB>")
+    "smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
 
     " Define dictionary.
     let g:neocomplcache_dictionary_filetype_lists = {
@@ -132,8 +139,8 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     inoremap <expr><CR> neocomplcache#complete_common_string()
 
     " <TAB>: completion.
-    inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+    "inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    "inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
 
     " <CR>: close popup
     " <s-CR>: close popup and save indent.
