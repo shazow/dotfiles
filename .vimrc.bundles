@@ -8,8 +8,6 @@ Bundle "tomtom/tlib_vim"
 Bundle "honza/vim-snippets"
 
 "" Other
-Bundle 'Shougo/neocomplcache'
-Bundle 'Shougo/neosnippet'
 Bundle 'alfredodeza/pytest.vim'
 Bundle 'amirh/HTML-AutoCloseTag'
 Bundle 'edsono/vim-matchit'
@@ -39,9 +37,14 @@ Bundle 'skammer/vim-css-color'
 Bundle 'sophacles/vim-bundle-mako'
 Bundle 'groenewege/vim-less'
 
+"" Disabled
+" These are swell, but lag the bejesus out of large files. Need to
+" investigate:
+"Bundle 'Shougo/neocomplcache'
+"Bundle 'Shougo/neosnippet'
+
 
 " Bundle configuration: (Largely borrowed from spf13)
-
 
 "" Pep8
 let g:pep8_map='<leader>8'
