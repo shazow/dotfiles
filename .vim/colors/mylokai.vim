@@ -50,7 +50,6 @@ hi IncSearch       guifg=#C4BE89 guibg=#000000
 hi Keyword         guifg=#F92672               gui=bold
 hi Label           guifg=#E6DB74               gui=none
 hi Macro           guifg=#C4BE89               gui=italic
-hi SpecialKey      guifg=#66D9EF               gui=italic
 
 hi MatchParen      guifg=#000000 guibg=#FD971F gui=bold
 hi ModeMsg         guifg=#E6DB74
@@ -73,7 +72,7 @@ hi SignColumn      guifg=#A6E22E guibg=#232526
 hi SpecialChar     guifg=#F92672               gui=bold
 hi SpecialComment  guifg=#465457               gui=bold
 hi Special         guifg=#66D9EF guibg=bg      gui=italic
-hi SpecialKey      guifg=#888A85               gui=italic
+hi SpecialKey      guifg=#393939               gui=italic
 if has("spell")
     hi SpellBad    guisp=#FF0000 gui=undercurl
     hi SpellCap    guisp=#7070F0 gui=undercurl

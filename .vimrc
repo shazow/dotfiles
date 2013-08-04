@@ -63,6 +63,10 @@ if exists('+colorcolumn')
     set colorcolumn=80
 endif
 
+" Split, place cursor in newly-split pane
+set splitbelow
+set splitright
+
 " General mappings
 map <leader>\ :noh<return> " Turn off highlighting
 

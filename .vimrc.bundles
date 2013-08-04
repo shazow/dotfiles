@@ -36,12 +36,18 @@ Bundle 'shazow/html5.vim'
 Bundle 'skammer/vim-css-color'
 Bundle 'sophacles/vim-bundle-mako'
 Bundle 'groenewege/vim-less'
+Bundle 'jnwhiteh/vim-golang'
 
-"" Disabled
+"" Disabled?
 " These are swell, but lag the bejesus out of large files. Need to
 " investigate:
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neosnippet'
+
+"" Extra local bundles
+if filereadable(expand("~/.vimrc.bundles"))
+    source ~/.vimrc.bundles
+endif
 
 
 " Bundle configuration: (Largely borrowed from spf13)
@@ -70,6 +76,8 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
         \ },
         \ 'fallback': 'find %s -type f'
     \ }
+    " Reuse already-open buffers? (Default: 'Et')
+    let g:ctrlp_switch_buffer = 0
 "}
 
 " OmniComplete {

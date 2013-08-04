@@ -127,8 +127,6 @@ function w() { watch -dn1 $*; }
 # Workspace navigation functions
 
 PROJECTS_DIR=~/projects
-ENV_DIR=~/env
-
 function go() { # Jump to a project (and activate environment)
     to=$1
     if [ ! "$to" ]; then
@@ -165,7 +163,7 @@ function create_virtualenv() { # Make a fresh virtualenv [for some existing dire
         env_path=".env"
         name="$(basename $PWD)"
     else
-        env_path="$ENV_DIR/$name"
+        env_path="$path/.env"
     fi
     if [ -d "$env_path" ]; then
         echo "$env_path already exists. Activating and aborting."
