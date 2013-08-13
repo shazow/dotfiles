@@ -166,6 +166,7 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
     autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+    autocmd FileType go,golang setlocal omnifunc=gocomplete#Complete noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
 
     " Enable heavy omni completion.
     if !exists('g:neocomplcache_omni_patterns')
