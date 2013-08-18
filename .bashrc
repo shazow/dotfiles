@@ -127,6 +127,7 @@ function w() { watch -dn1 $*; }
 # Workspace navigation functions
 
 PROJECTS_DIR=~/projects
+BIN_GO="$(which go)"
 function go() { # Jump to a project (and activate environment)
     to=$1
     if [ ! "$to" ]; then
@@ -134,10 +135,16 @@ function go() { # Jump to a project (and activate environment)
         to=$(grep "^go " ~/.bash_history | tail -n1 | cut -d ' ' -f2-)
     fi
 
-    cd $PROJECTS_DIR/$to
+    target=$PROJECTS_DIR/$to
+    if [ -d $target ]; then
+        cd "$target"
 
-    # Load project profile (e.g. virtualenv)
-    [ -e .profile ] && . .profile
+        # Load project profile (e.g. virtualenv)
+        [ -e .profile ] && . .profile
+    elif [ "$BIN_GO" ]; then
+        $BIN_GO $*
+        return
+    fi
 }
 
 function _complete_go() { # Autocomplete function for go
