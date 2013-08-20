@@ -8,26 +8,32 @@ Bundle "tomtom/tlib_vim"
 Bundle "honza/vim-snippets"
 
 "" Other
-Bundle 'alfredodeza/pytest.vim'
-Bundle 'amirh/HTML-AutoCloseTag'
 Bundle 'edsono/vim-matchit'
-Bundle 'fs111/pydoc.vim'
 Bundle 'gmarik/vundle'
 Bundle 'jistr/vim-nerdtree-tabs'
-Bundle 'kevinw/pyflakes-vim'
 Bundle 'kien/ctrlp.vim'
-Bundle 'leshill/vim-json'
+Bundle 'majutsushi/tagbar'
 Bundle 'mbbill/undotree'
 Bundle 'mileszs/ack.vim'
-Bundle 'python_match.vim'
-Bundle 'pythoncomplete'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-surround'
+
+"" Language support
+Bundle 'Blackrush/vim-gocode'
+Bundle 'alfredodeza/pytest.vim'
+Bundle 'amirh/HTML-AutoCloseTag'
+Bundle 'dgryski/vim-godef'
+Bundle 'fs111/pydoc.vim'
+Bundle 'kevinw/pyflakes-vim'
+Bundle 'leshill/vim-json'
+Bundle 'python_match.vim'
+Bundle 'pythoncomplete'
 Bundle 'vim-scripts/closetag.vim'
 Bundle 'vim-scripts/pep8'
 
 "" Syntax highlighting
+
 Bundle 'hail2u/vim-css3-syntax'
 Bundle 'pangloss/vim-javascript'
 Bundle 'python.vim'
@@ -55,6 +61,12 @@ endif
 "" Pep8
 let g:pep8_map='<leader>8'
 
+"" Language-specific triggers
+autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType go autocmd BufWritePre <buffer> Fmt
+autocmd FileType go autocmd BufWritePost *.go silent! !ctags -R &
+autocmd BufRead,BufNewFile *.md set filetype=markdown
+
 "" AutoCloseTag
 au FileType xhtml,xml,mako ru ftplugin/html/autoclosetag.vim
 
@@ -78,6 +90,9 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     \ }
     " Reuse already-open buffers? (Default: 'Et')
     let g:ctrlp_switch_buffer = 0
+
+    " Ctags integration
+    nnoremap <leader>p :CtrlPTag<cr>
 "}
 
 " OmniComplete {
@@ -166,7 +181,7 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
     autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-    autocmd FileType go,golang setlocal omnifunc=gocomplete#Complete noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
+    autocmd FileType go setlocal omnifunc=gocomplete#Complete
 
     " Enable heavy omni completion.
     if !exists('g:neocomplcache_omni_patterns')
@@ -177,6 +192,7 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
     let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
     let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
+    let g:neocomplcache_omni_patterns.go = '\%(\.\|->\)\h\w*'
 
     " Use honza's snippets.
     let g:neosnippet#snippets_directory='~/.vim/bundle/snipmate-snippets/snippets'
@@ -201,3 +217,33 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     let g:undotree_SetFocusWhenToggle=1
 " }
 
+" Tagbar
+nmap <leader>t :TagbarToggle<CR>
+
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
