@@ -72,7 +72,9 @@ set splitright
 
 " General mappings
 nnoremap <leader>\ :noh<return> " Turn off highlighting
-nnoremap <silent><leader>w :call search('\u', 'W')<CR> " Jump camelcase
+nnoremap <silent><leader>w :call search('\u', 'W')<CR> " Jump TitleCase words
+
+command! W write " Write on :W, too.
 
 "" Navigation
 ""   Note: Terminal-based vim parses these key inputs differently than GUI-based
