@@ -71,7 +71,8 @@ set splitbelow
 set splitright
 
 " General mappings
-map <leader>\ :noh<return> " Turn off highlighting
+nnoremap <leader>\ :noh<return> " Turn off highlighting
+nnoremap <silent><leader>w :call search('\u', 'W')<CR> " Jump camelcase
 
 "" Navigation
 ""   Note: Terminal-based vim parses these key inputs differently than GUI-based
