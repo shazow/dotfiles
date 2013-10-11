@@ -25,7 +25,6 @@ Bundle 'alfredodeza/pytest.vim'
 Bundle 'amirh/HTML-AutoCloseTag'
 Bundle 'dgryski/vim-godef'
 Bundle 'fs111/pydoc.vim'
-Bundle 'kevinw/pyflakes-vim'
 Bundle 'leshill/vim-json'
 Bundle 'python_match.vim'
 Bundle 'pythoncomplete'
@@ -43,10 +42,7 @@ Bundle 'skammer/vim-css-color'
 Bundle 'sophacles/vim-bundle-mako'
 Bundle 'groenewege/vim-less'
 Bundle 'jnwhiteh/vim-golang'
-
-"" Disabled?
-" These are swell, but lag the bejesus out of large files. Need to
-" investigate:
+Bundle 'honza/dockerfile.vim'
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neosnippet'
 
@@ -60,6 +56,10 @@ endif
 
 "" Pep8
 let g:pep8_map='<leader>8'
+
+"" Syntastic
+let g:syntastic_python_checkers=['pyflakes', 'python']
+let g:syntastic_check_on_open=1
 
 "" Language-specific triggers
 autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
