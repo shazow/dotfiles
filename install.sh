@@ -82,3 +82,6 @@ if [ "$(uname)" == "Darwin" ]; then
     append_into ". ~/.bash_profile" ~/.profile
     append_into ". ~/.bashrc" ~/.bash_profile
 fi
+
+# Install Vundle bundles.
+vim +BundleInstall +qall
