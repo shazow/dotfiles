@@ -1,6 +1,6 @@
 # Augment environment with user-local installs
 export PYTHONPATH=$PYTHONPATH
-export PATH=~/local/bin:$PATH:/sbin:/usr/local/sbin
+export PATH=$HOME/local/bin:$DOTFILES_PATH/local/bin:$PATH:/sbin:/usr/local/sbin
 export HISTSIZE=10000
 
 HISTCONTROL=ignoreboth
@@ -49,4 +49,5 @@ OME/~}"; echo -ne "\033\\"'
     shopt -s checkwinsize
 fi
 
-
+# ./local/bin/hub-* settings
+export HUB_PATH=$HOME/local/src

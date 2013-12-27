@@ -70,8 +70,6 @@ append_into ". $path/.bashrc" ~/.bashrc
 append_into 'source $DOTFILES_PATH/.vimrc' ~/.vimrc
 append_into 'source $DOTFILES_PATH/.gvimrc' ~/.gvimrc
 
-copy "$path/local" ~/local
-
 copy "$path/.gitconfig" ~/.gitconfig
 copy "$path/.screenrc" ~/.screenrc
 

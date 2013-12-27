@@ -1,0 +1,52 @@
+#!/bin/sh
+# TODO: Support things other than Github?
+
+function usage() {
+    cat << EOF
+Usage: hub-clone GITHUB_URL [HUB_PATH]
+
+Clone GITHUB_URL repo into HUB_PATH while retaining the
+github.com/<username>/<repo> directory structure under HUB_PATH.
+HUB_PATH can also be set as an environment variable. If HUB_PATH is not set,
+then \$PWD is used.
+
+For example,
+  $ HUB_PATH=\$HOME/local/src hub-clone https://github.com/shazow/urllib3
+
+Is equivalent to,
+  $ mkdir -p \$HOME/local/src/github.com/shazow/urllib3
+  $ git clone https://github.com/shazow/urllib3 \$HOME/local/src/github.com/shazow/urllib3
+EOF
+}
+
+set -e
+
+github_url="$1"
+if [ ! "$github_url" ]; then
+    usage
+    exit 1
+fi
+
+if ! echo "$github_url" | grep -q "github.com/.*/.*"; then
+    echo "Invalid GITHUB_URL: $github_url"
+    exit 2
+fi
+
+repo_path="${github_url//*github.com\//}"
+
+
+if [ "$2" ]; then
+    HUB_PATH=$2
+fi
+
+if [ ! "$HUB_PATH" ]; then
+    HUB_PATH=$PWD
+fi
+
+if [ "$(basename $HUB_PATH)" != "github.com" ]; then
+    repo_path="github.com/$repo_path"
+fi
+repo_path=$HUB_PATH/$repo_path
+
+mkdir -p "$repo_path"
+git clone "$github_url" "$repo_path"
