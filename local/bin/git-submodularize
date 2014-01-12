@@ -1,0 +1,14 @@
+#!/bin/sh
+# Convert all git repos under CWD into submodules of the git repo in CWD.
+# Usage:
+#   $ cd ~/local/src  # Where I keep all my source mirrors
+#   $ git init
+#   $ git-submodularize
+#   $ git commit -a -m 'Submodularized.'
+#   $ git submodule foreach git pull  # Update all the things.
+
+find * -type d -name '.git' | while read p; do
+    repo_path=$p/..
+    repo_url=$(git -C "$repo_path" config --get remote.origin.url)
+    git submodule add "$repo_url" "$repo_path"
+done
