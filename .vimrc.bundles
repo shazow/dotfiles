@@ -62,7 +62,7 @@ let g:syntastic_python_checkers=['pyflakes', 'python']
 let g:syntastic_check_on_open=1
 
 "" Language-specific triggers
-autocmd BufRead,BufNewFile *.md set filetype=markdown
+autocmd BufRead,BufNewFile *.md set filetype=markdown wrap textwidth=80
 autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
 
 "" AutoCloseTag
@@ -127,16 +127,10 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     let g:neocomplcache_disable_auto_complete = 1 " Disable auto popup.
 
     inoremap <expr><TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>"
-    function! s:check_back_space()"{{{
+    function! s:check_back_space() " {{{
         let col = col('.') - 1
         return !col || getline('.')[col - 1] =~ '\s'
-    endfunction"}}
-
-    " SuperTab like snippets behavior.
-    "imap <silent><expr><TAB> neosnippet#expandable() ?
-    "            \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
-    "            \ "\<C-e>" : "\<TAB>")
-    "smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
+    endfunction " }}}
 
     " Define dictionary.
     let g:neocomplcache_dictionary_filetype_lists = {
@@ -152,8 +146,8 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     let g:neocomplcache_keyword_patterns._ = '\h\w*'
 
     " Plugin key-mappings.
-    inoremap <C-k> <Plug>(neosnippet_expand_or_jump)
-    snoremap <C-k> <Plug>(neosnippet_expand_or_jump)
+    imap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
+    smap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
 
     inoremap <expr><C-g> neocomplcache#undo_completion()
     inoremap <expr><C-l> neocomplcache#complete_common_string()
