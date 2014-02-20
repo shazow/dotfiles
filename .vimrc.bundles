@@ -62,7 +62,7 @@ let g:syntastic_python_checkers=['pyflakes', 'python']
 let g:syntastic_check_on_open=1
 
 "" Language-specific triggers
-autocmd BufRead,BufNewFile *.md set filetype=markdown wrap textwidth=80
+autocmd BufRead,BufNewFile *.md set filetype=markdown textwidth=80
 autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
 
 "" AutoCloseTag
