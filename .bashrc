@@ -208,6 +208,6 @@ function whois() { # whois but slightly less lame (parse domains out of urls)
         domain="${parts[0]}"
     fi
 
-    $(which whois) "$domain"
+    $(which whois) "${domain/www./}"
     return $?;
 }
