@@ -180,6 +180,10 @@ syn match pythonError		"[$?]" display
 syn match pythonError		"[&|]\{2,}" display
 syn match pythonError		"[=]\{3,}" display
 
+" Warnings
+syn match pythonHasTrailingComma		"=.*,$" display contained
+syn match PythonTrailingCommaWarning	",$" display containedin=pythonHasTrailingComma
+
 " TODO: Mixing spaces and tabs also may be used for pretty formatting multiline
 " statements. For now I don't know how to work around this.
 if exists("python_highlight_indent_errors") && python_highlight_indent_errors != 0
@@ -404,6 +408,8 @@ if version >= 508 || !exists("did_python_syn_inits")
   HiLink pythonOctError	    Error
   HiLink pythonHexError		Error
   HiLink pythonBinError		Error
+
+  HiLink pythonTrailingCommaWarning	Error
 
   HiLink pythonBuiltinObj	Structure
   HiLink pythonBuiltinFunc	Function
