@@ -28,6 +28,7 @@ Bundle 'fs111/pydoc.vim'
 Bundle 'leshill/vim-json'
 Bundle 'python_match.vim'
 Bundle 'pythoncomplete'
+Bundle 'hdima/python-syntax'
 Bundle 'vim-scripts/closetag.vim'
 Bundle 'vim-scripts/pep8'
 
