@@ -25,10 +25,10 @@ Bundle 'alfredodeza/pytest.vim'
 Bundle 'amirh/HTML-AutoCloseTag'
 Bundle 'dgryski/vim-godef'
 Bundle 'fs111/pydoc.vim'
-Bundle 'kevinw/pyflakes-vim'
 Bundle 'leshill/vim-json'
 Bundle 'python_match.vim'
 Bundle 'pythoncomplete'
+Bundle 'hdima/python-syntax'
 Bundle 'vim-scripts/closetag.vim'
 Bundle 'vim-scripts/pep8'
 
@@ -39,14 +39,11 @@ Bundle 'pangloss/vim-javascript'
 Bundle 'python.vim'
 Bundle 'saltstack/salt-vim.git'
 Bundle 'shazow/html5.vim'
-Bundle 'skammer/vim-css-color'
+Bundle 'ap/vim-css-color'
 Bundle 'sophacles/vim-bundle-mako'
 Bundle 'groenewege/vim-less'
 Bundle 'jnwhiteh/vim-golang'
-
-"" Disabled?
-" These are swell, but lag the bejesus out of large files. Need to
-" investigate:
+Bundle 'honza/dockerfile.vim'
 Bundle 'Shougo/neocomplcache'
 Bundle 'Shougo/neosnippet'
 
@@ -60,6 +57,10 @@ endif
 
 "" Pep8
 let g:pep8_map='<leader>8'
+
+"" Syntastic
+let g:syntastic_python_checkers=['pyflakes', 'python']
+let g:syntastic_check_on_open=1
 
 "" Language-specific triggers
 autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
@@ -127,16 +128,10 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     let g:neocomplcache_disable_auto_complete = 1 " Disable auto popup.
 
     inoremap <expr><TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>"
-    function! s:check_back_space()"{{{
+    function! s:check_back_space() " {{{
         let col = col('.') - 1
         return !col || getline('.')[col - 1] =~ '\s'
-    endfunction"}}
-
-    " SuperTab like snippets behavior.
-    "imap <silent><expr><TAB> neosnippet#expandable() ?
-    "            \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
-    "            \ "\<C-e>" : "\<TAB>")
-    "smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
+    endfunction " }}}
 
     " Define dictionary.
     let g:neocomplcache_dictionary_filetype_lists = {
@@ -152,8 +147,8 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     let g:neocomplcache_keyword_patterns._ = '\h\w*'
 
     " Plugin key-mappings.
-    inoremap <C-k> <Plug>(neosnippet_expand_or_jump)
-    snoremap <C-k> <Plug>(neosnippet_expand_or_jump)
+    imap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
+    smap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
 
     inoremap <expr><C-g> neocomplcache#undo_completion()
     inoremap <expr><C-l> neocomplcache#complete_common_string()

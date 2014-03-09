@@ -199,3 +199,15 @@ function up() { # cd to root of repository
         done
     done
 }
+
+function whois() { # whois but slightly less lame (parse domains out of urls)
+    parts=(${1//\// });
+    domain="${parts[1]}"
+
+    if [ ! "$domain" ] || [[ "$domain" != *.* ]]; then
+        domain="${parts[0]}"
+    fi
+
+    $(which whois) "${domain/www./}"
+    return $?;
+}
