@@ -63,8 +63,6 @@ let g:pep8_map='<leader>8'
 
 "" Language-specific triggers
 autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
-autocmd FileType go autocmd BufWritePre <buffer> Fmt
-autocmd FileType go autocmd BufWritePost *.go silent! !ctags -R &
 autocmd BufRead,BufNewFile *.md set filetype=markdown
 
 "" AutoCloseTag
