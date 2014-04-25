@@ -1,62 +1,70 @@
 " Bundles:
+call vundle#begin()
+
 "" Core
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 
 "" Early dependencies
-Bundle "MarcWeber/vim-addon-mw-utils"
-Bundle "tomtom/tlib_vim"
-Bundle "honza/vim-snippets"
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'honza/vim-snippets'
 
 "" Other
-Bundle 'edsono/vim-matchit'
-Bundle 'gmarik/vundle'
-Bundle 'jistr/vim-nerdtree-tabs'
-Bundle 'kien/ctrlp.vim'
-Bundle 'majutsushi/tagbar'
-Bundle 'mbbill/undotree'
-Bundle 'mileszs/ack.vim'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'scrooloose/syntastic'
-Bundle 'tpope/vim-surround'
+Plugin 'edsono/vim-matchit'
+Plugin 'gmarik/vundle'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'kien/ctrlp.vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'mbbill/undotree'
+"Plugin 'mileszs/ack.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-surround'
+Plugin 'mikewest/vimroom'
 
 "" Language support
-Bundle 'Blackrush/vim-gocode'
-Bundle 'alfredodeza/pytest.vim'
-Bundle 'amirh/HTML-AutoCloseTag'
-Bundle 'dgryski/vim-godef'
-Bundle 'fs111/pydoc.vim'
-Bundle 'leshill/vim-json'
-Bundle 'python_match.vim'
-Bundle 'pythoncomplete'
-Bundle 'hdima/python-syntax'
-Bundle 'vim-scripts/closetag.vim'
-Bundle 'vim-scripts/pep8'
+"Plugin 'Blackrush/vim-gocode'
+"Plugin 'dgryski/vim-godef'
+Plugin 'fatih/vim-go'
+Plugin 'alfredodeza/pytest.vim'
+Plugin 'amirh/HTML-AutoCloseTag'
+Plugin 'fs111/pydoc.vim'
+Plugin 'leshill/vim-json'
+Plugin 'python_match.vim'
+Plugin 'pythoncomplete'
+Plugin 'hdima/python-syntax'
+Plugin 'vim-scripts/closetag.vim'
+Plugin 'vim-scripts/pep8'
+Plugin 'tpope/vim-markdown'
 
 "" Syntax highlighting
 
-Bundle 'hail2u/vim-css3-syntax'
-Bundle 'pangloss/vim-javascript'
-Bundle 'python.vim'
-Bundle 'saltstack/salt-vim.git'
-Bundle 'shazow/html5.vim'
-Bundle 'ap/vim-css-color'
-Bundle 'sophacles/vim-bundle-mako'
-Bundle 'groenewege/vim-less'
-Bundle 'jnwhiteh/vim-golang'
-Bundle 'honza/dockerfile.vim'
-Bundle 'Shougo/neocomplcache'
-Bundle 'Shougo/neosnippet'
+Plugin 'hail2u/vim-css3-syntax'
+Plugin 'pangloss/vim-javascript'
+Plugin 'python.vim'
+Plugin 'saltstack/salt-vim.git'
+Plugin 'shazow/html5.vim'
+Plugin 'ap/vim-css-color'
+Plugin 'sophacles/vim-bundle-mako'
+Plugin 'groenewege/vim-less'
+Plugin 'jnwhiteh/vim-golang'
+Plugin 'honza/dockerfile.vim'
+Plugin 'Shougo/neocomplcache'
+Plugin 'Shougo/neosnippet'
 
 "" Extra local bundles
 if filereadable(expand("~/.vimrc.bundles"))
     source ~/.vimrc.bundles
 endif
 
+" Done adding plugins
+call vundle#end()
+
 
 " Bundle configuration: (Largely borrowed from spf13)
 
 "" Pep8
-let g:pep8_map='<leader>8'
+"let g:pep8_map='<leader>8'
 
 "" Syntastic
 let g:syntastic_python_checkers=['pyflakes', 'python']
@@ -243,3 +251,12 @@ let g:tagbar_type_go = {
     \ 'ctagsbin'  : 'gotags',
     \ 'ctagsargs' : '-sort -silent'
 \ }
+
+" vim-go
+au FileType go nmap <Leader>i <Plug>(go-import)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap gd <Plug>(go-def)

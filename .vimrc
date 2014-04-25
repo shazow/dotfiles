@@ -2,12 +2,9 @@ set nocompatible
 set runtimepath=$DOTFILES_PATH/.vim,$VIMRUNTIME
 
 " Enable vundle
-filetype on
 filetype off
-set runtimepath+=$DOTFILES_PATH/.vim/bundle/vundle/
-call vundle#rc()
+set runtimepath+=$DOTFILES_PATH/.vim/bundle/Vundle.vim
 source $DOTFILES_PATH/.vimrc.bundles
-
 
 " Syntax and encoding
 syntax on " Syntax highlighting
