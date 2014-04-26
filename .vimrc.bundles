@@ -11,7 +11,6 @@ Plugin 'honza/vim-snippets'
 
 "" Other
 Plugin 'edsono/vim-matchit'
-Plugin 'gmarik/vundle'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
@@ -23,8 +22,6 @@ Plugin 'tpope/vim-surround'
 Plugin 'mikewest/vimroom'
 
 "" Language support
-"Plugin 'Blackrush/vim-gocode'
-"Plugin 'dgryski/vim-godef'
 Plugin 'fatih/vim-go'
 Plugin 'alfredodeza/pytest.vim'
 Plugin 'amirh/HTML-AutoCloseTag'
@@ -38,7 +35,6 @@ Plugin 'vim-scripts/pep8'
 Plugin 'tpope/vim-markdown'
 
 "" Syntax highlighting
-
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'pangloss/vim-javascript'
 Plugin 'python.vim'
@@ -196,7 +192,7 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     let g:neocomplcache_omni_patterns.go = '\%(\.\|->\)\h\w*'
 
     " Use honza's snippets.
-    let g:neosnippet#snippets_directory='~/.vim/bundle/snipmate-snippets/snippets'
+    let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 
     " Enable neosnippet snipmate compatibility mode
     let g:neosnippet#enable_snipmate_compatibility = 1
@@ -259,4 +255,4 @@ au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
 au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap gd <Plug>(go-def)
+au FileType go nmap gd <Plug>(go-def-split)
