@@ -41,11 +41,6 @@ set number
 set nowrap
 set nostartofline " Maintain cursor column position across rows
 
-if has("gui_macvim")
-    set macmeta " Necessary for using meta key in mappings on OSX
-    let macvim_skip_cmd_opt_movement = 1 " Prevent MacVim from mapping fake HOME/END to M-arrow keys.
-endif
-
 " Search
 set hlsearch
 set incsearch
