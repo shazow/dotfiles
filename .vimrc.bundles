@@ -32,7 +32,6 @@ Plugin 'python_match.vim'
 Plugin 'pythoncomplete'
 Plugin 'hdima/python-syntax'
 Plugin 'vim-scripts/closetag.vim'
-Plugin 'vim-scripts/pep8'
 Plugin 'plasticboy/vim-markdown'
 
 "" Syntax highlighting
