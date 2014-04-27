@@ -261,7 +261,7 @@ au FileType go nmap gd <Plug>(go-def-split)
 " vim-markdown
 let g:vim_markdown_folding_disabled=1
 au FileType markdown nmap <leader>t :Toc<CR>
-au FileType markdown setlocal fo+=a textwidth=80 linebreak
+au FileType markdown setlocal fo+=a textwidth=80 linebreak "spell complete+=kspell
 
 " goyo (zenroom)
 let g:goyo_width=82
