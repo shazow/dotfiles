@@ -11,15 +11,16 @@ Plugin 'honza/vim-snippets'
 
 "" Other
 Plugin 'edsono/vim-matchit'
-Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'mbbill/undotree'
-"Plugin 'mileszs/ack.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
 Plugin 'mikewest/vimroom'
+Plugin 'junegunn/goyo.vim'
+Plugin 'amix/vim-zenroom2'  " Not 100% sure what the benefit of this one is over goyo.
 
 "" Language support
 Plugin 'fatih/vim-go'
@@ -32,7 +33,7 @@ Plugin 'pythoncomplete'
 Plugin 'hdima/python-syntax'
 Plugin 'vim-scripts/closetag.vim'
 Plugin 'vim-scripts/pep8'
-Plugin 'tpope/vim-markdown'
+Plugin 'plasticboy/vim-markdown'
 
 "" Syntax highlighting
 Plugin 'hail2u/vim-css3-syntax'
@@ -77,9 +78,9 @@ au FileType xhtml,xml,mako ru ftplugin/html/autoclosetag.vim
 autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
 
 " ctrlp {
-    let g:ctrlp_working_path_mode = 2
-    nnoremap <silent> <D-t> :CtrlP<CR>
-    nnoremap <silent> <D-r> :CtrlPMRU<CR>
+    let g:ctrlp_cmd = 'CtrlPMixed' " Search all the things.
+    let g:ctrlp_working_path_mode = 'ra' " Nearest ancestor
+    let g:ctrlp_mruf_max = 25
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\.git$\|\.hg$\|\.svn$',
         \ 'file': '\.exe$\|\.so$\|\.dll$' }
@@ -94,8 +95,9 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     " Reuse already-open buffers? (Default: 'Et')
     let g:ctrlp_switch_buffer = 0
 
-    " Ctags integration
-    nnoremap <leader>p :CtrlPTag<cr>
+    nnoremap <silent> <D-p> :CtrlP<CR>
+    nnoremap <silent> <D-r> :CtrlPMRU<CR>
+    nnoremap <leader>p :CtrlPTag<cr> " Ctags integration
 "}
 
 " OmniComplete {
@@ -256,3 +258,12 @@ au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap gd <Plug>(go-def-split)
+
+" vim-markdown
+let g:vim_markdown_folding_disabled=1
+au FileType markdown nmap <leader>t :Toc<CR>
+au FileType markdown setlocal fo+=a textwidth=80 linebreak
+
+" goyo (zenroom)
+let g:goyo_width=82
+nnoremap <Leader>z :Goyo<CR>

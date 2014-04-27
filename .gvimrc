@@ -1,7 +1,7 @@
 colorscheme mylokai
 
 set lines=500
-set columns=80
+set columns=100
 set guifont=:h12
 set guifont=Menlo\ Regular:h12
 
@@ -11,3 +11,5 @@ set guioptions-=r           " hide the scrollbars
 set guioptions-=R           " hide the scrollbars with vertical split
 set guioptions-=l           " hide the scrollbars
 set guioptions-=L           " hide the scrollbars with vertical split
+
+set fuopt+=maxhorz          " Resize to full screen
