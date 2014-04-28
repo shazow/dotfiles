@@ -23,7 +23,9 @@ Plugin 'junegunn/goyo.vim'
 Plugin 'amix/vim-zenroom2'  " Not 100% sure what the benefit of this one is over goyo.
 
 "" Language support
-Plugin 'fatih/vim-go'
+if $GOPATH != ""
+    Plugin 'fatih/vim-go'
+endif
 Plugin 'alfredodeza/pytest.vim'
 Plugin 'amirh/HTML-AutoCloseTag'
 Plugin 'fs111/pydoc.vim'
@@ -46,9 +48,6 @@ Plugin 'groenewege/vim-less'
 Plugin 'honza/dockerfile.vim'
 Plugin 'Shougo/neocomplcache'
 Plugin 'Shougo/neosnippet'
-if $GOPATH != ""
-    Plugin 'jnwhiteh/vim-golang'
-endif
 
 "" Extra local bundles
 if filereadable(expand("~/.vimrc.bundles"))
