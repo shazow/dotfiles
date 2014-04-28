@@ -43,10 +43,12 @@ Plugin 'shazow/html5.vim'
 Plugin 'ap/vim-css-color'
 Plugin 'sophacles/vim-bundle-mako'
 Plugin 'groenewege/vim-less'
-Plugin 'jnwhiteh/vim-golang'
 Plugin 'honza/dockerfile.vim'
 Plugin 'Shougo/neocomplcache'
 Plugin 'Shougo/neosnippet'
+if !empty($GOPATH)
+    Plugin 'jnwhiteh/vim-golang'
+endif
 
 "" Extra local bundles
 if filereadable(expand("~/.vimrc.bundles"))
