@@ -12,9 +12,8 @@ set guioptions-=R           " hide the scrollbars with vertical split
 set guioptions-=l           " hide the scrollbars
 set guioptions-=L           " hide the scrollbars with vertical split
 
-set fuopt+=maxhorz          " Resize to full screen
-
 if has("gui_macvim")
+    set fuopt+=maxhorz          " Resize to full screen
     set macmeta " Necessary for using meta key in mappings on OSX
     let macvim_skip_cmd_opt_movement = 1    " Prevent MacVim from mapping fake HOME/END to M-arrow keys.
     macmenu &Edit.Find.Find\.\.\. key=<nop> " free up Command-F
