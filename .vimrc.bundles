@@ -46,7 +46,7 @@ Plugin 'groenewege/vim-less'
 Plugin 'honza/dockerfile.vim'
 Plugin 'Shougo/neocomplcache'
 Plugin 'Shougo/neosnippet'
-if !empty($GOPATH)
+if $GOPATH != ""
     Plugin 'jnwhiteh/vim-golang'
 endif
 
