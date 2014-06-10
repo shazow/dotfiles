@@ -18,9 +18,8 @@ Plugin 'mbbill/undotree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
-Plugin 'mikewest/vimroom'
 Plugin 'junegunn/goyo.vim'
-Plugin 'amix/vim-zenroom2'  " Not 100% sure what the benefit of this one is over goyo.
+"Plugin 'amix/vim-zenroom2'  " Not 100% sure what the benefit of this one is over goyo.
 
 "" Language support
 if $GOPATH != ""
@@ -258,6 +257,7 @@ au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap gd <Plug>(go-def-split)
+au FileType go nmap gD <Plug>(go-def)
 
 " vim-markdown
 let g:vim_markdown_folding_disabled=1
