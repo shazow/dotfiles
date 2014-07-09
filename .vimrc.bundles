@@ -19,7 +19,8 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
 Plugin 'junegunn/goyo.vim'
-"Plugin 'amix/vim-zenroom2'  " Not 100% sure what the benefit of this one is over goyo.
+Plugin 'tpope/vim-fugitive' " For gitv
+Plugin 'gregsexton/gitv'
 
 "" Language support
 if $GOPATH != ""
