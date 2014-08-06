@@ -1,4 +1,3 @@
-install atk
 install autoconf
 install automake
 install boot2docker
@@ -76,8 +75,25 @@ install the_silver_searcher
 install tree
 install unrar
 install watch
-install weechat
 install wget
 install xz
 install yasm
 install zeromq
+
+# Caskroom
+install caskroom/cask/brew-cask
+cask install adium
+cask install dropbox
+cask install firefox
+cask install flux
+cask install google-chrome
+cask install google-music
+cask install gpgtools
+cask install iterm2
+cask install mumble
+cask install ps3-media-server
+cask install skype
+cask install steam
+cask install vagrant
+cask install virtualbox
+cask install vlc
