@@ -82,4 +82,5 @@ if [ "$(uname)" == "Darwin" ]; then
 fi
 
 # Install Vundle bundles.
+export DOTFILES_PATH="$path"
 vim +BundleInstall +qall
