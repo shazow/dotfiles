@@ -1,6 +1,6 @@
 # Augment environment with user-local installs
 export PYTHONPATH=$PYTHONPATH
-export PATH=$HOME/local/bin:$DOTFILES_PATH/local/bin:$PATH:/sbin:/usr/local/sbin
+export PATH=$HOME/local/bin:$DOTFILES_PATH/local/bin:/usr/local/bin:$PATH:/sbin:/usr/local/sbin
 export HISTSIZE=10000
 
 HISTCONTROL=ignoreboth
