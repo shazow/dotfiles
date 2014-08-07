@@ -41,7 +41,7 @@ install libtasn1
 install libtiff
 install libtool
 install libyaml
-install macvim
+install macvim --override-system-vim
 install md5sha1sum
 install mpg123
 install mplayer
@@ -82,18 +82,21 @@ install zeromq
 
 # Caskroom
 install caskroom/cask/brew-cask
+tap caskroom/versions
+
 cask install adium
 cask install dropbox
-cask install firefox
+cask install firefox-beta
 cask install flux
-cask install google-chrome
-cask install google-music
+cask install google-chrome-beta
 cask install gpgtools
-cask install iterm2
+cask install iterm2-beta
 cask install mumble
 cask install ps3-media-server
 cask install skype
 cask install steam
+cask install torbrowser
+cask install transmission
 cask install vagrant
 cask install virtualbox
 cask install vlc
