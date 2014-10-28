@@ -84,7 +84,7 @@ install zeromq
 install caskroom/cask/brew-cask
 tap caskroom/versions
 
-cask install adium
+cask install adium-beta
 cask install dropbox
 cask install firefox-beta
 cask install flux
