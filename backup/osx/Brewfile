@@ -1,0 +1,102 @@
+install autoconf
+install automake
+install boot2docker
+install cairo
+install cloc
+install cmake
+install coreutils
+install cscope
+install ctags
+install docker
+install exif
+install fontconfig
+install fontforge
+install freetype
+install gdbm
+install gdk-pixbuf
+install gettext
+install git
+install glib
+install gmp
+install gnupg
+install gnutls
+install go
+install gobject-introspection
+install gtk+3
+install harfbuzz
+install htop-osx
+install icu4c
+install imagemagick
+install intltool
+install irssi
+install jpeg
+install json-c
+install libevent
+install libexif
+install libffi
+install libgcrypt
+install libgpg-error
+install libpng
+install libtasn1
+install libtiff
+install libtool
+install libyaml
+install macvim --override-system-vim
+install md5sha1sum
+install mpg123
+install mplayer
+install nettle
+install nmap
+install node
+install openssl
+install optipng
+install ossp-uuid
+install p11-kit
+install p7zip
+install pango
+install pcre
+install phantomjs
+install pixman
+install pkg-config
+install popt
+install postgresql
+install pypy
+install python
+install python3
+install qt5
+install readline
+install ruby
+install s3cmd
+install spark
+install sqlite
+install sshuttle
+install terminal-notifier
+install the_silver_searcher
+install tree
+install unrar
+install watch
+install wget
+install xz
+install yasm
+install zeromq
+
+# Caskroom
+install caskroom/cask/brew-cask
+tap caskroom/versions
+
+cask install adium-beta
+cask install dropbox
+cask install firefox-beta
+cask install flux
+cask install google-chrome-beta
+cask install gpgtools
+cask install iterm2-beta
+cask install mumble
+cask install ps3-media-server
+cask install skype
+cask install steam
+cask install torbrowser
+cask install transmission
+cask install vagrant
+cask install virtualbox
+cask install vlc

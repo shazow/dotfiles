@@ -257,8 +257,12 @@ au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
 au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <Leader>e <Plug>(go-rename)
 au FileType go nmap gd <Plug>(go-def-split)
 au FileType go nmap gD <Plug>(go-def)
+
+let g:go_def_mapping_enabled = 0
+let g:go_fmt_command = "goimports"
 
 " vim-markdown
 let g:vim_markdown_folding_disabled=1
