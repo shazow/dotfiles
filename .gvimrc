@@ -18,4 +18,6 @@ if has("gui_macvim")
     set visualbell t_vb=    " Disable the boop sound.
     let macvim_skip_cmd_opt_movement = 1    " Prevent MacVim from mapping fake HOME/END to M-arrow keys.
     map <D-f> :set invfu<CR>                " toggle fullscreen mode
+else
+    set laststatus=2
 endif
