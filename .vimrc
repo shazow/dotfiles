@@ -143,10 +143,21 @@ set list listchars=tab:>\ ,trail:.,extends:$,nbsp:_
 set fillchars=fold:-
 
 " Evaporate rogue spaces
-function! StripWhitespace ()
+function! StripWhitespace()
     exec ':%s/\s*$//g'
 endfunction
-noremap <leader><space> :call StripWhitespace ()<CR>
+noremap <leader><space> :call StripWhitespace()<CR>
+
+
+" Find the nearest Makefile and run it
+function! MakeUp()
+    let makefile = findfile("Makefile", ".;")
+    echo "Found: " . makefile
+    if makefile != ""
+        exe "make --file=" . makefile
+    endif
+endfunction
+autocmd BufWritePost *.scss call MakeUp()
 
 
 " Extra:
