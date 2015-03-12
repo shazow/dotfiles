@@ -142,6 +142,7 @@ endif
 set list listchars=tab:>\ ,trail:.,extends:$,nbsp:_
 set fillchars=fold:-
 
+
 " Evaporate rogue spaces
 function! StripWhitespace()
     exec ':%s/\s*$//g'
@@ -152,7 +153,6 @@ noremap <leader><space> :call StripWhitespace()<CR>
 " Find the nearest Makefile and run it
 function! MakeUp()
     let makefile = findfile("Makefile", ".;")
-    echo "Found: " . makefile
     if makefile != ""
         exe "make --file=" . makefile
     endif
