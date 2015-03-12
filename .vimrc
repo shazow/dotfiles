@@ -154,7 +154,7 @@ noremap <leader><space> :call StripWhitespace()<CR>
 function! MakeUp()
     let makefile = findfile("Makefile", ".;")
     if makefile != ""
-        exe "make --file=" . makefile
+        exe "make -C " . fnamemodify(makefile, ':p:h')
     endif
 endfunction
 autocmd BufWritePost *.scss call MakeUp()
