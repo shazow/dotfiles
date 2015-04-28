@@ -3,7 +3,8 @@ set runtimepath=$DOTFILES_PATH/.vim,$VIMRUNTIME
 
 " Enable vundle
 filetype off
-set runtimepath+=$DOTFILES_PATH/.vim/bundle/Vundle.vim
+set shell=/bin/bash  " Vundle requires a POSIX shell.
+set runtimepath+=~/.vim/bundle/Vundle.vim,$DOTFILES_PATH/.vim/bundle/Vundle.vim
 source $DOTFILES_PATH/.vimrc.bundles
 
 " Syntax and encoding
@@ -154,7 +155,7 @@ noremap <leader><space> :call StripWhitespace()<CR>
 function! MakeUp()
     let makefile = findfile("Makefile", ".;")
     if makefile != ""
-        exe "make -C " . fnamemodify(makefile, ':p:h')
+        silent exe "make -C " . fnamemodify(makefile, ':p:h')
     endif
 endfunction
 autocmd BufWritePost *.scss call MakeUp()
