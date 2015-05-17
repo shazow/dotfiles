@@ -3,8 +3,8 @@ export PYTHONPATH=$PYTHONPATH
 export GOPATH=$HOME/local/go
 export PATH=$HOME/local/bin:$DOTFILES_PATH/local/bin:/usr/local/bin:$PATH:/sbin:/usr/local/sbin
 export HISTSIZE=10000
-
-HISTCONTROL=ignoreboth
+export HISTCONTROL=ignoreboth
+export VISUAL="$(which vim)"
 shopt -s histappend
 
 # Colorize ls by default
