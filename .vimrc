@@ -1,5 +1,6 @@
 set nocompatible
 set runtimepath=$DOTFILES_PATH/.vim,$VIMRUNTIME
+set background=dark
 
 " Figure out the system Python for Neovim.
 if exists("$VIRTUAL_ENV")
@@ -7,6 +8,10 @@ if exists("$VIRTUAL_ENV")
 else
     let g:python_host_prog=substitute(system("which python"), '\n', '', 'g')
 endif
+
+" Enable some nvim features.
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 " Enable vundle
 filetype off
