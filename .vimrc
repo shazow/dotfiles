@@ -1,6 +1,14 @@
 set nocompatible
 set runtimepath=$DOTFILES_PATH/.vim,$VIMRUNTIME
 
+" Figure out the system Python for Neovim.
+if exists("$VIRTUAL_ENV")
+    let g:python_host_prog=substitute(system("which -a python | head -n2 | tail -n1"), '\n', '', 'g')
+else
+    let g:python_host_prog=substitute(system("which python"), '\n', '', 'g')
+endif
+
+
 " Enable vundle
 filetype off
 set shell=/bin/bash  " Vundle requires a POSIX shell.
