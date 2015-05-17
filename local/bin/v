@@ -1,0 +1,17 @@
+#!/bin/bash
+if [[ "$TERM" == "screen" ]]; then
+    vim $@
+    exit $?
+fi
+
+if $(which -s gvim); then
+    gvim $@
+    exit $?
+fi
+
+if $(which -s open); then
+    open -a NeoVim $@ || open -a MacVim $@
+    exit $?
+fi
+
+vim $@
