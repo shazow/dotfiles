@@ -8,7 +8,6 @@ else
     let g:python_host_prog=substitute(system("which python"), '\n', '', 'g')
 endif
 
-
 " Enable vundle
 filetype off
 set shell=/bin/bash  " Vundle requires a POSIX shell.
@@ -174,3 +173,9 @@ autocmd BufWritePost *.scss call MakeUp()
 "" Fix bug in css syntax highlighting overriding css-color.
 "" FIXME: Remove when https://github.com/ChrisYip/Better-CSS-Syntax-for-Vim/issues/4 is fixed
 au Filetype css,less source ~/.vim/bundle/vim-css-color/after/syntax/css.vim
+
+
+" Load gvimrc if it wasn't loaded already.
+if has('gui_running') && !exists("g:gvimrc_init")
+    source $DOTFILES_PATH/.gvimrc
+endif
