@@ -1,8 +1,3 @@
-if [[ $- != *i* ]] ; then
-    # Shell is non-interactive.  Be done now!
-    return
-fi
-
 if [ "$TERM" == "screen" ]; then
     # Screen doesn't load .bash_profile?
     . $DOTFILES_PATH/.bash_profile
@@ -16,6 +11,11 @@ for f in ${load_files[@]}; do
         source $f
     fi
 done
+
+if [[ $- != *i* ]] ; then
+    # Shell is non-interactive.  Be done now!
+    return
+fi
 
 
 # Helper functions
