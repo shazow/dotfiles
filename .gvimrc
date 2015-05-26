@@ -1,6 +1,7 @@
 let g:gvimrc_init = 1
 
 colorscheme mylokai
+set noerrorbells " Disable error bells
 
 if !has("nvim")
     set lines=500
