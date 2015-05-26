@@ -4,14 +4,16 @@ if [[ "$TERM" == "screen" ]]; then
     exit $?
 fi
 
-if $(which -s gvim); then
-    gvim $@
-    exit $?
-fi
+vims=("/Applications/Neovim.app" $(which gvim) "/Applications/MacVim.app" "vim")
 
-if $(which -s open); then
-    open -a NeoVim $@ || open -a MacVim $@
-    exit $?
-fi
-
-vim $@
+for p in ${vims[@]}; do
+    if [[ "$p" == *.app ]]; then
+        if [[ -d "$p" ]]; then
+            open -a "$p" $@
+            exit $?
+        fi
+    else
+        $p $@
+        exit $?
+    fi
+done
