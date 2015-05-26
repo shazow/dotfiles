@@ -215,36 +215,37 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     let g:undotree_SetFocusWhenToggle=1
 " }
 
-" Tagbar
-nmap <leader>t :TagbarToggle<CR>
+" Tagbar {
+    nmap <leader>t :TagbarToggle<CR>
 
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-\ }
+    let g:tagbar_type_go = {
+        \ 'ctagstype' : 'go',
+        \ 'kinds'     : [
+            \ 'p:package',
+            \ 'i:imports:1',
+            \ 'c:constants',
+            \ 'v:variables',
+            \ 't:types',
+            \ 'n:interfaces',
+            \ 'w:fields',
+            \ 'e:embedded',
+            \ 'm:methods',
+            \ 'r:constructor',
+            \ 'f:functions'
+        \ ],
+        \ 'sro' : '.',
+        \ 'kind2scope' : {
+            \ 't' : 'ctype',
+            \ 'n' : 'ntype'
+        \ },
+        \ 'scope2kind' : {
+            \ 'ctype' : 't',
+            \ 'ntype' : 'n'
+        \ },
+        \ 'ctagsbin'  : 'gotags',
+        \ 'ctagsargs' : '-sort -silent'
+    \ }
+" }
 
 " vim-go
 au FileType go nmap <Leader>i <Plug>(go-import)
@@ -270,4 +271,4 @@ let g:goyo_width=82
 nnoremap <Leader>z :Goyo<CR>
 
 " neomake
-autocmd! BufWritePost * Neomake
+autocmd! BufWritePost *.py Neomake
