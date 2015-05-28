@@ -130,10 +130,10 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     let g:neocomplcache_disable_auto_complete = 1 " Disable auto popup.
 
     inoremap <expr><TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>"
-    function! s:check_back_space() " {{{
+    function! s:check_back_space()
         let col = col('.') - 1
         return !col || getline('.')[col - 1] =~ '\s'
-    endfunction " }}}
+    endfunction
 
     " Define dictionary.
     let g:neocomplcache_dictionary_filetype_lists = {
@@ -271,3 +271,4 @@ nnoremap <Leader>z :Goyo<CR>
 
 " neomake
 autocmd! BufWritePost *.py Neomake
+autocmd! BufWritePost *.go Neomake!
