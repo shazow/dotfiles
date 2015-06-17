@@ -216,7 +216,7 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
 " }
 
 " Tagbar {
-    nmap <leader>t :TagbarToggle<CR>
+    nmap <leader>ta :TagbarToggle<CR>
 
     let g:tagbar_type_go = {
         \ 'ctagstype' : 'go',
@@ -250,9 +250,10 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
 " vim-go
 au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
 au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>r <Plug>(go-rename)
+au FileType go nmap <leader>re <Plug>(go-rename)
+au FileType go nmap <leader>te <Plug>(go-test)
 au FileType go nmap <leader>in <Plug>(go-info)
 au FileType go nmap <leader>ii <Plug>(go-implements)
 au FileType go nmap gd <Plug>(go-def-split)
@@ -272,4 +273,4 @@ nnoremap <Leader>z :Goyo<CR>
 
 " neomake
 autocmd! BufWritePost *.py Neomake
-autocmd! BufWritePost *.go Neomake!
+"autocmd! BufWritePost *.go Neomake!

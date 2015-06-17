@@ -152,6 +152,15 @@ function _complete_go() { # Autocomplete function for go
 }
 complete -F _complete_go go
 
+function exitenv() {
+    export PS1="${PS1##(*) }"
+}
+
+function enterenv() { # Add $1 to $PS1
+    exitenv
+    export PS1="($1) $PS1"
+}
+
 function create_virtualenv() { # Make a fresh virtualenv [for some existing directory [with a give environment name]]
     if [ "$VIRTUAL_ENV" ]; then
         deactivate
