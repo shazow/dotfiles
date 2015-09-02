@@ -142,7 +142,7 @@ function go() { # Jump to a project (and activate environment)
         # Load project profile (e.g. virtualenv)
         [ -e .profile ] && . .profile
     elif [ "$BIN_GO" ]; then
-        $BIN_GO $*
+        $(which go) $*
         return
     fi
 }

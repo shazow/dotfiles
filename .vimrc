@@ -1,6 +1,7 @@
 set nocompatible
 set runtimepath=$DOTFILES_PATH/.vim,$VIMRUNTIME
 set background=dark
+colorscheme mylokai
 
 " Figure out the system Python for Neovim.
 if exists("$VIRTUAL_ENV")
@@ -10,7 +11,7 @@ else
 endif
 
 " Enable some nvim features.
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+"let $NVIM_TUI_ENABLE_TRUE_COLOR=1  " Broken, pending: https://github.com/neovim/neovim/issues/2953
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 " Enable vundle
@@ -38,6 +39,8 @@ if has('persistent_undo')
 endif
 
 " General settings
+set t_Co=256 " Enable 256 colors for terminals
+set mouse=nicr " Enable mouse in terminals
 set encoding=utf-8
 set termencoding=utf-8
 set tabstop=4 " Tab
@@ -88,60 +91,37 @@ command! W write " Write on :W, too.
 command! E edit " Edit on :E, too.
 
 "" Navigation
-""   Note: Terminal-based vim parses these key inputs differently than GUI-based
-""   vim, so we need two versions of these two-key bindings. :'(
-if has("gui_running")
-  """ Panes
-  nnoremap <M-right> <C-w>l " (alt-right)
-  nnoremap <M-left> <C-w>h " (alt-left)
-  nnoremap <M-down> <C-w>j " (alt-down)
-  nnoremap <M-up> <C-w>k " (alt-up)
+""" Panes
+nnoremap <M-right> <C-w>l " (alt-right)
+nnoremap <M-left> <C-w>h " (alt-left)
+nnoremap <M-down> <C-w>j " (alt-down)
+nnoremap <M-up> <C-w>k " (alt-up)
 
-  nnoremap <M-,> :split<CR> " Horizontal split (alt-,)
-  nnoremap <M-.> :vsplit<CR> " Vertical split (alt-.)
-  nnoremap <M-/> :close<CR> " Close split (alt-/)
+nnoremap <M-l> :topleft split<CR> " Horizontal split (alt-l)
+nnoremap <M-k> :topleft vsplit<CR> " Vertical split (alt-k)
+nnoremap <M-;> :close<CR> " Close split (alt-/)
 
-  nnoremap <M-k> <C-w>t<C-w>K " Convert vertical to horizontal split (alt-<)
-  nnoremap <M-l> <C-w>t<C-w>H " Convert horizontal to vertical split (alt->)
+nnoremap <M-h> <C-w>t<C-w>K " Convert vertical to horizontal split (alt-h)
+nnoremap <M-j> <C-w>t<C-w>H " Convert horizontal to vertical split (alt-j)
 
-  """ Buffers
-  nnoremap <M-]> :bnext<CR>
-  nnoremap <M-[> :bprev<CR>
-  nnoremap <M-\> :bdelete<CR>
+nnoremap <M->> <C-w>> " Resize width
+nnoremap <M-<> <C-w>< " Resize width
+nnoremap <M-_> <C-w>- " Resize height
+nnoremap <M-+> <C-w>+ " Resize height
 
-  """ Tabs
-  nnoremap <M->> :tabnext<CR>
-  nnoremap <M-<> :tabprev<CR>
-  nnoremap <M-?> :tabclose<CR>
-  nnoremap <M-M> :tabnew<CR>
+""" Buffers
+nnoremap <M-.> :bnext<CR>
+nnoremap <M-,> :bprev<CR>
+nnoremap <M-/> :bdelete<CR>
 
-else
-  " (These are the same bindings as above, but generated using insert alt-v input.)
-
-  """ Panes
-  "nnoremap <Esc>C <C-w>l " (alt-right)
-  "nnoremap <Esc>D <C-w>h " (alt-left)
-  "nnoremap <Esc>B <C-w>j " (alt-down)
-  "nnoremap <Esc>A <C-w>k " (alt-up)
-
-  nnoremap ≤ :split<CR> " Horizontal split (alt-,)
-  nnoremap ≥ :vsplit<CR> " Vertical split (alt-.)
-  nnoremap ÷ :close<CR> " Close split (alt-/)
-
-  nnoremap ¬ <C-w>t<C-w>K " Convert vertical to horizontal split (alt-l)
-  nnoremap ˚ <C-w>t<C-w>H " Convert horizontal to vertical split (alt-k)
-
-  """ Buffers
-  nnoremap “ :bnext<CR> " alt-[
-  nnoremap ‘ :bprev<CR> " alt-]
-  nnoremap « :bdelete<CR> " alt-\
-
-  """ Tabs
-  nnoremap ¯ :tabnext<CR> " alt->
-  nnoremap ˘ :tabprev<CR> " alt-<
-  nnoremap ¿ :tabclose<CR> " alt-?
-  nnoremap Â :tabnew<CR> " alt-M
-endif
+""" Tabs
+nnoremap <M-]> :tabnext<CR>
+nnoremap <M-[> :tabprev<CR>
+nnoremap <M-}> :tabmove +1<CR>
+nnoremap <M-{> :tabmove -1<CR>
+nnoremap <M-w> :tabclose<CR>
+nnoremap <M-t> :tabnew %<CR>
+nnoremap <M-T> :call PaneToTab()<CR>
 
 
 " Keep vim's directory context same as the current buffer
@@ -171,6 +151,12 @@ function! MakeUp()
     endif
 endfunction
 autocmd BufWritePost *.scss call MakeUp()
+
+
+" Open the current pane in a tab and close the pane
+func! PaneToTab()
+    silent exe "close | tabnew" . expand("%:p")
+endfunction
 
 
 " Extra:

@@ -12,7 +12,7 @@ Plugin 'honza/vim-snippets'
 "" Other
 Plugin 'edsono/vim-matchit'
 Plugin 'scrooloose/nerdtree'
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'mbbill/undotree'
 Plugin 'scrooloose/nerdcommenter'
@@ -50,6 +50,10 @@ Plugin 'groenewege/vim-less'
 Plugin 'honza/dockerfile.vim'
 Plugin 'Shougo/neocomplcache'
 Plugin 'Shougo/neosnippet'
+Plugin 'tikhomirov/vim-glsl'
+
+"" Colorschemes
+Plugin 'freeo/vim-kalisi'
 
 
 "" Extra local bundles
@@ -252,6 +256,7 @@ au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
 au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
 au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>ru <Plug>(go-run)
 au FileType go nmap <leader>re <Plug>(go-rename)
 au FileType go nmap <leader>te <Plug>(go-test)
 au FileType go nmap <leader>in <Plug>(go-info)
