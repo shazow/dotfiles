@@ -39,7 +39,7 @@ if has('persistent_undo')
 endif
 
 " General settings
-set t_Co=256 " Enable 256 colors for terminals
+"set t_Co=256 " Enable 256 colors for terminals
 set mouse=nicr " Enable mouse in terminals
 set encoding=utf-8
 set termencoding=utf-8
@@ -155,7 +155,7 @@ autocmd BufWritePost *.scss call MakeUp()
 
 " Open the current pane in a tab and close the pane
 func! PaneToTab()
-    silent exe "close | tabnew" . expand("%:p")
+    silent exe "close | tabnew +" . line(".") . " " . expand("%:p")
 endfunction
 
 

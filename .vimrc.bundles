@@ -26,7 +26,7 @@ Plugin 'gregsexton/gitv'
 if $GOPATH != ""
     Plugin 'fatih/vim-go'
 endif
-Plugin 'alfredodeza/pytest.vim'
+Plugin 'janko-m/vim-test'
 Plugin 'amirh/HTML-AutoCloseTag'
 Plugin 'fs111/pydoc.vim'
 Plugin 'leshill/vim-json'
