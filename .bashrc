@@ -209,7 +209,7 @@ function up() { # cd to root of repository
     done
 }
 
-function whois() { # whois but slightly less lame (parse domains out of urls)
+function domain() { # http://www.foo.com/bar -> foo.com
     parts=(${1//\// });
     domain="${parts[1]}"
 
@@ -217,6 +217,14 @@ function whois() { # whois but slightly less lame (parse domains out of urls)
         domain="${parts[0]}"
     fi
 
-    $(which whois) "${domain/www./}"
+    echo "${domain/www./}"
+}
+
+function whois() { # whois but slightly less lame (parse domains out of urls)
+    $(which whois) "$(domain $1)"
     return $?;
+}
+
+function dns() { # dig wrapper for returning all records
+    dig +nocmd "$(domain $1)" any +multiline +noall +answer
 }

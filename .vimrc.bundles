@@ -25,6 +25,7 @@ Plugin 'gregsexton/gitv'
 "" Language support
 if $GOPATH != ""
     Plugin 'fatih/vim-go'
+    Plugin 'rhysd/vim-go-impl'
 endif
 Plugin 'janko-m/vim-test'
 Plugin 'amirh/HTML-AutoCloseTag'
