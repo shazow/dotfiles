@@ -21,6 +21,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'junegunn/goyo.vim'
 Plugin 'tpope/vim-fugitive' " For gitv
 Plugin 'gregsexton/gitv'
+Plugin 'jeetsukumaran/vim-indentwise'
 
 "" Language support
 if $GOPATH != ""
@@ -259,7 +260,7 @@ au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>ru <Plug>(go-run)
 au FileType go nmap <leader>re <Plug>(go-rename)
-au FileType go nmap <leader>te <Plug>(go-test)
+au FileType go nmap <leader>te <plug>(go-test)
 au FileType go nmap <leader>in <Plug>(go-info)
 au FileType go nmap <leader>ii <Plug>(go-implements)
 au FileType go nmap gd <Plug>(go-def-split)

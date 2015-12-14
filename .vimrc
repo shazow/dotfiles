@@ -165,6 +165,8 @@ endfunction
 "" FIXME: Remove when https://github.com/ChrisYip/Better-CSS-Syntax-for-Vim/issues/4 is fixed
 au Filetype css,less source ~/.vim/bundle/vim-css-color/after/syntax/css.vim
 
+"" Move the quickfix window to the very bottom.
+autocmd FileType qf wincmd J
 
 " Load gvimrc if it wasn't loaded already.
 if has('gui_running') && !exists("g:gvimrc_init")
