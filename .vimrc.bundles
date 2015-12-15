@@ -20,8 +20,9 @@ Plugin 'benekastah/neomake' " Replaces syntastic
 Plugin 'tpope/vim-surround'
 Plugin 'junegunn/goyo.vim'
 Plugin 'tpope/vim-fugitive' " For gitv
-Plugin 'gregsexton/gitv'
-Plugin 'jeetsukumaran/vim-indentwise'
+Plugin 'gregsexton/gitv' " gitk for vim
+Plugin 'jeetsukumaran/vim-indentwise' " Indent-based jumps
+Plugin 'alvan/vim-closetag' " Auto-close HTML tags
 
 "" Language support
 if $GOPATH != ""
@@ -29,28 +30,24 @@ if $GOPATH != ""
     Plugin 'rhysd/vim-go-impl'
 endif
 Plugin 'janko-m/vim-test'
-Plugin 'amirh/HTML-AutoCloseTag'
-Plugin 'fs111/pydoc.vim'
 Plugin 'leshill/vim-json'
-Plugin 'python_match.vim'
-Plugin 'pythoncomplete'
 Plugin 'hdima/python-syntax'
-Plugin 'davidhalter/jedi-vim'
+Plugin 'hynek/vim-python-pep8-indent'
+Plugin 'davidhalter/jedi-vim' " Python static analysis engine
 Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'vim-scripts/closetag.vim'
 Plugin 'plasticboy/vim-markdown'
+Plugin 'Shougo/deoplete.nvim' " Replaces neocomplcache
+Plugin 'Shougo/neopairs.vim' " Close parens
 
 "" Syntax highlighting
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'pangloss/vim-javascript'
-Plugin 'python.vim'
 Plugin 'saltstack/salt-vim.git'
 Plugin 'othree/html5.vim'
 Plugin 'ap/vim-css-color'
 Plugin 'sophacles/vim-bundle-mako'
 Plugin 'groenewege/vim-less'
 Plugin 'honza/dockerfile.vim'
-Plugin 'Shougo/neocomplcache'
 Plugin 'Shougo/neosnippet'
 Plugin 'tikhomirov/vim-glsl'
 
@@ -74,7 +71,7 @@ autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd BufRead,BufNewFile *.md set filetype=markdown
 
 "" AutoCloseTag
-au FileType xhtml,xml,mako ru ftplugin/html/autoclosetag.vim
+let g:closetag_filenames = "*.html,*.xml,*.mako"
 
 " Matchit
 autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
@@ -122,78 +119,38 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     " Automatically open and close the popup menu / preview window
     au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
     set completeopt=menu,preview,longest
-" }
-
-" neocomplcache {
-    let g:acp_enableAtStartup = 0
-    let g:neocomplcache_enable_at_startup = 1
-    let g:neocomplcache_enable_camel_case_completion = 1
-    let g:neocomplcache_enable_smart_case = 1
-    let g:neocomplcache_enable_underbar_completion = 1
-    let g:neocomplcache_enable_auto_delimiter = 1
-    let g:neocomplcache_max_list = 15
-    let g:neocomplcache_force_overwrite_completefunc = 1
-    let g:neocomplcache_disable_auto_complete = 1 " Disable auto popup.
-
-    inoremap <expr><TAB> pumvisible() ? "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>"
-    function! s:check_back_space()
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1] =~ '\s'
-    endfunction
-
-    " Define dictionary.
-    let g:neocomplcache_dictionary_filetype_lists = {
-                \ 'default' : '',
-                \ 'vimshell' : $HOME.'/.vimshell_hist',
-                \ 'scheme' : $HOME.'/.gosh_completions'
-                \ }
-
-    " Define keyword.
-    if !exists('g:neocomplcache_keyword_patterns')
-        let g:neocomplcache_keyword_patterns = {}
-    endif
-    let g:neocomplcache_keyword_patterns._ = '\h\w*'
-
-    " Plugin key-mappings.
-    imap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
-    smap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
-
-    inoremap <expr><C-g> neocomplcache#undo_completion()
-    inoremap <expr><C-l> neocomplcache#complete_common_string()
-    inoremap <expr><CR> neocomplcache#complete_common_string()
-
-    " <TAB>: completion.
-    "inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-    "inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
-
-    " <CR>: close popup
-    " <s-CR>: close popup and save indent.
-    inoremap <expr><s-CR> pumvisible() ? neocomplcache#close_popup()"\<CR>" : "\<CR>"
-    inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
-
-    " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><C-h> neocomplcache#close_popup()
 
     " Enable omni completion.
     autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
     autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
     autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType python setlocal omnifunc=jedi#completions
     autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
     autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
     autocmd FileType go setlocal omnifunc=gocomplete#Complete
+" }
 
-    " Enable heavy omni completion.
-    if !exists('g:neocomplcache_omni_patterns')
-        let g:neocomplcache_omni_patterns = {}
-    endif
-    let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-    let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-    let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-    let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-    let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-    let g:neocomplcache_omni_patterns.go = '\%(\.\|->\)\h\w*'
+" deoplete {
+    let g:deoplete#enable_at_startup = 1
+
+    " Tab-complete
+    inoremap <silent><expr> <Tab>
+    \ pumvisible() ? "\<C-n>" : "\<TAB>"
+
+    " Use head matcher instead of fuzzy matcher
+    call deoplete#custom#set('_', 'matchers', ['matcher_head'])
+
+    " doplete + vim-jedi for Python
+    "let g:jedi#completions_enabled = 0
+    "let g:jedi#auto_vim_configuration = 0
+    "let g:jedi#smart_auto_mappings = 0
+    "let g:jedi#show_call_signatures = 0
+" }
+
+" neosnippet {
+    imap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
+    smap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
 
     " Use honza's snippets.
     let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
