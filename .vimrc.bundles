@@ -49,6 +49,7 @@ Plug 'groenewege/vim-less'
 Plug 'honza/dockerfile.vim'
 Plug 'Shougo/neosnippet'
 Plug 'tikhomirov/vim-glsl'
+Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' } " optional syntax highlighting for RFC files
 
 "" Colorschemes
 Plug 'freeo/vim-kalisi'
