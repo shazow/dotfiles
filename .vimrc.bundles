@@ -333,7 +333,7 @@ function! LightLineFilename()
   let fname = expand('%:t')
   if fname == ''
       let fname = '[No Name]'
-  elseif winwidth(0) > 70 && strlen(rootpath) > 0
+  elseif strlen(rootpath) > 0
       " /usr/src/myrepo - /usr/src/myrepo/subdir/foo = subdir/foo
       let fname = strpart(expand('%:p'), len(rootpath) + 1)
   elseif winwidth(0) > 50
