@@ -143,6 +143,12 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
       return !col || getline('.')[col - 1] =~ '\s'
     endfunction
 
+    " <CR>: close popup and save indent.
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    function! s:my_cr_function() abort
+        return deoplete#mappings#close_popup() . "\<CR>"
+    endfunction
+
     imap <silent><expr> <TAB>
           \ pumvisible() ? "\<C-n>" :
           \ <SID>check_back_space() ? "\<TAB>" :
@@ -153,10 +159,10 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     "call deoplete#custom#set('_', 'matchers', ['matcher_head'])
 
     " doplete + vim-jedi for Python
-    "let g:jedi#completions_enabled = 0
-    "let g:jedi#auto_vim_configuration = 0
-    "let g:jedi#smart_auto_mappings = 0
-    "let g:jedi#show_call_signatures = 0
+    let g:jedi#completions_enabled = 0
+    let g:jedi#auto_vim_configuration = 0
+    let g:jedi#smart_auto_mappings = 0
+    let g:jedi#show_call_signatures = 0
 " }
 
 " neosnippet {
@@ -256,27 +262,27 @@ set noshowmode " Hide INSERT etc
 
 "" Borrowed from fatih/dotfiles
 let g:lightline = {
+      \ 'colorscheme': 'jellybeans',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste'],
-      \             [ 'fugitive', 'filename', 'modified', 'ctrlpmark' ],
+      \             [ 'filename' ],
       \             [ 'go'] ],
-      \   'right': [ [ 'lineinfo' ], 
-      \              [ 'percent' ], 
-      \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'filetype' ] ]
       \ },
       \ 'inactive': {
       \   'left': [ [ 'go'] ],
       \ },
+      \ 'subseparator': { 'left': "\u00B7" },
       \ 'component_function': {
       \   'modified': 'LightLineModified',
       \   'filename': 'LightLineFilename',
-	    \   'go': 'LightLineGo',
+      \   'go': 'LightLineGo',
       \   'fileformat': 'LightLineFileformat',
       \   'filetype': 'LightLineFiletype',
       \   'fileencoding': 'LightLineFileencoding',
       \   'mode': 'LightLineMode',
-      \   'fugitive': 'LightLineFugitive',
-      \   'ctrlpmark': 'CtrlPMark',
       \ },
       \ }
 
@@ -292,56 +298,14 @@ function! LightLineModified()
   endif
 endfunction
 
-function! LightLineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-
 function! LightLineFiletype()
   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! LightLineFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! LightLineFugitive()
-    if exists("*fugitive#head")
-    let _ = fugitive#head()
-    return strlen(_) ? '⑃ '._ : ''
-  endif
-  return ''
 endfunction
 
 function! LightLineGo()
   return exists('*go#jobcontrol#Statusline') ? go#jobcontrol#Statusline() : ''
 endfunction
 
-function! CtrlPMark()
-  if expand('%:t') =~ 'ControlP'
-    call lightline#link('iR'[g:lightline.ctrlp_regex])
-    return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
-          \ , g:lightline.ctrlp_next], 0)
-  else
-    return ''
-  endif
-endfunction
-
-let g:ctrlp_status_func = {
-  \ 'main': 'CtrlPStatusFunc_1',
-  \ 'prog': 'CtrlPStatusFunc_2',
-  \ }
-
-function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-  let g:lightline.ctrlp_regex = a:regex
-  let g:lightline.ctrlp_prev = a:prev
-  let g:lightline.ctrlp_item = a:item
-  let g:lightline.ctrlp_next = a:next
-  return lightline#statusline(0)
-endfunction
-
-function! CtrlPStatusFunc_2(str)
-  return lightline#statusline(0)
-endfunction
 
 function! LightLineMode()
   let fname = expand('%:t')
@@ -351,15 +315,38 @@ function! LightLineMode()
 endfunction
 
 function! LightLineFilename()
-  let fname = expand('%:t')
+  let out = ''
   if mode() == 't'
-    return ''
+    return out
   endif
 
-  return fname == 'ControlP' ? g:lightline.ctrlp_item :
-        \ fname =~ '__Gundo\|NERD_tree' ? '' :
-        \ ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-        \ ('' != fname ? fname : '[No Name]')
+  " fugitive-aware repo path
+  let rootpath = ''
+  if exists("*fugitive#head")
+      let branch = fugitive#head()
+      if strlen(branch)
+          let rootpath = fugitive#repo().tree()
+          let out .= '[' . branch . '] ' . fnamemodify(rootpath, ':t') . '/'
+      endif
+  endif
+
+  let fname = expand('%:t')
+  if fname == ''
+      let fname = '[No Name]'
+  elseif winwidth(0) > 70 && strlen(rootpath) > 0
+      " /usr/src/myrepo - /usr/src/myrepo/subdir/foo = subdir/foo
+      let fname = strpart(expand('%:p'), len(rootpath) + 1)
+  elseif winwidth(0) > 50
+      " ~/myrepo/subdir/foo
+      let fname = expand('%:p:~')
+  elseif rootpath != expand('%:p:h')
+      let fname = '…/' . fname
+  endif
+  let out .= fname
+
+  return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+       \ out .
+       \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
 endfunction
 
 function! LightLineReadonly()
