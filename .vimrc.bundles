@@ -265,20 +265,19 @@ let g:lightline = {
       \ 'colorscheme': 'jellybeans',
       \ 'subseparator': { 'left': '', 'right': '' },
       \ 'active': {
-      \   'left': [ [ 'mode'],
-      \             [ 'filename' ],
-      \             [ 'go'] ],
+      \   'left': [ [ 'filename' ],
+      \             [ 'job'] ],
       \   'right': [ [ 'lineinfo' ],
       \              [ 'percent' ],
       \              [ 'filetype' ] ]
       \ },
       \ 'inactive': {
-      \   'left': [ [ 'go'] ],
+      \   'left': [ [ 'filename'] ],
       \ },
       \ 'component_function': {
       \   'modified': 'LightLineModified',
       \   'filename': 'LightLineFilename',
-      \   'go': 'LightLineGo',
+      \   'job': 'LightLineJob',
       \   'filetype': 'LightLineFiletype',
       \ },
       \ }
@@ -299,10 +298,9 @@ function! LightLineFiletype()
   return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
 endfunction
 
-function! LightLineGo()
+function! LightLineJob()
   return exists('*go#jobcontrol#Statusline') ? go#jobcontrol#Statusline() : ''
 endfunction
-
 
 function! LightLineMode()
   let fname = expand('%:t')
