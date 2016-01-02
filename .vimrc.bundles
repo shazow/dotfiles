@@ -263,8 +263,9 @@ set noshowmode " Hide INSERT etc
 "" Borrowed from fatih/dotfiles
 let g:lightline = {
       \ 'colorscheme': 'jellybeans',
+      \ 'subseparator': { 'left': '', 'right': '' },
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste'],
+      \   'left': [ [ 'mode'],
       \             [ 'filename' ],
       \             [ 'go'] ],
       \   'right': [ [ 'lineinfo' ],
@@ -274,15 +275,11 @@ let g:lightline = {
       \ 'inactive': {
       \   'left': [ [ 'go'] ],
       \ },
-      \ 'subseparator': { 'left': "\u00B7" },
       \ 'component_function': {
       \   'modified': 'LightLineModified',
       \   'filename': 'LightLineFilename',
       \   'go': 'LightLineGo',
-      \   'fileformat': 'LightLineFileformat',
       \   'filetype': 'LightLineFiletype',
-      \   'fileencoding': 'LightLineFileencoding',
-      \   'mode': 'LightLineMode',
       \ },
       \ }
 
@@ -315,38 +312,34 @@ function! LightLineMode()
 endfunction
 
 function! LightLineFilename()
-  let out = ''
-  if mode() == 't'
-    return out
-  endif
+    let out = ''
+    if mode() == 't'
+        return out
+    endif
 
-  " fugitive-aware repo path
-  let rootpath = ''
-  if exists("*fugitive#head")
-      let branch = fugitive#head()
-      if strlen(branch)
-          let rootpath = fugitive#repo().tree()
-          let out .= '[' . branch . '] ' . fnamemodify(rootpath, ':t') . '/'
-      endif
-  endif
+    " fugitive-aware repo path
+    let rootpath = ''
+    if exists("*fugitive#head")
+        let branch = fugitive#head()
+        if strlen(branch)
+            let rootpath = fugitive#repo().tree()
+            let out .= '[' . branch . '] ' . fnamemodify(rootpath, ':t')
+        endif
+    endif
 
-  let fname = expand('%:t')
-  if fname == ''
-      let fname = '[No Name]'
-  elseif strlen(rootpath) > 0
-      " /usr/src/myrepo - /usr/src/myrepo/subdir/foo = subdir/foo
-      let fname = strpart(expand('%:p'), len(rootpath) + 1)
-  elseif winwidth(0) > 50
-      " ~/myrepo/subdir/foo
-      let fname = expand('%:p:~')
-  elseif rootpath != expand('%:p:h')
-      let fname = '…/' . fname
-  endif
-  let out .= fname
-
-  return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-       \ out .
-       \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
+    let fname = expand('%:t')
+    if fname == '' || fname =~ 'ControlP\|NERD_tree'
+        " Nothing
+    elseif strlen(rootpath) > 0
+        " /usr/src/myrepo - /usr/src/myrepo/subdir/foo = subdir/foo
+        let out .= '/' . strpart(expand('%:p'), len(rootpath) + 1)
+    else
+        " ~/myrepo/subdir/foo
+        let out = expand('%:p:~')
+    endif
+    return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
+                \ out .
+                \ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
 endfunction
 
 function! LightLineReadonly()
