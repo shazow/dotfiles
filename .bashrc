@@ -48,7 +48,7 @@ function g () { # Grep in cwd
 }
 
 function gg () { # Double-grep (grep with files resulting of the first grep)
-    grep -Irl ${1} . | xargs grep -I ${2}
+    grep -Irl "${1}" . | xargs grep -I "${2}"
 }
 
 function greplace () { # Grep in cwd and replace $1 with $2 in-line
@@ -56,6 +56,10 @@ function greplace () { # Grep in cwd and replace $1 with $2 in-line
         echo "Replacing: $i"
         perl -p -i -e "s/$1/$2/g" "$i"
     done
+}
+
+function ingrep() { # Grep in file subpattern
+    find . -name "*${1}*" -exec grep -Irl "${2}" {} +
 }
 
 function random () { # Print a random number between two input values. (Default 1,n or 0,1)
