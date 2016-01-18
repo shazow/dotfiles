@@ -14,10 +14,9 @@ endif
 "let $NVIM_TUI_ENABLE_TRUE_COLOR=1  " Broken, pending: https://github.com/neovim/neovim/issues/2953
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
-" Enable vundle
+" Enable plugins
 filetype off
-set shell=/bin/bash  " Vundle requires a POSIX shell.
-set runtimepath+=~/.vim/bundle/Vundle.vim,$DOTFILES_PATH/.vim/bundle/Vundle.vim
+set shell=/bin/bash
 source $DOTFILES_PATH/.vimrc.bundles
 
 " Syntax and encoding

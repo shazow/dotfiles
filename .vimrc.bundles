@@ -1,9 +1,6 @@
 " Bundles:
 call plug#begin('~/.vim/bundle')
 
-"" Core
-Plug 'gmarik/Vundle.vim'
-
 "" Early dependencies
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
@@ -30,6 +27,8 @@ Plug 'Shougo/deoplete.nvim' " Replaces neocomplcache
 Plug 'Shougo/neosnippet'
 Plug 'janko-m/vim-test'
 Plug 'leshill/vim-json'
+"Plug 'gabrielelana/vim-markdown'
+"Plug 'tpope/vim-markdown'
 Plug 'plasticboy/vim-markdown'
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
@@ -50,6 +49,7 @@ Plug 'groenewege/vim-less', { 'for': 'less' }
 Plug 'honza/dockerfile.vim'
 Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' }
 Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' } " optional syntax highlighting for RFC files
+Plug 'cespare/vim-toml'
 
 "" Colorschemes
 Plug 'freeo/vim-kalisi'
@@ -63,12 +63,6 @@ endif
 " Done adding plugins
 call plug#end()
 
-
-" Bundle configuration: (Largely borrowed from spf13)
-
-"" Language-specific triggers
-autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
-autocmd BufRead,BufNewFile *.md set filetype=markdown
 
 "" AutoCloseTag
 let g:closetag_filenames = "*.html,*.xml,*.mako"
@@ -132,6 +126,7 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
 
 " deoplete {
     let g:deoplete#enable_at_startup = 1
+    let g:deoplete#auto_completion_start_length = 3
 
     " deoplete-go
     set completeopt+=noinsert
@@ -153,10 +148,6 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
           \ pumvisible() ? "\<C-n>" :
           \ <SID>check_back_space() ? "\<TAB>" :
           \ deoplete#mappings#manual_complete()
-    "inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
-    " Use head matcher instead of fuzzy matcher
-    "call deoplete#custom#set('_', 'matchers', ['matcher_head'])
 
     " doplete + vim-jedi for Python
     let g:jedi#completions_enabled = 0
@@ -228,6 +219,8 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
 " }
 
 " vim-go
+autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
+
 au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
 au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
@@ -246,8 +239,10 @@ let g:go_test_timeout = "3s"
 
 " vim-markdown
 let g:vim_markdown_folding_disabled=1
+let g:vim_markdown_frontmatter = 1
 au FileType markdown nmap <leader>t :Toc<CR>
-au FileType markdown setlocal fo+=a textwidth=80 linebreak "spell complete+=kspell
+au FileType markdown setlocal formatoptions+=want textwidth=80 linebreak "spell complete+=kspell
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 " goyo (zenroom)
 let g:goyo_width=82
@@ -255,7 +250,6 @@ nnoremap <Leader>z :Goyo<CR>
 
 " neomake
 autocmd! BufWritePost *.py Neomake
-"autocmd! BufWritePost *.go Neomake!
 
 " lightline
 set laststatus=2
