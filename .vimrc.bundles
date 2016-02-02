@@ -16,6 +16,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'benekastah/neomake' " Replaces syntastic
 Plug 'tpope/vim-surround'
 Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim' " Highlight active paragraph
 Plug 'tpope/vim-fugitive' " For gitv
 Plug 'gregsexton/gitv' " gitk for vim
 Plug 'jeetsukumaran/vim-indentwise' " Indent-based jumps
