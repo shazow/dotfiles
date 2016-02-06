@@ -140,21 +140,24 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     endfunction
 
     function! s:tab_complete()
+        " Are we already completing?
         if pumvisible()
             return "\<C-n>"
-        else
-            " Check whether it's an empty line
-            let col = col('.') - 1
-            if !col || getline('.')[col - 1] =~ '\s'
-                return "\<TAB>"
-            endif
-
-            if neosnippet#expandable_or_jumpable() 
-                return "\<Plug>(neosnippet_expand_or_jump)"
-            endif
-
-            return deoplete#mappings#manual_complete()
         endif
+
+        " Are we on an empty line?
+        let col = col('.') - 1
+        if !col || getline('.')[col - 1] =~ '\s'
+            return "\<TAB>"
+        endif
+
+        " Is it a snippet?
+        if neosnippet#expandable_or_jumpable()
+            return "\<Plug>(neosnippet_expand_or_jump)"
+        endif
+
+        " Let deoplete do its thing.
+        return deoplete#mappings#manual_complete()
     endfunction
 
     imap <silent><expr> <TAB> <SID>tab_complete()
