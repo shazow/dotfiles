@@ -139,16 +139,25 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
       return !col || getline('.')[col - 1] =~ '\s'
     endfunction
 
-    " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-    function! s:my_cr_function() abort
-        return deoplete#mappings#close_popup() . "\<CR>"
+    function! s:tab_complete()
+        if pumvisible()
+            return "\<C-n>"
+        else
+            " Check whether it's an empty line
+            let col = col('.') - 1
+            if !col || getline('.')[col - 1] =~ '\s'
+                return "\<TAB>"
+            endif
+
+            if neosnippet#expandable_or_jumpable() 
+                return "\<Plug>(neosnippet_expand_or_jump)"
+            endif
+
+            return deoplete#mappings#manual_complete()
+        endif
     endfunction
 
-    imap <silent><expr> <TAB>
-          \ pumvisible() ? "\<C-n>" :
-          \ <SID>check_back_space() ? "\<TAB>" :
-          \ deoplete#mappings#manual_complete()
+    imap <silent><expr> <TAB> <SID>tab_complete()
 
     " doplete + vim-jedi for Python
     let g:jedi#completions_enabled = 0
