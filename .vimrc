@@ -17,7 +17,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 " Enable plugins
 filetype off
 set shell=/bin/bash
-source $DOTFILES_PATH/plugins.vim
+source $DOTFILES_PATH/.vim/plugins.vim
 
 " Syntax and encoding
 syntax on " Syntax highlighting
