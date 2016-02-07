@@ -9,7 +9,7 @@ and tweak these tender, juicy, and yet lean, configurations.
 Below is a sampling of what to expect:
 
 
-## `source helpers.bash`
+## helpers.bash
 
 Do you use a Bash shell every day, all day? Here is a selection of some handy
 tiny helpers to help you love life a little bit more. I invite you to adopt them
