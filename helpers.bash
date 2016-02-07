@@ -1,14 +1,23 @@
-c() { # Substitute for `cd`
+# Substitute for `cd`
+c() {
     cd *${*}*
     pwd
     ls
 }
 
-f() { # Find file in cwd
+# Find file named like $1 in the cwd
+# Example:
+#   $ f help
+#   ./helpers.bash
+f() {
     find . -name "*$**"
 }
 
-fcd() { # Find directory under cwd and cd into it
+# Find directory named like $1 under cwd and cd into it
+# Example:
+#   dotfiles $ fcd bin
+#   dotfiles/local/bin $
+fcd() {
     target=$(find . -name "*$**" -type d | head -n1)
     if [[ "$target" ]]; then
         cd "$target"
@@ -17,30 +26,53 @@ fcd() { # Find directory under cwd and cd into it
     fi
 }
 
-p() { # Find process
+# Find a running process named like $1
+# Example:
+#   $ p iterm
+#   shazow            540   5.7  2.1  ... 23:03.17 /opt/homebrew-cask/Caskroom/iterm2-beta/1.0.0.20140629/iTerm.app/Contents/MacOS/iTerm
+p() {
     ps aux | grep "$*"
 }
 
-g() { # Grep in cwd
-    grep -Ir "$(echo $*)" .
+# Grep in cwd
+# Example:
+#   $ g "cwd and cd"
+#   ./helpers.bash:# Find directory named like $1 under cwd and cd into it
+g() {
+    grep --exclude-dir='*/\.*' -Ir "$(echo $*)" .
 }
 
-gg() { # Double-grep (grep with files resulting of the first grep)
-    grep -Irl "${1}" . | xargs grep -I "${2}"
+# Double-grep: grep with files resulting of the first grep
+# Example: Find all source-ing in files that mention helpers.bash
+#   $ gg "helpers.bash" "source"
+#   ./.bashrc:    source $DOTFILES_PATH/.bash_profile
+#   ...
+gg() {
+    grep --exclude-dir='*/\.*' -Irl "${1}" . | xargs grep -I "${2}"
 }
 
-greplace () { # Grep in cwd and replace $1 with $2 in-line
-    grep -Irl "$1" . | while read i; do
+# Grep in cwd and replace $1 with $2 in-line. (Uses regexp, remember to escape when necessary.)
+# Example:
+#   $ greplace "fcd" "findcd"
+#   Replacing: ./helpers.bash
+greplace() {
+    grep --exclude-dir='*/\.*' -Irl "$1" . | while read i; do
         echo "Replacing: $i"
         perl -p -i -e "s/$1/$2/g" "$i"
     done
 }
 
-ingrep() { # Grep in files named like $1 for subpattern $2
-    find . -name "*${1}*" -exec grep -Irl "${2}" {} +
+# Grep in files named like $1 for subpattern $2
+# Example:
+#   $ ingrep bash randomline
+#   ./.bash_aliases:alias cdrandom='cd "$(lsdir | randomline $(lsdir | wc -l))"'
+#   ./helpers.bash:randomline() {
+ingrep() {
+    find . -name "*${1}*" -exec grep -I "${2}" {} +
 }
 
-random() { # Print a random number between two input values. (Default 1,n or 0,1)
+# Print a random number between two input values. (Default 1,n or 0,1)
+random() {
     declare a="$1" b="$2"
     if [[ ! "$a" ]]; then
         a="0";
@@ -53,7 +85,8 @@ random() { # Print a random number between two input values. (Default 1,n or 0,1
     echo "$[ ( $RANDOM % $range ) + $a ]";
 }
 
-randomline() { # Given a number of lines, read from stdin and echo a random one.
+# Given a number of lines, read from stdin and echo a random one.
+randomline() {
     if [[ ! "$1" ]]; then
         echo "Must specify how many lines to consider."
         return 1
@@ -68,12 +101,14 @@ randomline() { # Given a number of lines, read from stdin and echo a random one.
     done
 }
 
-mailfile() { # Send file to a given email address as attachment
+# Send file to a given email address as attachment
+mailfile() {
     # uuenview can be replaced with uuencode (bin depends on the distro)
     uuenview "$1" | mail -s "$(basename $1)" $2
 }
 
-bak() { # Move target to *.bak
+# Move target to *.bak
+bak() {
     declare target=$1;
     if [[ "${target:0-1}" = "/" ]]; then
         target=${target%%/}; # Strip trailing / of directories
@@ -81,7 +116,8 @@ bak() { # Move target to *.bak
     mv -v $target{,.bak}
 }
 
-unbak() { # Revert previously bak'd target
+# Revert previously bak'd target
+unbak() {
     declare target=$1;
     if [[ "${target:0-1}" = "/" ]]; then
         # Strip trailing / of directories
@@ -99,11 +135,13 @@ if ! (which say &> /dev/null) then
     function say() { echo "$*" | festival --tts; }
 fi
 
-vmod() { # Open modified git files usin `v`
+# Open modified git files usin `v`
+vmod() {
     v $(git status | grep 'modified:' | cut -d ' ' -f4 | xargs);
 }
 
-w() { # Watch a command for diffs every second
+# Watch a command for diffs every second
+w() {
     watch -dn1 $*;
 }
 
@@ -112,7 +150,9 @@ w() { # Watch a command for diffs every second
 
 PROJECTS_DIR=~/projects
 BIN_GO="$(which go)"
-go() { # Jump to a project (and activate environment)
+
+# Jump to a project (and activate environment)
+go() {
     declare to=$1
     if [[ ! "$to" ]]; then
         # Go to the last go'ne destination
@@ -131,7 +171,8 @@ go() { # Jump to a project (and activate environment)
     fi
 }
 
-_complete_go() { # Autocomplete function for go
+# Autocomplete function for go
+_complete_go() {
     COMPREPLY=( $(compgen -W "$(ls $PROJECTS_DIR/)" -- "${COMP_WORDS[$COMP_CWORD]}") )
 }
 complete -F _complete_go go
@@ -140,12 +181,14 @@ exitenv() {
     export PS1="${PS1##(*) }"
 }
 
-enterenv() { # Add $1 to $PS1
+# Add $1 to $PS1
+enterenv() {
     exitenv
     export PS1="($1) $PS1"
 }
 
-create_virtualenv() { # Make a fresh virtualenv [for some existing directory [with a give environment name]]
+# Make a fresh virtualenv [for some existing directory [with a give environment name]]
+create_virtualenv() {
     if [[ "$VIRTUAL_ENV" ]]; then
         deactivate
     fi
@@ -175,7 +218,8 @@ create_virtualenv() { # Make a fresh virtualenv [for some existing directory [wi
     source "$env_path/bin/activate"
 }
 
-up() { # cd to root of repository
+# cd to root of repository
+up() {
     readonly old_pwd="$PWD";
     while [[ 1 ]]; do
         cd ..
@@ -193,7 +237,8 @@ up() { # cd to root of repository
     done
 }
 
-domain() { # http://www.foo.com/bar -> foo.com
+# http://www.foo.com/bar -> foo.com
+domain() {
     local parts=(${1//\// });
     local domain="${parts[1]}"
 
@@ -204,11 +249,13 @@ domain() { # http://www.foo.com/bar -> foo.com
     echo "${domain/www./}"
 }
 
-whois() { # whois but slightly less lame (parse domains out of urls)
+# whois but slightly less lame (parse domains out of urls)
+whois() {
     $(which whois) "$(domain $1)"
     return $?;
 }
 
-dns() { # dig wrapper for returning all records
+# dig wrapper for returning all records
+dns() {
     dig +nocmd "$(domain $1)" any +multiline +noall +answer
 }
