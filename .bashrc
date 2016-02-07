@@ -1,13 +1,13 @@
-if [ "$TERM" == "screen" ]; then
+if [[ "$TERM" == "screen" ]]; then
     # Screen doesn't load .bash_profile?
-    . $DOTFILES_PATH/.bash_profile
+    source $DOTFILES_PATH/.bash_profile
 fi
 
 # Load auxiliary configurations
-load_files=(~/.bash_private ~/.bash_aliases)
+declare load_files=(~/.bash_private ~/.bash_aliases)
 
 for f in ${load_files[@]}; do
-    if [ -f $f ]; then
+    if [[ -f $f ]]; then
         source $f
     fi
 done
@@ -20,70 +20,69 @@ fi
 
 # Helper functions
 
-function c () { # Substitute for `cd`
+c() { # Substitute for `cd`
     cd *${*}*
     pwd
     ls
 }
 
-function f () { # Find file in cwd
+f() { # Find file in cwd
     find . -name "*$**"
 }
 
-function fcd() { # Find directory under cwd and cd into it
+fcd() { # Find directory under cwd and cd into it
     target=$(find . -name "*$**" -type d | head -n1)
-    if [ "$target" ]; then
+    if [[ "$target" ]]; then
         cd "$target"
     else
         echo "Directory not found: $*"; return
     fi
 }
 
-function p () { # Find process
+p() { # Find process
     ps aux | grep "$*"
 }
 
-function g () { # Grep in cwd
+g() { # Grep in cwd
     grep -Ir "$(echo $*)" .
 }
 
-function gg () { # Double-grep (grep with files resulting of the first grep)
+gg() { # Double-grep (grep with files resulting of the first grep)
     grep -Irl "${1}" . | xargs grep -I "${2}"
 }
 
-function greplace () { # Grep in cwd and replace $1 with $2 in-line
+greplace () { # Grep in cwd and replace $1 with $2 in-line
     grep -Irl "$1" . | while read i; do
         echo "Replacing: $i"
         perl -p -i -e "s/$1/$2/g" "$i"
     done
 }
 
-function ingrep() { # Grep in file subpattern
+ingrep() { # Grep in file subpattern
     find . -name "*${1}*" -exec grep -Irl "${2}" {} +
 }
 
-function random () { # Print a random number between two input values. (Default 1,n or 0,1)
-    a="$1"
-    b="$2"
-    if [ ! "$a" ]; then
+random() { # Print a random number between two input values. (Default 1,n or 0,1)
+    declare a="$1" b="$2"
+    if [[ ! "$a" ]]; then
         a="0";
         b="1";
-    elif [ ! "$b" ]; then
+    elif [[ ! "$b" ]]; then
         b="$a";
         a="1";
     fi
-    range="$[ $b - $a + 1]";
+    local range="$[ $b - $a + 1]";
     echo "$[ ( $RANDOM % $range ) + $a ]";
 }
 
-function randomline () { # Given a number of lines, read from stdin and echo a random one.
-    if [ ! "$1" ]; then
+randomline() { # Given a number of lines, read from stdin and echo a random one.
+    if [[ ! "$1" ]]; then
         echo "Must specify how many lines to consider."
         return 1
     fi
     count="$(random 1 $1)";
     while read line; do
-        if [ "$count" == "1" ]; then
+        if [[ "$count" == "1" ]]; then
             echo "$line";
             break;
         fi
@@ -91,101 +90,104 @@ function randomline () { # Given a number of lines, read from stdin and echo a r
     done
 }
 
-function mailfile() { # Send file to a given email address as attachment
+mailfile() { # Send file to a given email address as attachment
     # uuenview can be replaced with uuencode (bin depends on the distro)
     uuenview "$1" | mail -s "$(basename $1)" $2
 }
 
-function bak() { # Move target to *.bak
-    t=$1;
-    if [ "${t:0-1}" = "/" ]; then
-        t=${t%%/}; # Strip trailing / of directories
+bak() { # Move target to *.bak
+    declare target=$1;
+    if [[ "${target:0-1}" = "/" ]]; then
+        target=${target%%/}; # Strip trailing / of directories
     fi
-    mv -v $t{,.bak}
+    mv -v $target{,.bak}
 }
 
-function unbak() { # Revert previously bak'd target
-    t=$1;
-    if [ "${t:0-1}" = "/" ]; then
-        t="${t%%/}"; # Strip trailing / of directories
+unbak() { # Revert previously bak'd target
+    declare target=$1;
+    if [[ "${target:0-1}" = "/" ]]; then
+        # Strip trailing / of directories
+        target="${target%%/}";
     fi
 
-    if [ "${t:0-4}" = ".bak" ]; then
-        mv -v "$t" "${t%%.bak}"
+    if [[ "${target:0-4}" = ".bak" ]]; then
+        mv -v "$target" "${target%%.bak}"
     else
-        echo "No .bak extension, ignoring: $t"
+        echo "No .bak extension, ignoring: $target"
     fi
 }
 
-if [ ! which say &> /dev/null ]; then
+if ! (which say &> /dev/null) then
     function say() { echo "$*" | festival --tts; }
 fi
 
-function vmod() { # Open modified git files usin `v`
+vmod() { # Open modified git files usin `v`
     v $(git status | grep 'modified:' | cut -d ' ' -f4 | xargs);
 }
 
-function w() { watch -dn1 $*; }
+w() { # Watch a command for diffs every second
+    watch -dn1 $*;
+}
 
 
 # Workspace navigation functions
 
 PROJECTS_DIR=~/projects
 BIN_GO="$(which go)"
-function go() { # Jump to a project (and activate environment)
-    to=$1
-    if [ ! "$to" ]; then
+go() { # Jump to a project (and activate environment)
+    declare to=$1
+    if [[ ! "$to" ]]; then
         # Go to the last go'ne destination
         to=$(grep "^go " ~/.bash_history | tail -n1 | cut -d ' ' -f2-)
     fi
 
     target=$PROJECTS_DIR/$to
-    if [ -d $target ]; then
+    if [[ -d $target ]]; then
         cd "$target"
 
         # Load project profile (e.g. virtualenv)
-        [ -e .profile ] && . .profile
-    elif [ "$BIN_GO" ]; then
+        [[ -e .profile ]] && . .profile
+    elif [[ "$BIN_GO" ]]; then
         $(which go) $*
         return
     fi
 }
 
-function _complete_go() { # Autocomplete function for go
+_complete_go() { # Autocomplete function for go
     COMPREPLY=( $(compgen -W "$(ls $PROJECTS_DIR/)" -- "${COMP_WORDS[$COMP_CWORD]}") )
 }
 complete -F _complete_go go
 
-function exitenv() {
+exitenv() {
     export PS1="${PS1##(*) }"
 }
 
-function enterenv() { # Add $1 to $PS1
+enterenv() { # Add $1 to $PS1
     exitenv
     export PS1="($1) $PS1"
 }
 
-function create_virtualenv() { # Make a fresh virtualenv [for some existing directory [with a give environment name]]
-    if [ "$VIRTUAL_ENV" ]; then
+create_virtualenv() { # Make a fresh virtualenv [for some existing directory [with a give environment name]]
+    if [[ "$VIRTUAL_ENV" ]]; then
         deactivate
     fi
-    if [ "$1" ]; then
+    if [[ "$1" ]]; then
         name="$(basename $1)"
         path=$1
     else
         name="$(basename $PWD)"
         path="$PWD"
     fi
-    if [ "$2" ]; then
+    if [[ "$2" ]]; then
         name="$2"
     fi
-    if [ "$1" == "." ]; then
+    if [[ "$1" == "." ]]; then
         env_path=".env"
         name="$(basename $PWD)"
     else
         env_path="$path/.env"
     fi
-    if [ -d "$env_path" ]; then
+    if [[ -d "$env_path" ]]; then
         echo "$env_path already exists. Activating and aborting."
         source "$env_path/bin/activate"
         return 1;
@@ -195,17 +197,17 @@ function create_virtualenv() { # Make a fresh virtualenv [for some existing dire
     source "$env_path/bin/activate"
 }
 
-function up() { # cd to root of repository
-    old_pwd="$PWD";
-    while [ 1 ]; do
+up() { # cd to root of repository
+    readonly old_pwd="$PWD";
+    while [[ 1 ]]; do
         cd ..
-        if [ "$PWD" == "/" ]; then
+        if [[ "$PWD" == "/" ]]; then
             cd "$old_pwd"
             echo "No repository found, returned to $PWD"
             return 1
         fi
         for repo in ".git" ".hg"; do
-            if [ -d "$repo" ]; then
+            if [[ -d "$repo" ]]; then
                 echo "Found $repo at $PWD"
                 return 0;
             fi
@@ -213,22 +215,22 @@ function up() { # cd to root of repository
     done
 }
 
-function domain() { # http://www.foo.com/bar -> foo.com
-    parts=(${1//\// });
-    domain="${parts[1]}"
+domain() { # http://www.foo.com/bar -> foo.com
+    local parts=(${1//\// });
+    local domain="${parts[1]}"
 
-    if [ ! "$domain" ] || [[ "$domain" != *.* ]]; then
+    if [[ ! "$domain" ]] || [[ "$domain" != *.* ]]; then
         domain="${parts[0]}"
     fi
 
     echo "${domain/www./}"
 }
 
-function whois() { # whois but slightly less lame (parse domains out of urls)
+whois() { # whois but slightly less lame (parse domains out of urls)
     $(which whois) "$(domain $1)"
     return $?;
 }
 
-function dns() { # dig wrapper for returning all records
+dns() { # dig wrapper for returning all records
     dig +nocmd "$(domain $1)" any +multiline +noall +answer
 }
