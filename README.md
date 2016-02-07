@@ -19,7 +19,7 @@ into your own dotfiles home and nourish them.
 
 ### Searching, Replacing, Navigating
 
-**Find file named like $1 in the cwd**
+#### Find file named like $1 in the cwd
 
 ```bash
 f() {
@@ -34,7 +34,7 @@ $ f help
 ./helpers.bash
 ```
 
-**Find directory named like $1 under cwd and cd into it**
+#### Find directory named like $1 under cwd and cd into it
 
 ```bash
 fcd() {
@@ -55,7 +55,7 @@ dotfiles/local/bin $
 ```
 
 
-**Find a running process named like $1**
+#### Find a running process named like $1
 
 ```bash
 p() {
@@ -71,7 +71,7 @@ shazow            540   5.7  2.1  ... 23:03.17 /opt/homebrew-cask/Caskroom/iterm
 ```
 
 
-**Grep in cwd**
+#### Grep in cwd
 
 ```bash
 g() {
@@ -87,7 +87,7 @@ $ g "cwd and cd"
 ```
 
 
-**Double-grep: grep with files resulting of the first grep**
+#### Double-grep: grep with files resulting of the first grep
 
 ```bash
 gg() {
@@ -104,7 +104,7 @@ $ gg "helpers.bash" "source"
 ```
 
 
-**Grep in cwd and replace $1 with $2 in-line.**
+#### Grep in cwd and replace $1 with $2 in-line.
 
 ```bash
 greplace() {
@@ -123,7 +123,7 @@ Replacing: ./helpers.bash
 ```
 
 
-**Grep in files named like $1 for subpattern $2**
+#### Grep in files named like $1 for subpattern $2
 
 ```bash
 ingrep() {
@@ -140,7 +140,7 @@ $ ingrep bash randomline
 ```
 
 
-**cd to root of the current repository**
+#### cd to root of the current repository
 
 ```bash
 up() {
@@ -174,7 +174,7 @@ dotfiles $
 ### Other utilities
 
 
-**Move target $1 to $1.bak**
+#### Move target $1 to $1.bak
 
 ```bash
 bak() {
@@ -194,7 +194,7 @@ helpers.bash -> helpers.bash.bak
 ```
 
 
-**Revert previously bak'd $1 target**
+#### Revert previously bak'd $1 target
 
 ```bash
 unbak() {
@@ -220,7 +220,7 @@ helpers.bash.bak -> helpers.bash
 ```
 
 
-**Watch a command for diffs every second**
+#### Watch a command for diffs every second
 
 ```bash
 w() {
@@ -229,7 +229,9 @@ w() {
 ```
 
 
-**http://www.foo.com/bar -> foo.com**
+#### Extract domains from URLs
+
+`http://www.foo.com/bar` -> `foo.com`
 
 ```bash
 domain() {
@@ -245,7 +247,9 @@ domain() {
 ```
 
 
-**whois, but a bit smarter (parse domains out of urls)**
+#### `whois`, but a bit smarter
+
+Drop-in replacement for `whois` that accepts URLs and does the parsing for us.
 
 ```bash
 whois() {
@@ -255,7 +259,7 @@ whois() {
 ```
 
 
-**dig wrapper for returning all records**
+#### Look up DNS entries for a URL
 
 ```bash
 dns() {
