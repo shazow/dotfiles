@@ -17,7 +17,28 @@ Do you use a Bash shell every day, all day? Here is a selection of some handy
 tiny helpers to help you love life a little bit more. I invite you to adopt them 
 into your own dotfiles home and nourish them.
 
+First, a quick table of contents:
+
+* Searching, Replacing, Navigating
+  * `f` Find file named like $1 in the cwd
+  * `fcd` Find directory named like $1 under cwd and cd into it
+  * `p` Find a running process named like $1
+  * `g` Grep in cwd
+  * `gg` Double-grep: grep with files resulting of the first grep
+  * `greplace` Grep in cwd and replace $1 with $2 in-line.
+  * `ingrep` Grep in files named like $1 for subpattern $2
+  * `up` cd to root of the current repository (must have!)
+* Other utilities
+  * `domain` Extract domains from URLs
+  * `whois` A smarter drop-in replacement for `whois`
+  * `dns` Look up DNS entries for a URL
+  * `bak` Move target $1 to $1.bak
+  * `unbak` Revert previously bak'd $1 target
+  * `w` Watch a command for diffs every second
+
+
 ### Searching, Replacing, Navigating
+
 
 #### Find file named like $1 in the cwd
 
@@ -26,8 +47,6 @@ f() {
     find . -name "*$**"
 }
 ```
-
-Example:
 
 ```
 $ f help
@@ -47,8 +66,6 @@ fcd() {
 }
 ```
 
-Example:
-
 ```
 dotfiles $ fcd bin
 dotfiles/local/bin $
@@ -62,8 +79,6 @@ p() {
     ps aux | grep "$*"
 }
 ```
-
-Example:
 
 ```
 $ p iterm
@@ -79,8 +94,6 @@ g() {
 }
 ```
 
-Example:
-
 ```
 $ g "cwd and cd"
 ./helpers.bash:# Find directory named like $1 under cwd and cd into it
@@ -95,9 +108,8 @@ gg() {
 }
 ```
 
-Example: Find all `source`-ing in files that mention `helpers.bash`
-
 ```
+$ # Let's find all `source`-ing in files that mention `helpers.bash`
 $ gg "helpers.bash" "source"
 ./.bashrc:    source $DOTFILES_PATH/.bash_profile
 ...
@@ -115,8 +127,6 @@ greplace() {
 }
 ```
 
-Example:
-
 ```
 $ greplace "fcd" "findcd"
 Replacing: ./helpers.bash
@@ -130,8 +140,6 @@ ingrep() {
     find . -name "*${1}*" -exec grep -I "${2}" {} +
 }
 ```
-
-Example:
 
 ```
 $ ingrep bash randomline
@@ -162,8 +170,6 @@ up() {
 }
 ```
 
-Example:
-
 ```shell
 dotfiles/local/bin $ up
 Found .git at .../dotfiles
@@ -173,65 +179,9 @@ dotfiles $
 
 ### Other utilities
 
-
-#### Move target $1 to $1.bak
-
-```bash
-bak() {
-    declare target=$1;
-    if [[ "${target:0-1}" = "/" ]]; then
-        target=${target%%/}; # Strip trailing / of directories
-    fi
-    mv -v $target{,.bak}
-}
-```
-
-Example:
-
-```shell
-$ bak helpers.bash
-helpers.bash -> helpers.bash.bak
-```
-
-
-#### Revert previously bak'd $1 target
-
-```bash
-unbak() {
-    declare target=$1;
-    if [[ "${target:0-1}" = "/" ]]; then
-        # Strip trailing / of directories
-        target="${target%%/}";
-    fi
-
-    if [[ "${target:0-4}" = ".bak" ]]; then
-        mv -v "$target" "${target%%.bak}"
-    else
-        echo "No .bak extension, ignoring: $target"
-    fi
-}
-```
-
-Example:
-
-```shell
-$ unbak *.bak
-helpers.bash.bak -> helpers.bash
-```
-
-
-#### Watch a command for diffs every second
-
-```bash
-w() {
-    watch -dn1 $*;
-}
-```
-
-
 #### Extract domains from URLs
 
-`http://www.foo.com/bar` -> `foo.com`
+Convert `http://www.foo.com/bar` into `foo.com`.
 
 ```bash
 domain() {
@@ -266,3 +216,55 @@ dns() {
     dig +nocmd "$(domain $1)" any +multiline +noall +answer
 }
 ```
+
+#### Move target $1 to $1.bak
+
+```bash
+bak() {
+    declare target=$1;
+    if [[ "${target:0-1}" = "/" ]]; then
+        target=${target%%/}; # Strip trailing / of directories
+    fi
+    mv -v $target{,.bak}
+}
+```
+
+```shell
+$ bak helpers.bash
+helpers.bash -> helpers.bash.bak
+```
+
+
+#### Revert previously bak'd $1 target
+
+```bash
+unbak() {
+    declare target=$1;
+    if [[ "${target:0-1}" = "/" ]]; then
+        # Strip trailing / of directories
+        target="${target%%/}";
+    fi
+
+    if [[ "${target:0-4}" = ".bak" ]]; then
+        mv -v "$target" "${target%%.bak}"
+    else
+        echo "No .bak extension, ignoring: $target"
+    fi
+}
+```
+
+```shell
+$ unbak *.bak
+helpers.bash.bak -> helpers.bash
+```
+
+
+#### Watch a command for diffs every second
+
+```bash
+w() {
+    watch -dn1 $*;
+}
+```
+
+
