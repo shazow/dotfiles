@@ -36,6 +36,7 @@ Plug 'hynek/vim-python-pep8-indent'
 Plug 'davidhalter/jedi-vim' " Python static analysis engine
 Plug 'jmcantrell/vim-virtualenv'
 if $GOPATH != ""
+    Plug 'zchee/deoplete-go'
     Plug 'fatih/vim-go'
     Plug 'rhysd/vim-go-impl'
 endif
@@ -145,19 +146,22 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
             return "\<C-n>"
         endif
 
-        " Are we on an empty line?
-        let col = col('.') - 1
-        if !col || getline('.')[col - 1] =~ '\s'
-            return "\<TAB>"
-        endif
-
         " Is it a snippet?
         if neosnippet#expandable_or_jumpable()
             return "\<Plug>(neosnippet_expand_or_jump)"
         endif
 
-        " Let deoplete do its thing.
-        return deoplete#mappings#manual_complete()
+        return "\<TAB>"
+
+        " No longer needed?
+        "
+        "" Are we on an empty line?
+        "let col = col('.') - 1
+        "if !col || getline('.')[col - 1] =~ '\s'
+        "    return "\<TAB>"
+        "endif
+        "" Let deoplete do its thing.
+        "return deoplete#mappings#manual_complete()
     endfunction
 
     imap <silent><expr> <TAB> <SID>tab_complete()
