@@ -107,7 +107,10 @@ mailfile() {
     uuenview "$1" | mail -s "$(basename $1)" $2
 }
 
-# Move target to *.bak
+# Move target $1 to $1.bak
+# Example:
+#   $ bak helpers.bash
+#   helpers.bash -> helpers.bash.bak
 bak() {
     declare target=$1;
     if [[ "${target:0-1}" = "/" ]]; then
@@ -116,7 +119,10 @@ bak() {
     mv -v $target{,.bak}
 }
 
-# Revert previously bak'd target
+# Revert previously bak'd $1 target
+# Example:
+#   $ unbak *.bak
+#   helpers.bash.bak -> helpers.bash
 unbak() {
     declare target=$1;
     if [[ "${target:0-1}" = "/" ]]; then
@@ -218,7 +224,11 @@ create_virtualenv() {
     source "$env_path/bin/activate"
 }
 
-# cd to root of repository
+# cd to root of the current repository
+# Example:
+#   dotfiles/local/bin $ up
+#   Found .git at .../dotfiles
+#   dotfiles $
 up() {
     readonly old_pwd="$PWD";
     while [[ 1 ]]; do
@@ -249,7 +259,7 @@ domain() {
     echo "${domain/www./}"
 }
 
-# whois but slightly less lame (parse domains out of urls)
+# whois, but a bit smarter (parse domains out of urls)
 whois() {
     $(which whois) "$(domain $1)"
     return $?;

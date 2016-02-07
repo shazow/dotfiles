@@ -14,14 +14,17 @@ Below is a sampling of what to expect:
 (Alternate title: *Bash for Ballers & Debutante Bashellites*)
 
 Do you use a Bash shell every day, all day? Here is a selection of some handy
-tiny helpers to help you love life a little bit more.
+tiny helpers to help you love life a little bit more. I invite you to adopt them 
+into your own dotfiles home and nourish them.
+
+### Searching, Replacing, Navigating
 
 **Find file named like $1 in the cwd**
 
 ```bash
 f() {
     find . -name "*$**"
-
+}
 ```
 
 Example:
@@ -92,7 +95,7 @@ gg() {
 }
 ```
 
-Example: Find all source-ing in files that mention helpers.bash
+Example: Find all `source`-ing in files that mention `helpers.bash`
 
 ```
 $ gg "helpers.bash" "source"
@@ -134,4 +137,128 @@ Example:
 $ ingrep bash randomline
 ./.bash_aliases:alias cdrandom='cd "$(lsdir | randomline $(lsdir | wc -l))"'
 ./helpers.bash:randomline() {
+```
+
+
+**cd to root of the current repository**
+
+```bash
+up() {
+    readonly old_pwd="$PWD";
+    while [[ 1 ]]; do
+        cd ..
+        if [[ "$PWD" == "/" ]]; then
+            cd "$old_pwd"
+            echo "No repository found, returned to $PWD"
+            return 1
+        fi
+        for repo in ".git" ".hg"; do
+            if [[ -d "$repo" ]]; then
+                echo "Found $repo at $PWD"
+                return 0;
+            fi
+        done
+    done
+}
+```
+
+Example:
+
+```shell
+dotfiles/local/bin $ up
+Found .git at .../dotfiles
+dotfiles $
+```
+
+
+### Other utilities
+
+
+**Move target $1 to $1.bak**
+
+```bash
+bak() {
+    declare target=$1;
+    if [[ "${target:0-1}" = "/" ]]; then
+        target=${target%%/}; # Strip trailing / of directories
+    fi
+    mv -v $target{,.bak}
+}
+```
+
+Example:
+
+```shell
+$ bak helpers.bash
+helpers.bash -> helpers.bash.bak
+```
+
+
+**Revert previously bak'd $1 target**
+
+```bash
+unbak() {
+    declare target=$1;
+    if [[ "${target:0-1}" = "/" ]]; then
+        # Strip trailing / of directories
+        target="${target%%/}";
+    fi
+
+    if [[ "${target:0-4}" = ".bak" ]]; then
+        mv -v "$target" "${target%%.bak}"
+    else
+        echo "No .bak extension, ignoring: $target"
+    fi
+}
+```
+
+Example:
+
+```shell
+$ unbak *.bak
+helpers.bash.bak -> helpers.bash
+```
+
+
+**Watch a command for diffs every second**
+
+```bash
+w() {
+    watch -dn1 $*;
+}
+```
+
+
+**http://www.foo.com/bar -> foo.com**
+
+```bash
+domain() {
+    local parts=(${1//\// });
+    local domain="${parts[1]}"
+
+    if [[ ! "$domain" ]] || [[ "$domain" != *.* ]]; then
+        domain="${parts[0]}"
+    fi
+
+    echo "${domain/www./}"
+}
+```
+
+
+**whois, but a bit smarter (parse domains out of urls)**
+
+```bash
+whois() {
+    $(which whois) "$(domain $1)"
+    return $?;
+}
+```
+
+
+**dig wrapper for returning all records**
+
+```bash
+dns() {
+    dig +nocmd "$(domain $1)" any +multiline +noall +answer
+}
 ```
