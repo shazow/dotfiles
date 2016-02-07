@@ -9,13 +9,11 @@ and tweak these tender, juicy, and yet lean, configurations.
 Below is a sampling of what to expect:
 
 
-## $ source helpers.bash
-
-(Alternate title: *Bash for Ballers & Debutante Bashellites*)
+## `source helpers.bash`
 
 Do you use a Bash shell every day, all day? Here is a selection of some handy
 tiny helpers to help you love life a little bit more. I invite you to adopt them
-into your own dotfiles home and nourish them.
+into your own dotfiles home, `source` them, nourish them.
 
 First, a quick table of contents:
 
@@ -61,7 +59,8 @@ fcd() {
     if [[ "$target" ]]; then
         cd "$target"
     else
-        echo "Directory not found: $*"; return
+        echo "Directory not found: $*"
+        return
     fi
 }
 ```
@@ -152,7 +151,7 @@ $ ingrep bash randomline
 
 ```bash
 up() {
-    readonly old_pwd="$PWD";
+    readonly old_pwd="$PWD"
     while [[ 1 ]]; do
         cd ..
         if [[ "$PWD" == "/" ]]; then
@@ -163,7 +162,7 @@ up() {
         for repo in ".git" ".hg"; do
             if [[ -d "$repo" ]]; then
                 echo "Found $repo at $PWD"
-                return 0;
+                return 0
             fi
         done
     done
@@ -204,7 +203,7 @@ Drop-in replacement for `whois` that accepts URLs and does the parsing for us.
 ```bash
 whois() {
     $(which whois) "$(domain $1)"
-    return $?;
+    return $?
 }
 ```
 
@@ -239,10 +238,10 @@ helpers.bash -> helpers.bash.bak
 
 ```bash
 unbak() {
-    declare target=$1;
+    declare target=$1
     if [[ "${target:0-1}" = "/" ]]; then
         # Strip trailing / of directories
-        target="${target%%/}";
+        target="${target%%/}"
     fi
 
     if [[ "${target:0-4}" = ".bak" ]]; then
@@ -263,7 +262,7 @@ helpers.bash.bak -> helpers.bash
 
 ```bash
 w() {
-    watch -dn1 $*;
+    watch -dn1 $*
 }
 ```
 

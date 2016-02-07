@@ -1,3 +1,6 @@
+# Collection of useful helpers for day-to-day bash shell'ing.
+# Make sure to `source` your helpers rather than executing the bash file.
+
 # Substitute for `cd`
 c() {
     cd *${*}*
@@ -91,13 +94,13 @@ randomline() {
         echo "Must specify how many lines to consider."
         return 1
     fi
-    count="$(random 1 $1)";
+    local count="$(random 1 $1)";
     while read line; do
         if [[ "$count" == "1" ]]; then
             echo "$line";
             break;
         fi
-        count="$[ $count - 1 ]";
+        count="$[ $count - 1 ]"
     done
 }
 
@@ -127,7 +130,7 @@ unbak() {
     declare target=$1;
     if [[ "${target:0-1}" = "/" ]]; then
         # Strip trailing / of directories
-        target="${target%%/}";
+        target="${target%%/}"
     fi
 
     if [[ "${target:0-4}" = ".bak" ]]; then
@@ -143,12 +146,12 @@ fi
 
 # Open modified git files usin `v`
 vmod() {
-    v $(git status | grep 'modified:' | cut -d ' ' -f4 | xargs);
+    v $(git status | grep 'modified:' | cut -d ' ' -f4 | xargs)
 }
 
 # Watch a command for diffs every second
 w() {
-    watch -dn1 $*;
+    watch -dn1 $*
 }
 
 
@@ -217,7 +220,7 @@ create_virtualenv() {
     if [[ -d "$env_path" ]]; then
         echo "$env_path already exists. Activating and aborting."
         source "$env_path/bin/activate"
-        return 1;
+        return 1
     fi
     virtualenv "$env_path" -p "$(which python)" --prompt="($name)"
     ln -s "$env_path/bin/activate" "$path/.profile"
@@ -241,7 +244,7 @@ up() {
         for repo in ".git" ".hg"; do
             if [[ -d "$repo" ]]; then
                 echo "Found $repo at $PWD"
-                return 0;
+                return 0
             fi
         done
     done
@@ -262,7 +265,7 @@ domain() {
 # whois, but a bit smarter (parse domains out of urls)
 whois() {
     $(which whois) "$(domain $1)"
-    return $?;
+    return $?
 }
 
 # dig wrapper for returning all records
