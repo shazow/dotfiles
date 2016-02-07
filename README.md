@@ -1,9 +1,9 @@
 # shazow's dotfiles
 
-Welcome to my dotfiles, a life-long project of improving my computing 
+Welcome to my dotfiles, a life-long project of improving my computing
 environment.
 
-Please help yourself to the many person-years of experience it took to compile 
+Please help yourself to the many person-years of experience it took to compile
 and tweak these tender, juicy, and yet lean, configurations.
 
 Below is a sampling of what to expect:
@@ -14,7 +14,7 @@ Below is a sampling of what to expect:
 (Alternate title: *Bash for Ballers & Debutante Bashellites*)
 
 Do you use a Bash shell every day, all day? Here is a selection of some handy
-tiny helpers to help you love life a little bit more. I invite you to adopt them 
+tiny helpers to help you love life a little bit more. I invite you to adopt them
 into your own dotfiles home and nourish them.
 
 First, a quick table of contents:
@@ -268,3 +268,23 @@ w() {
 ```
 
 
+### More?
+
+There is even more stuff in
+[helpers.bash](https://github.com/shazow/dotfiles/blob/master/helpers.bash),
+like `go` which deals with work environments and switching in/out of them. Dig
+around, see what you find.
+
+
+## Using & Contributing
+
+I recommend copypasta'ing the code into your own dotfiles and allowing them to
+evolve to suit your workstyle. Maybe ping @shazow in your commit message as a
+thanks. :)
+
+Find a bug or a simple improvement? Please send a pull request.
+
+
+## License
+
+MIT.
