@@ -1,11 +1,6 @@
 #!/bin/bash
 
 # Update submodules
-# TODO: cd into dotfiles root first
-git submodule init
-git submodule update
-git submodule foreach git submodule init
-git submodule foreach git submodule update
 
 # Get the absolute path of the dotfiles
 oldpath="$PWD"
@@ -80,7 +75,3 @@ if [ "$(uname)" == "Darwin" ]; then
     append_into ". ~/.bash_profile" ~/.profile
     append_into ". ~/.bashrc" ~/.bash_profile
 fi
-
-# Install Vundle bundles.
-export DOTFILES_PATH="$path"
-vim +BundleInstall +qall
