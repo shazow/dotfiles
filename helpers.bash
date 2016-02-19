@@ -263,7 +263,13 @@ domain() {
 }
 
 tld() {
-  expr match "$(domain $1)" '.*\.\(.*\..*\)'
+    RESULT=$(expr match "$(domain $1)" '.*\.\(.*\..*\)')
+    if [ -z $RESULT ]
+    then
+        domain $1
+    else
+        echo $RESULT
+    fi
 }
 
 # whois, but a bit smarter (parse domains out of urls)
