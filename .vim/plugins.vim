@@ -40,7 +40,9 @@ if $GOPATH != ""
     Plug 'fatih/vim-go'
     Plug 'rhysd/vim-go-impl'
 endif
-Plug 'rust-lang/rust.vim'
+if executable('rustc')
+    Plug 'rust-lang/rust.vim'
+endif
 
 "" Syntax highlighting
 Plug 'hail2u/vim-css3-syntax'
