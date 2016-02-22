@@ -233,7 +233,7 @@ create_virtualenv() {
 #   Found .git at .../dotfiles
 #   dotfiles $
 up() {
-    readonly old_pwd="$PWD"
+    local old_pwd="$PWD"
     while [[ 1 ]]; do
         cd ..
         if [[ "$PWD" == "/" ]]; then
