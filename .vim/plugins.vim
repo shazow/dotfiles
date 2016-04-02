@@ -28,8 +28,6 @@ Plug 'Shougo/deoplete.nvim' " Replaces neocomplcache
 Plug 'Shougo/neosnippet'
 Plug 'janko-m/vim-test'
 Plug 'leshill/vim-json'
-"Plug 'gabrielelana/vim-markdown'
-"Plug 'tpope/vim-markdown'
 Plug 'plasticboy/vim-markdown'
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
