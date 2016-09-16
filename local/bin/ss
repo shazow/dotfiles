@@ -1,0 +1,69 @@
+#!/bin/bash
+# Take a screenshot of a selected area and upload it somewhere.
+#
+# Requires:
+# * scrot
+# * xclip
+
+### CHANGE THESE FUNCTIONS:
+
+upload() {
+    # Given a filepath and a target name, upload the screenshot
+    scp "$1" "ip.shazow.net:sites/shazow.net/tmp/screenshots/$2"
+}
+
+url() {
+    # Given a target name, echo the expected URL of the uploaded screenshot
+    echo "https://shazow.net/tmp/screenshots/$1"
+}
+
+### (End)
+
+screenshot() {
+    if which -s scrot; then
+        scrot -s $1 || return -1
+    elif which -s screencapture; then
+        screencapture -i $1 || return -1
+    else
+    	echo "No screenshot utility found. Install scrot."
+	return -1
+    fi
+}
+
+clipboard() {
+    if which -s xclip; then
+        echo $1 | xclip
+    elif which -s pbcopy; then
+        echo $1 | pbcopy
+    else
+        echo "No clipboard utility found. Install xclip."
+        return -1
+    fi
+    echo "Copied to clipboard."
+}
+
+fail() {
+    echo "$2"
+    exit $1
+}
+
+name="screenshot_$(date '+%Y-%m-%d')"
+tmppath="$(mktemp -t ss)" || fail 1 "failed to allocate a temporary file"
+
+
+# Make it hard to guess
+random_string=$(head -c512 /dev/urandom | md5 -q | head -c4)
+
+# Compose full filename
+filename="${name}_${random_string}.png"
+
+# Take the screenshot
+screenshot "${tmppath}" || fail 2 "failed to take screenshot"
+
+# Upload it
+url=$(url "${filename}")
+echo "Uploading: $url"
+upload "${tmppath}" "${filename}" && rm "${tmppath}" || fail 3 "failed to upload ${tmppath}"
+
+# Copy to clipboard
+clipboard "${url}"
