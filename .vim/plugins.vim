@@ -1,3 +1,7 @@
+function! DoRemote(arg)
+    UpdateRemotePlugins
+endfunction
+
 " Bundles:
 call plug#begin('~/.vim/bundle')
 
@@ -24,7 +28,8 @@ Plug 'alvan/vim-closetag' " Auto-close HTML tags
 Plug 'itchyny/lightline.vim'
 
 "" Language support
-Plug 'Shougo/deoplete.nvim' " Replaces neocomplcache
+Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') } " Replaces neocomplcache
+
 Plug 'Shougo/neosnippet'
 Plug 'janko-m/vim-test'
 Plug 'leshill/vim-json'
@@ -34,7 +39,7 @@ Plug 'hynek/vim-python-pep8-indent'
 Plug 'davidhalter/jedi-vim' " Python static analysis engine
 Plug 'jmcantrell/vim-virtualenv'
 if $GOPATH != ""
-    Plug 'zchee/deoplete-go'
+    Plug 'zchee/deoplete-go', { 'do': 'make'}
     Plug 'fatih/vim-go'
     Plug 'rhysd/vim-go-impl'
 endif
@@ -130,6 +135,7 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
 " deoplete {
     let g:deoplete#enable_at_startup = 1
     let g:deoplete#auto_completion_start_length = 3
+    let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 
     " deoplete-go
     set completeopt+=noinsert
@@ -246,6 +252,7 @@ au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>ru <Plug>(go-run)
 au FileType go nmap <leader>re <Plug>(go-rename)
 au FileType go nmap <leader>te <plug>(go-test)
+au FileType go nmap <leader>tf <plug>(go-test-func)
 au FileType go nmap <leader>in <Plug>(go-info)
 au FileType go nmap <leader>ii <Plug>(go-implements)
 au FileType go nmap gd <Plug>(go-def-split)

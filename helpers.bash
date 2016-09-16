@@ -175,7 +175,7 @@ go() {
         # Load project profile (e.g. virtualenv)
         [[ -e .profile ]] && . .profile
     elif [[ "$BIN_GO" ]]; then
-        $(which go) $*
+        $(which go) "$@"
         return
     fi
 }
