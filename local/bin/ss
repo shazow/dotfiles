@@ -41,14 +41,25 @@ clipboard() {
     fi
 }
 
+notify() {
+    if which -s osascript; then
+        osascript -e "display notification \"$1\" with title \"Screenshot\""
+    else
+        echo "Notification not supported, skipped: $1"
+        return -1
+    fi
+}
+
 fail() {
     echo "$2"
     exit $1
 }
 
+# If a path is given, use that instead of taking a screenshot
+target="$1"
+
 name="screenshot_$(date '+%Y-%m-%d')"
 tmppath="$(mktemp -t ss)" || fail 1 "failed to allocate a temporary file"
-
 
 # Make it hard to guess
 random_string=$(head -c512 /dev/urandom | md5 -q | head -c4)
@@ -56,8 +67,12 @@ random_string=$(head -c512 /dev/urandom | md5 -q | head -c4)
 # Compose full filename
 filename="${name}_${random_string}.png"
 
-# Take the screenshot
-screenshot "${tmppath}" || fail 2 "failed to take screenshot"
+if [[ "${target}" ]]; then
+    cp -p "${target}" "${tmppath}"
+else
+    # Take the screenshot
+    screenshot "${tmppath}" || fail 2 "failed to take screenshot"
+fi
 
 # Clear clipboard
 clipboard " "
@@ -70,3 +85,8 @@ upload "${tmppath}" "${filename}" && rm "${tmppath}" || fail 3 "failed to upload
 # Copy to clipboard
 clipboard "${url}"
 echo "Copied to clipboard."
+
+# Clean up
+rm "${tmppath}"
+
+notify "Uploaded screenshot: ${url}"
