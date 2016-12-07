@@ -1,5 +1,5 @@
 set nocompatible
-set runtimepath=$DOTFILES_PATH/.vim,$VIMRUNTIME
+set runtimepath+=$DOTFILES_PATH/.vim
 set background=dark
 colorscheme mylokai
 

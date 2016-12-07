@@ -34,6 +34,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') } " Replaces neocomplc
 Plug 'Shougo/neosnippet'
 Plug 'janko-m/vim-test'
 Plug 'leshill/vim-json'
+Plug 'reedes/vim-pencil'
 Plug 'gabrielelana/vim-markdown'
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
@@ -272,8 +273,14 @@ let g:go_test_timeout = "3s"
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter = 1
 au FileType markdown nmap <leader>t :Toc<CR>
-au FileType markdown setlocal formatoptions+=want textwidth=80 linebreak "spell complete+=kspell
+"au FileType markdown setlocal formatoptions+=want textwidth=80 linebreak "spell complete+=kspell
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
+" vim-pencil
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd,md,text call pencil#init()
+augroup END
 
 " goyo (zenroom)
 let g:goyo_width=82
