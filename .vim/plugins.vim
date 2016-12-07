@@ -11,7 +11,7 @@ Plug 'tomtom/tlib_vim'
 Plug 'honza/vim-snippets'
 
 "" Other
-Plug 'edsono/vim-matchit'
+Plug 'tmhedberg/matchit'
 Plug 'scrooloose/nerdtree'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar'
@@ -26,14 +26,15 @@ Plug 'gregsexton/gitv' " gitk for vim
 Plug 'jeetsukumaran/vim-indentwise' " Indent-based jumps
 Plug 'alvan/vim-closetag' " Auto-close HTML tags
 Plug 'itchyny/lightline.vim'
+Plug 'arecarn/crunch.vim' " Calculator
+Plug 'arecarn/selection.vim' " Crunch dep
 
 "" Language support
 Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') } " Replaces neocomplcache
-
 Plug 'Shougo/neosnippet'
 Plug 'janko-m/vim-test'
 Plug 'leshill/vim-json'
-Plug 'plasticboy/vim-markdown'
+Plug 'gabrielelana/vim-markdown'
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
 Plug 'davidhalter/jedi-vim' " Python static analysis engine
@@ -46,18 +47,20 @@ endif
 if executable('rustc')
     Plug 'rust-lang/rust.vim'
 endif
+Plug 'ivalkeen/vim-simpledb', { 'for': 'sql' }
 
 "" Syntax highlighting
+Plug 'ap/vim-css-color', { 'for': ['css', 'scss'] }  " Breaks in markdown?
 Plug 'hail2u/vim-css3-syntax'
 Plug 'pangloss/vim-javascript'
 Plug 'othree/html5.vim'
-Plug 'ap/vim-css-color'
 Plug 'sophacles/vim-bundle-mako', { 'for': 'mako' }
 Plug 'groenewege/vim-less', { 'for': 'less' }
 Plug 'honza/dockerfile.vim'
 Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' }
 Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' } " optional syntax highlighting for RFC files
 Plug 'cespare/vim-toml'
+Plug 'leafgarland/typescript-vim', { 'for': 'ts' } " TypeScript
 
 "" Colorschemes
 Plug 'freeo/vim-kalisi'
@@ -70,6 +73,9 @@ endif
 
 " Done adding plugins
 call plug#end()
+
+"" Crunch
+vnoremap <leader>C :Crunch!<CR>
 
 
 "" AutoCloseTag
