@@ -28,13 +28,13 @@ Plug 'alvan/vim-closetag' " Auto-close HTML tags
 Plug 'itchyny/lightline.vim'
 Plug 'arecarn/crunch.vim' " Calculator
 Plug 'arecarn/selection.vim' " Crunch dep
+Plug 'vimwiki/vimwiki'
 
 "" Language support
 Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') } " Replaces neocomplcache
 Plug 'Shougo/neosnippet'
 Plug 'janko-m/vim-test'
 Plug 'leshill/vim-json'
-Plug 'reedes/vim-pencil'
 Plug 'gabrielelana/vim-markdown'
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
@@ -272,16 +272,13 @@ let g:go_test_timeout = "3s"
 " vim-markdown
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter = 1
+au BufNewFile,BufReadPost *.md set filetype=markdown
 au FileType markdown nmap <leader>t :Toc<CR>
-"au FileType markdown setlocal formatoptions+=want textwidth=80 linebreak "spell complete+=kspell
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+au FileType markdown setlocal formatoptions+=at textwidth=80 linebreak
+au FileType markdown syn match myExCapitalWords +\<\w*[A-Z]\S*\>+ contains=@NoSpell
+
 
 " vim-pencil
-augroup pencil
-  autocmd!
-  autocmd FileType markdown,mkd,md,text call pencil#init()
-augroup END
-
 " goyo (zenroom)
 let g:goyo_width=82
 nnoremap <Leader>z :Goyo<CR>
