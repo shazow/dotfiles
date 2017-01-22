@@ -157,6 +157,13 @@ func! PaneToTab()
     silent exe "close | tabnew +" . line(".") . " " . expand("%:p")
 endfunction
 
+" Ignore Noun-y words when spell checking
+fun! IgnoreNounSpell()
+    syn match myExCapitalWords +\<\w*[A-Z]\S*\>+ contains=@NoSpell
+    "syn match CamelCase /\<[A-Z][a-z]\+[A-Z].\{-}\>/ contains=@NoSpell transparent
+    "syn cluster Spell add=CamelCase
+endfun
+
 
 " Extra:
 

@@ -273,9 +273,9 @@ let g:go_test_timeout = "3s"
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter = 1
 au BufNewFile,BufReadPost *.md set filetype=markdown
+au BufNewFile,BufReadPost *.md :call IgnoreNounSpell()
 au FileType markdown nmap <leader>t :Toc<CR>
 au FileType markdown setlocal formatoptions+=at textwidth=80 linebreak
-au FileType markdown syn match myExCapitalWords +\<\w*[A-Z]\S*\>+ contains=@NoSpell
 
 
 " vim-pencil
