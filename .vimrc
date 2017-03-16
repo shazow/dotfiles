@@ -5,9 +5,9 @@ colorscheme mylokai
 
 " Figure out the system Python for Neovim.
 if exists("$VIRTUAL_ENV")
-    let g:python_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), '\n', '', 'g')
+    let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
 else
-    let g:python_host_prog=substitute(system("which python3"), '\n', '', 'g')
+    let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
 endif
 
 " Enable some nvim features.
@@ -143,26 +143,33 @@ noremap <leader><space> :call StripWhitespace()<CR>
 
 
 " Find the nearest Makefile and run it
-function! MakeUp()
+func! MakeUp()
     let makefile = findfile("Makefile", ".;")
     if makefile != ""
         silent exe "NeomakeSh make -C " . fnamemodify(makefile, ':p:h')
     endif
-endfunction
+endfunc
 autocmd BufWritePost *.scss call MakeUp()
 
 
 " Open the current pane in a tab and close the pane
 func! PaneToTab()
     silent exe "close | tabnew +" . line(".") . " " . expand("%:p")
-endfunction
+endfunc
 
 " Ignore Noun-y words when spell checking
-fun! IgnoreNounSpell()
+func! IgnoreNounSpell()
     syn match myExCapitalWords +\<\w*[A-Z]\S*\>+ contains=@NoSpell
     "syn match CamelCase /\<[A-Z][a-z]\+[A-Z].\{-}\>/ contains=@NoSpell transparent
     "syn cluster Spell add=CamelCase
-endfun
+endfunc
+
+" Set tab width
+func! SetTab(width)
+    let &tabstop=a:width
+    let &softtabstop=a:width
+    let &shiftwidth=a:width
+endfunc
 
 
 " Extra:
