@@ -29,12 +29,14 @@ Plug 'itchyny/lightline.vim'
 Plug 'arecarn/crunch.vim' " Calculator
 Plug 'arecarn/selection.vim' " Crunch dep
 Plug 'vimwiki/vimwiki'
+Plug 'tpope/vim-sleuth' " Auto-detect buffer settings
 
 "" Language support
 Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') } " Replaces neocomplcache
 Plug 'Shougo/neosnippet'
 Plug 'janko-m/vim-test'
 Plug 'leshill/vim-json'
+Plug 'posva/vim-vue'
 Plug 'gabrielelana/vim-markdown'
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
