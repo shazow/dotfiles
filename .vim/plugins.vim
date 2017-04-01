@@ -32,7 +32,11 @@ Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-sleuth' " Auto-detect buffer settings
 
 "" Language support
-Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') } " Replaces neocomplcache
+if has("nvim")
+    Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') } " Replaces neocomplcache
+else
+    Plug 'Shougo/neocomplete.vim'
+endif
 Plug 'Shougo/neosnippet'
 Plug 'janko-m/vim-test'
 Plug 'leshill/vim-json'
@@ -67,6 +71,7 @@ Plug 'leafgarland/typescript-vim', { 'for': 'ts' } " TypeScript
 
 "" Colorschemes
 Plug 'freeo/vim-kalisi'
+Plug 'jacoborus/tender.vim'
 
 
 "" Extra local bundles
@@ -131,16 +136,49 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
     set completeopt=menu,preview,longest
 
-    " Enable omni completion.
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    "autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType python setlocal omnifunc=jedi#completions
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-    autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 " }
 
+" Autocompletion
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=jedi#completions
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+
+" Tab-complete, without completing on an empty line.
+function! s:check_back_space()
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1] =~ '\s'
+endfunction
+
+function! s:tab_complete()
+    " Are we already completing?
+    if pumvisible()
+        return "\<C-n>"
+    endif
+
+    " Is it a snippet?
+    if neosnippet#expandable_or_jumpable()
+        return "\<Plug>(neosnippet_expand_or_jump)"
+    endif
+
+    return "\<TAB>"
+
+    " No longer needed?
+    "
+    "" Are we on an empty line?
+    "let col = col('.') - 1
+    "if !col || getline('.')[col - 1] =~ '\s'
+    "    return "\<TAB>"
+    "endif
+    "" Let deoplete do its thing.
+    "return deoplete#mappings#manual_complete()
+endfunction
+
+imap <silent><expr> <TAB> <SID>tab_complete()
+
+if has("nvim")
 " deoplete {
     let g:deoplete#enable_at_startup = 1
     let g:deoplete#auto_completion_start_length = 3
@@ -150,43 +188,42 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     set completeopt+=noinsert
     set completeopt+=noselect
 
-    " Tab-complete, without completing on an empty line.
-    function! s:check_back_space()
-      let col = col('.') - 1
-      return !col || getline('.')[col - 1] =~ '\s'
-    endfunction
-
-    function! s:tab_complete()
-        " Are we already completing?
-        if pumvisible()
-            return "\<C-n>"
-        endif
-
-        " Is it a snippet?
-        if neosnippet#expandable_or_jumpable()
-            return "\<Plug>(neosnippet_expand_or_jump)"
-        endif
-
-        return "\<TAB>"
-
-        " No longer needed?
-        "
-        "" Are we on an empty line?
-        "let col = col('.') - 1
-        "if !col || getline('.')[col - 1] =~ '\s'
-        "    return "\<TAB>"
-        "endif
-        "" Let deoplete do its thing.
-        "return deoplete#mappings#manual_complete()
-    endfunction
-
-    imap <silent><expr> <TAB> <SID>tab_complete()
-
     " doplete + vim-jedi for Python
     let g:jedi#completions_enabled = 0
     let g:jedi#auto_vim_configuration = 0
     let g:jedi#smart_auto_mappings = 0
     let g:jedi#show_call_signatures = 0
+
+" }
+else
+" neocomplete {
+    " Disable AutoComplPop.
+    let g:acp_enableAtStartup = 0
+    " Use neocomplete.
+    let g:neocomplete#enable_at_startup = 1
+    " Use smartcase.
+    let g:neocomplete#enable_smart_case = 1
+    " Set minimum syntax keyword length.
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+        " Plugin key-mappings.
+    imap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
+    smap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
+
+    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+
+    " Jedi
+    autocmd FileType python setlocal omnifunc=jedi#completions
+    let g:jedi#completions_enabled = 0
+    let g:jedi#auto_vim_configuration = 0
+    let g:jedi#auto_vim_configuration = 0
+    if !exists('g:neocomplete#force_omni_input_patterns')
+      let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.python =
+        \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+        " alternative pattern: '\h\w*\|[^. \t]\.\w*'
+endif
 " }
 
 " neosnippet {
@@ -250,6 +287,11 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
         \ 'ctagsargs' : '-sort -silent'
     \ }
 " }
+
+
+" vim-python
+let g:python_highlight_all = 1
+
 
 " vim-go
 autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
