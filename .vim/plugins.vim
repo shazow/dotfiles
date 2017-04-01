@@ -35,6 +35,7 @@ Plug 'tpope/vim-sleuth' " Auto-detect buffer settings
 if has("nvim")
     Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') } " Replaces neocomplcache
 else
+    Plug 'Shougo/vimproc.vim', {'do' : 'make'}
     Plug 'Shougo/neocomplete.vim'
 endif
 Plug 'Shougo/neosnippet'
