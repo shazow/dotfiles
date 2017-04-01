@@ -96,6 +96,13 @@ nnoremap <M-left> <C-w>h " (alt-left)
 nnoremap <M-down> <C-w>j " (alt-down)
 nnoremap <M-up> <C-w>k " (alt-up)
 
+if has("nvim")
+    tnoremap <M-right> <C-w>l " (alt-right)
+    tnoremap <M-left> <C-w>h " (alt-left)
+    tnoremap <M-down> <C-w>j " (alt-down)
+    tnoremap <M-up> <C-w>k " (alt-up)
+endif
+
 nnoremap <M-l> :topleft split<CR> " Horizontal split (alt-l)
 nnoremap <M-k> :topleft vsplit<CR> " Vertical split (alt-k)
 nnoremap <M-;> :close<CR> " Close split (alt-/)
