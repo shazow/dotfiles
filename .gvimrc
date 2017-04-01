@@ -17,6 +17,7 @@ endif
 
 if has("gui_macvim")
     set fuopt+=maxhorz      " Resize to full screen
+    set mouse=a             " Select with mouse
     set macmeta             " Necessary for using meta key in mappings on OSX
     let macvim_skip_cmd_opt_movement = 1    " Prevent MacVim from mapping fake HOME/END to M-arrow keys.
     map <D-f> :set invfu<CR>                " toggle fullscreen mode
