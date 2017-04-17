@@ -60,7 +60,7 @@ Plug 'ivalkeen/vim-simpledb', { 'for': 'sql' }
 "" Syntax highlighting
 Plug 'ap/vim-css-color', { 'for': ['css', 'scss'] }  " Breaks in markdown?
 Plug 'hail2u/vim-css3-syntax'
-Plug 'pangloss/vim-javascript'
+Plug 'othree/yajs.vim', { 'for': 'javascript' }
 Plug 'othree/html5.vim'
 Plug 'sophacles/vim-bundle-mako', { 'for': 'mako' }
 Plug 'groenewege/vim-less', { 'for': 'less' }
