@@ -14,8 +14,6 @@ shopt -s histappend
 # Colorize ls by default
 if [ "$TERM" != "dumb" ]; then
     export LS_OPTIONS='--color=auto'
-    export GREP_OPTIONS='--color=auto'
-    export GREP_COLOR='0;32'
 fi
 
 # OSX-specific settings
