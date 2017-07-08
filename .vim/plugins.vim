@@ -30,6 +30,7 @@ Plug 'arecarn/crunch.vim' " Calculator
 Plug 'arecarn/selection.vim' " Crunch dep
 Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-sleuth' " Auto-detect buffer settings
+Plug 'shougo/vinarise.vim' " Hex editor
 
 "" Language support
 if has("nvim")
@@ -313,6 +314,17 @@ au FileType go nmap gD <Plug>(go-def)
 let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
 let g:go_test_timeout = "3s"
+let g:go_auto_type_info = 1
+
+"" Go Enable syntax highlighting per default
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_extra_types = 1
 
 " vim-markdown
 let g:vim_markdown_folding_disabled=1
@@ -320,7 +332,7 @@ let g:vim_markdown_frontmatter = 1
 au BufNewFile,BufReadPost *.md set filetype=markdown
 au BufNewFile,BufReadPost *.md :call IgnoreNounSpell()
 au FileType markdown nmap <leader>t :Toc<CR>
-au FileType markdown setlocal formatoptions=nat textwidth=80 linebreak
+au FileType markdown setlocal formatoptions= textwidth=80 linebreak
 
 
 " vim-pencil
