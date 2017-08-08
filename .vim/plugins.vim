@@ -1,7 +1,3 @@
-function! DoRemote(arg)
-    UpdateRemotePlugins
-endfunction
-
 " Bundles:
 call plug#begin('~/.vim/bundle')
 
@@ -34,10 +30,12 @@ Plug 'shougo/vinarise.vim' " Hex editor
 
 "" Language support
 if has("nvim")
-    Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') } " Replaces neocomplcache
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Replaces neocomplcache
+    Plug 'zchee/deoplete-jedi' " Python static analysis engine
 else
     Plug 'Shougo/vimproc.vim', {'do' : 'make'}
     Plug 'Shougo/neocomplete.vim'
+    Plug 'davidhalter/jedi-vim' " Python static analysis engine
 endif
 Plug 'Shougo/neosnippet'
 Plug 'janko-m/vim-test'
@@ -46,7 +44,6 @@ Plug 'posva/vim-vue'
 Plug 'gabrielelana/vim-markdown'
 Plug 'hdima/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
-Plug 'davidhalter/jedi-vim' " Python static analysis engine
 Plug 'jmcantrell/vim-virtualenv'
 if $GOPATH != ""
     Plug 'zchee/deoplete-go', { 'do': 'make'}
@@ -70,6 +67,7 @@ Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' }
 Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' } " optional syntax highlighting for RFC files
 Plug 'cespare/vim-toml'
 Plug 'leafgarland/typescript-vim', { 'for': 'ts' } " TypeScript
+Plug 'tomlion/vim-solidity', { 'for': 'solidity' } " Solidity
 
 "" Colorschemes
 Plug 'freeo/vim-kalisi'
@@ -165,32 +163,35 @@ function! s:tab_complete()
         return "\<Plug>(neosnippet_expand_or_jump)"
     endif
 
-    return "\<TAB>"
+    " Are we on an empty line?
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] =~ '\s'
+        return "\<TAB>"
+    endif
 
-    " No longer needed?
-    "
-    "" Are we on an empty line?
-    "let col = col('.') - 1
-    "if !col || getline('.')[col - 1] =~ '\s'
-    "    return "\<TAB>"
-    "endif
-    "" Let deoplete do its thing.
-    "return deoplete#mappings#manual_complete()
+    " Let deoplete do its thing.
+    if has("nvim")
+        return deoplete#mappings#manual_complete()
+    else
+        return neocomplete#mappings#manual_complete()
+    endif
 endfunction
 
-imap <silent><expr> <TAB> <SID>tab_complete()
+imap <expr><silent><tab> <SID>tab_complete()
 
 if has("nvim")
 " deoplete {
     let g:deoplete#enable_at_startup = 1
-    let g:deoplete#auto_completion_start_length = 3
+    let g:deoplete#auto_completion_start_length = 7
     let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
 
     " deoplete-go
     set completeopt+=noinsert
     set completeopt+=noselect
+    "set completeopt+=preview
 
     " doplete + vim-jedi for Python
+    " TODO: Port to deoplete-jedi
     let g:jedi#completions_enabled = 0
     let g:jedi#auto_vim_configuration = 0
     let g:jedi#smart_auto_mappings = 0
@@ -206,7 +207,7 @@ else
     " Use smartcase.
     let g:neocomplete#enable_smart_case = 1
     " Set minimum syntax keyword length.
-    let g:neocomplete#sources#syntax#min_keyword_length = 3
+    let g:neocomplete#sources#syntax#min_keyword_length = 7
         " Plugin key-mappings.
     imap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
     smap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
@@ -329,10 +330,11 @@ let g:go_highlight_extra_types = 1
 " vim-markdown
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter = 1
+let g:markdown_enable_insert_mode_mappings = 0 " avoid overriding our <tab> binding
 au BufNewFile,BufReadPost *.md set filetype=markdown
 au BufNewFile,BufReadPost *.md :call IgnoreNounSpell()
 au FileType markdown nmap <leader>t :Toc<CR>
-au FileType markdown setlocal formatoptions= textwidth=80 linebreak
+au FileType markdown setlocal formatoptions=t textwidth=80 linebreak
 
 
 " vim-pencil
