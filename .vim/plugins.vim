@@ -26,11 +26,12 @@ Plug 'arecarn/crunch.vim' " Calculator
 Plug 'arecarn/selection.vim' " Crunch dep
 Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-sleuth' " Auto-detect buffer settings
-Plug 'shougo/vinarise.vim' " Hex editor
+Plug 'Shougo/vinarise.vim' " Hex editor
 
 "" Language support
 if has("nvim")
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Replaces neocomplcache
+    Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }" Unite replacement
     Plug 'zchee/deoplete-jedi' " Python static analysis engine
 else
     Plug 'Shougo/vimproc.vim', {'do' : 'make'}
