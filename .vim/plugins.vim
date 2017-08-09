@@ -115,29 +115,6 @@ autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
     nnoremap <leader>p :CtrlPTag<cr> " Ctags integration
 "}
 
-" OmniComplete {
-    if has("autocmd") && exists("+omnifunc")
-        autocmd Filetype *
-            \if &omnifunc == "" |
-            \setlocal omnifunc=syntaxcomplete#Complete |
-            \endif
-    endif
-
-    hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=black ctermbg=Lightgray
-    hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
-    hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
-
-    " Some convenient mappings
-    inoremap <expr><CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-    inoremap <expr><Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-    inoremap <expr><Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-
-    " Automatically open and close the popup menu / preview window
-    au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-    set completeopt=menu,preview,longest
-
-" }
-
 " Autocompletion
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -182,8 +159,9 @@ imap <expr><silent><tab> <SID>tab_complete()
 if has("nvim")
 " deoplete {
     let g:deoplete#enable_at_startup = 1
-    let g:deoplete#auto_completion_start_length = 7
+    let g:deoplete#auto_completion_start_length = 5
     let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+    let g:deoplete#disable_auto_complete = 1
 
     " deoplete-go
     set completeopt+=noinsert
@@ -202,13 +180,12 @@ else
 " neocomplete {
     " Disable AutoComplPop.
     let g:acp_enableAtStartup = 0
-    " Use neocomplete.
     let g:neocomplete#enable_at_startup = 1
-    " Use smartcase.
     let g:neocomplete#enable_smart_case = 1
-    " Set minimum syntax keyword length.
-    let g:neocomplete#sources#syntax#min_keyword_length = 7
-        " Plugin key-mappings.
+    let g:neocomplete#sources#syntax#min_keyword_length = 5
+    let g:neocomplete#disable_auto_complete=1
+
+    " Plugin key-mappings.
     imap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
     smap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
 

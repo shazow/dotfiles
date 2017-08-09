@@ -11,9 +11,7 @@ else
 endif
 
 " Enable some nvim features.
-"let $NVIM_TUI_ENABLE_TRUE_COLOR=1  " Broken, pending: https://github.com/neovim/neovim/issues/2953
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " Enable plugins
 filetype off
@@ -81,6 +79,7 @@ set splitright
 " General mappings
 nnoremap <leader>\ :noh<return> " Turn off highlighting
 nnoremap <silent><leader>w :call search('\u', 'W')<CR> " Jump TitleCase words
+nnoremap <leader>so :so $MYVIMRC<return> " Reload source
 
 vmap > >gv " Retain visual select when indenting
 vmap < <gv " Retain visual select when indenting
