@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Check if PATH is a dirty repo.
+
+main() {
+    set -eo pipefail; [[ "$TRACE" ]] && set -x
+
+    declare path="${1:-$PWD}"
+    readonly name="$(basename $path)"
+
+    if [[ ! -d "$path/.git" ]]; then
+        echo "$name: not a git repo"
+        exit 0
+    fi
+
+    cd "$path"
+
+    if ! git rev-parse --verify --quiet HEAD &> /dev/null; then
+        echo "$name: no HEAD commit"
+        exit 1
+    fi
+    if ! git diff-files --quiet; then
+        echo "$name: uncommitted changes"
+        exit 2
+    fi
+    if ! git diff-index --quiet --cached HEAD; then
+        echo "$name: staged changes"
+        exit 3
+    fi
+    if ! git diff --quiet -- @{push}..; then
+        echo "$name: unpushed changes"
+        exit 4
+    fi
+
+    echo "$name: clean"
+}
+
+main $@
