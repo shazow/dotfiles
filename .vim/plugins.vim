@@ -20,7 +20,7 @@ Plug 'junegunn/limelight.vim' " Highlight active paragraph
 Plug 'tpope/vim-fugitive' " For gitv
 Plug 'gregsexton/gitv' " gitk for vim
 Plug 'jeetsukumaran/vim-indentwise' " Indent-based jumps
-Plug 'alvan/vim-closetag' " Auto-close HTML tags
+"Plug 'alvan/vim-closetag' " Auto-close HTML tags
 Plug 'itchyny/lightline.vim'
 Plug 'arecarn/crunch.vim' " Calculator
 Plug 'arecarn/selection.vim' " Crunch dep
@@ -30,8 +30,8 @@ Plug 'Shougo/vinarise.vim' " Hex editor
 
 "" Language support
 if has("nvim")
+    Plug 'Shougo/denite.nvim' " Unite replacement
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Replaces neocomplcache
-    Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }" Unite replacement
     Plug 'zchee/deoplete-jedi' " Python static analysis engine
 else
     Plug 'Shougo/vimproc.vim', {'do' : 'make'}
@@ -39,6 +39,7 @@ else
     Plug 'davidhalter/jedi-vim' " Python static analysis engine
 endif
 Plug 'Shougo/neosnippet'
+Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
 Plug 'leshill/vim-json'
 Plug 'posva/vim-vue'
@@ -273,6 +274,8 @@ endif
 " vim-python
 let g:python_highlight_all = 1
 
+" vim-vue
+let g:vue_disable_pre_processors=1
 
 " vim-go
 autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
@@ -313,7 +316,6 @@ au BufNewFile,BufReadPost *.md set filetype=markdown
 au BufNewFile,BufReadPost *.md :call IgnoreNounSpell()
 au FileType markdown nmap <leader>t :Toc<CR>
 au FileType markdown setlocal formatoptions=t textwidth=80 linebreak
-
 
 " vim-pencil
 " goyo (zenroom)
