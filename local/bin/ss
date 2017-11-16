@@ -9,12 +9,12 @@
 
 upload() {
     # Given a filepath and a target name, upload the screenshot
-    scp "$1" "ip.shazow.net:sites/shazow.net/tmp/screenshots/$2"
+    scp "$1" "ip.shazow.net:sites/tmp.shazow.net/screenshots/$2"
 }
 
 url() {
     # Given a target name, echo the expected URL of the uploaded screenshot
-    echo "https://shazow.net/tmp/screenshots/$1"
+    echo "https://tmp.shazow.net/screenshots/$1"
 }
 
 ### (End)
