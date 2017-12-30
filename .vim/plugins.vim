@@ -8,29 +8,29 @@ Plug 'honza/vim-snippets'
 
 "" Other
 Plug 'tmhedberg/matchit'
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'mbbill/undotree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'benekastah/neomake' " Replaces syntastic
 Plug 'tpope/vim-surround'
-Plug 'junegunn/goyo.vim'
+Plug 'junegunn/goyo.vim' " Zen mode
 Plug 'junegunn/limelight.vim' " Highlight active paragraph
 Plug 'tpope/vim-fugitive' " For gitv
 Plug 'gregsexton/gitv' " gitk for vim
+Plug 'mhinz/vim-signify', { 'on': 'SignifyToggle' }
 Plug 'jeetsukumaran/vim-indentwise' " Indent-based jumps
-"Plug 'alvan/vim-closetag' " Auto-close HTML tags
 Plug 'itchyny/lightline.vim'
 Plug 'arecarn/crunch.vim' " Calculator
 Plug 'arecarn/selection.vim' " Crunch dep
 Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-sleuth' " Auto-detect buffer settings
 Plug 'Shougo/vinarise.vim' " Hex editor
+Plug 'Shougo/denite.nvim' " Unite replacement
 
 "" Language support
 if has("nvim")
-    Plug 'Shougo/denite.nvim' " Unite replacement
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Replaces neocomplcache
     Plug 'zchee/deoplete-jedi' " Python static analysis engine
 else
@@ -49,11 +49,18 @@ Plug 'hynek/vim-python-pep8-indent'
 Plug 'jmcantrell/vim-virtualenv'
 if $GOPATH != ""
     Plug 'zchee/deoplete-go', { 'do': 'make'}
-    Plug 'fatih/vim-go'
+    Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': 'go' }
     Plug 'rhysd/vim-go-impl'
 endif
 if executable('rustc')
     Plug 'rust-lang/rust.vim'
+    Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+    if executable('racer')
+      Plug 'racer-rust/vim-racer'
+    endif
+endif
+if executable('tsc')
+  Plug 'Quramy/tsuquyomi', { 'for': 'typescript' } " Typescript IDE
 endif
 Plug 'ivalkeen/vim-simpledb', { 'for': 'sql' }
 
@@ -61,35 +68,25 @@ Plug 'ivalkeen/vim-simpledb', { 'for': 'sql' }
 Plug 'ap/vim-css-color', { 'for': ['css', 'scss'] }  " Breaks in markdown?
 Plug 'hail2u/vim-css3-syntax'
 Plug 'othree/yajs.vim', { 'for': 'javascript' }
+Plug 'leafgarland/typescript-vim', { 'for': 'typescript' } " Typescript syntax
 Plug 'othree/html5.vim'
 Plug 'sophacles/vim-bundle-mako', { 'for': 'mako' }
 Plug 'groenewege/vim-less', { 'for': 'less' }
-Plug 'honza/dockerfile.vim'
+Plug 'honza/dockerfile.vim', { 'for': 'Dockerfile' }
 Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' }
 Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' } " optional syntax highlighting for RFC files
 Plug 'cespare/vim-toml'
-Plug 'leafgarland/typescript-vim', { 'for': 'ts' } " TypeScript
 Plug 'tomlion/vim-solidity', { 'for': 'solidity' } " Solidity
 
 "" Colorschemes
-Plug 'freeo/vim-kalisi'
 Plug 'jacoborus/tender.vim'
-
-
-"" Extra local bundles
-if filereadable(expand("~/.vimrc.bundles"))
-    source ~/.vimrc.bundles
-endif
 
 " Done adding plugins
 call plug#end()
 
-"" Crunch
+
+"" Crunch (math)
 vnoremap <leader>C :Crunch!<CR>
-
-
-"" AutoCloseTag
-let g:closetag_filenames = "*.html,*.xml,*.mako"
 
 " Matchit
 autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
@@ -177,6 +174,8 @@ if has("nvim")
     let g:jedi#smart_auto_mappings = 0
     let g:jedi#show_call_signatures = 0
 
+    let g:deoplete#omni_patterns = {}
+    let g:deoplete#omni_patterns.rust = '[(\.)(::)]'
 " }
 else
 " neocomplete {
@@ -230,6 +229,14 @@ endif
     " When enabled, there can be too much visual noise
     " especially when splits are used.
     set completeopt-=preview
+" }
+
+" Denite {
+
+call denite#custom#var('file_rec', 'command',
+	\ ['pt', '--follow', '--nocolor', '--nogroup',
+	\  (has('win32') ? '-g:' : '-g='), ''])
+
 " }
 
 " UndoTree {
@@ -290,7 +297,7 @@ au FileType go nmap <leader>te <plug>(go-test)
 au FileType go nmap <leader>tf <plug>(go-test-func)
 au FileType go nmap <leader>in <Plug>(go-info)
 au FileType go nmap <leader>ii <Plug>(go-implements)
-au FileType go nmap gd <Plug>(go-def-split)
+au FileType go nmap gd <Plug>(go-def-vertical)
 au FileType go nmap gD <Plug>(go-def)
 
 let g:go_def_mapping_enabled = 0
@@ -307,6 +314,13 @@ let g:go_highlight_structs = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
+
+" rust vim-racer
+au FileType rust nmap gd <Plug>(rust-def-vertical)
+au FileType rust nmap gD <Plug>(rust-def)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
+autocmd! BufWritePost *.rs NeomakeProject cargo
+
 
 " vim-markdown
 let g:vim_markdown_folding_disabled=1
@@ -328,6 +342,9 @@ autocmd! BufWritePost *.py Neomake
 " lightline
 set laststatus=2
 set noshowmode " Hide INSERT etc
+
+" signify (disable by default)
+"let g:signify_disable_by_default = 1
 
 "" Borrowed from fatih/dotfiles
 let g:lightline = {
