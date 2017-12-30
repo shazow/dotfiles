@@ -5,20 +5,14 @@ set nocompatible
 set runtimepath+=$DOTFILES_PATH/.vim
 set background=dark
 colorscheme mylokai
+scriptencoding utf-8
 
 " Enable some nvim features.
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " Enable plugins
-filetype off
 set shell=/bin/bash
 source $DOTFILES_PATH/.vim/plugins.vim
-
-" Syntax and encoding
-syntax on " Syntax highlighting
-filetype on " Try to detect filetypes
-filetype plugin indent on " Enable loading indent file for filetype
-scriptencoding utf-8
 
 " Keep all temporary and backup files in ~/.vim
 set viminfo='10,\"100,:20,%,n~/.vim/viminfo
@@ -125,7 +119,6 @@ nnoremap <M-w> :tabclose<CR>
 nnoremap <M-t> :tabnew %<CR>
 nnoremap <M-T> :call PaneToTab()<CR>
 
-
 " Keep vim's directory context same as the current buffer
 if exists('+autochdir')
     set autochdir
@@ -136,7 +129,6 @@ endif
 " Reveal rogue spaces
 set list listchars=tab:>\ ,trail:.,extends:$,nbsp:_
 set fillchars=fold:-
-
 
 " Evaporate rogue spaces
 function! StripWhitespace()
@@ -211,10 +203,6 @@ endfunction
 autocmd BufNewFile * nested call s:goto_line()
 
 " Extra:
-
-"" Fix bug in css syntax highlighting overriding css-color.
-"" FIXME: Remove when https://github.com/ChrisYip/Better-CSS-Syntax-for-Vim/issues/4 is fixed
-au Filetype css,less source ~/.vim/bundle/vim-css-color/after/syntax/css.vim
 
 "" Detect RFC files
 au FileType text if expand('%:t') =~? 'rfc\d\+' | set filetype=rfc | endif
