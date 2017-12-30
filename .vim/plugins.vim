@@ -9,7 +9,6 @@ Plug 'honza/vim-snippets'
 "" Other
 Plug 'tmhedberg/matchit'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'scrooloose/nerdcommenter'
@@ -91,29 +90,6 @@ vnoremap <leader>C :Crunch!<CR>
 
 " Matchit
 autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
-
-" ctrlp {
-    let g:ctrlp_cmd = 'CtrlPMixed' " Search all the things.
-    let g:ctrlp_working_path_mode = 'ra' " Nearest ancestor
-    let g:ctrlp_mruf_max = 25
-    let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-        \ 'file': '\.exe$\|\.so$\|\.dll$' }
-
-    let g:ctrlp_user_command = {
-        \ 'types': {
-            \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
-            \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-        \ },
-        \ 'fallback': 'find %s -type f'
-    \ }
-    " Reuse already-open buffers? (Default: 'Et')
-    let g:ctrlp_switch_buffer = 0
-
-    nnoremap <silent> <D-p> :CtrlP<CR>
-    nnoremap <silent> <D-r> :CtrlPMRU<CR>
-    nnoremap <leader>p :CtrlPTag<cr> " Ctags integration
-"}
 
 " Autocompletion
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -233,11 +209,19 @@ endif
 " }
 
 " Denite {
+if executable('pt')
+  call denite#custom#var('file_rec', 'command', ['pt', '--follow', '--nocolor', '--nogroup', (has('win32') ? '-g:' : '-g='), ''])
+  call denite#custom#var('grep', 'command', ['pt'])
+  call denite#custom#var('grep', 'default_opts', ['--nogroup', '--nocolor', '--smart-case'])
+endif
 
-call denite#custom#var('file_rec', 'command',
-	\ ['pt', '--follow', '--nocolor', '--nogroup',
-	\  (has('win32') ? '-g:' : '-g='), ''])
+call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+call denite#custom#var('file_rec/git', 'command', ['git', 'ls-files', '-co', '--exclude-standard'])
+call denite#custom#map('insert', '<down>', '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<up>', '<denite:move_to_previous_line>', 'noremap')
 
+nnoremap <C-p> :<C-u>Denite file_rec<CR>
+nnoremap <C-f> :<C-u>Denite grep<CR>
 " }
 
 " UndoTree {
@@ -283,7 +267,7 @@ call denite#custom#var('file_rec', 'command',
 let g:python_highlight_all = 1
 
 " vim-vue
-let g:vue_disable_pre_processors=1
+let g:vue_disable_pre_processors = 1
 
 " vim-go
 autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
@@ -321,7 +305,6 @@ au FileType rust nmap gd <Plug>(rust-def-vertical)
 au FileType rust nmap gD <Plug>(rust-def)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
 autocmd! BufWritePost *.rs NeomakeProject cargo
-
 
 " vim-markdown
 let g:vim_markdown_folding_disabled=1

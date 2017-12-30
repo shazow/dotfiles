@@ -55,7 +55,7 @@ set tags=./tags,tags;$HOME
 
 " Autocomplete
 set wildmode=list:longest
-set wildignore+=*.o,*.obj,*.pyc
+set wildignore+=.*,*.o,*.obj,*.pyc
 
 " Highlight content beyond col79
 if exists('+colorcolumn')
