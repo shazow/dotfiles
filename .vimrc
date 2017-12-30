@@ -6,13 +6,6 @@ set runtimepath+=$DOTFILES_PATH/.vim
 set background=dark
 colorscheme mylokai
 
-" Figure out the system Python for Neovim.
-if exists("$VIRTUAL_ENV")
-    let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
-else
-    let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
-endif
-
 " Enable some nvim features.
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
