@@ -11,7 +11,7 @@ Plug 'tmhedberg/matchit'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
-Plug 'mbbill/undotree'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'benekastah/neomake' " Replaces syntastic
 Plug 'tpope/vim-surround'
@@ -28,6 +28,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-sleuth' " Auto-detect buffer settings
 Plug 'Shougo/vinarise.vim' " Hex editor
 Plug 'Shougo/denite.nvim' " Unite replacement
+Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' } " Profiling
 
 "" Language support
 if has("nvim")
@@ -42,21 +43,21 @@ Plug 'Shougo/neosnippet'
 Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
 Plug 'leshill/vim-json'
-Plug 'posva/vim-vue'
+Plug 'posva/vim-vue', { 'for': 'vue' }
 Plug 'gabrielelana/vim-markdown'
-Plug 'hdima/python-syntax'
-Plug 'hynek/vim-python-pep8-indent'
-Plug 'jmcantrell/vim-virtualenv'
+Plug 'hdima/python-syntax', { 'for': 'python' }
+Plug 'hynek/vim-python-pep8-indent', { 'for': 'python' }
+Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 if $GOPATH != ""
-    Plug 'zchee/deoplete-go', { 'do': 'make'}
+    Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go'}
     Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': 'go' }
-    Plug 'rhysd/vim-go-impl'
+    Plug 'rhysd/vim-go-impl', { 'for': 'go' }
 endif
 if executable('rustc')
-    Plug 'rust-lang/rust.vim'
+    Plug 'rust-lang/rust.vim', { 'for': 'rust' }
     Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
     if executable('racer')
-      Plug 'racer-rust/vim-racer'
+      Plug 'racer-rust/vim-racer', { 'for': 'rust' }
     endif
 endif
 if executable('tsc')
