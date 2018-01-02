@@ -209,19 +209,22 @@ endif
 " }
 
 " Denite {
-if executable('pt')
-  call denite#custom#var('file_rec', 'command', ['pt', '--follow', '--nocolor', '--nogroup', (has('win32') ? '-g:' : '-g='), ''])
-  call denite#custom#var('grep', 'command', ['pt'])
-  call denite#custom#var('grep', 'default_opts', ['--nogroup', '--nocolor', '--smart-case'])
-endif
+  if executable('pt')
+    call denite#custom#var('file_rec', 'command', ['pt', '--follow', '--nocolor', '--nogroup', (has('win32') ? '-g:' : '-g='), ''])
+    call denite#custom#var('grep', 'command', ['pt'])
+    call denite#custom#var('grep', 'default_opts', ['--nogroup', '--nocolor', '--smart-case'])
+  endif
 
-call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-call denite#custom#var('file_rec/git', 'command', ['git', 'ls-files', '-co', '--exclude-standard'])
-call denite#custom#map('insert', '<down>', '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<up>', '<denite:move_to_previous_line>', 'noremap')
+  call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])  " Closer to the ancestor-first behaviour
+  call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+  call denite#custom#var('file_rec/git', 'command', ['git', 'ls-files', '-co', '--exclude-standard'])
 
-nnoremap <C-p> :<C-u>Denite file_rec<CR>
-nnoremap <C-f> :<C-u>Denite grep<CR>
+  call denite#custom#map('insert', '<down>', '<denite:move_to_next_line>', 'noremap')
+  call denite#custom#map('insert', '<up>', '<denite:move_to_previous_line>', 'noremap')
+
+  nnoremap <C-f> :<C-u>Denite grep<CR>
+  " Use file_rec/git when in a git repo
+  nnoremap <silent> <C-p> :<C-u>DeniteProjectDir `isdirectory('.git') != '' ? 'file_rec/git' : 'file_rec'`<CR>
 " }
 
 " UndoTree {
@@ -374,8 +377,7 @@ endfunction
 
 function! LightLineMode()
   let fname = expand('%:t')
-  return fname == 'ControlP' ? 'CtrlP' :
-        \ fname =~ 'NERD_tree' ? 'NERDTree' :
+  return fname =~ 'NERD_tree' ? 'NERDTree' :
         \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
