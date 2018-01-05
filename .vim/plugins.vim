@@ -221,6 +221,8 @@ endif
 
   call denite#custom#map('insert', '<down>', '<denite:move_to_next_line>', 'noremap')
   call denite#custom#map('insert', '<up>', '<denite:move_to_previous_line>', 'noremap')
+  call denite#custom#option('default', 'highlight_mode', 'WarningMsg') " Color for selected line
+  call denite#custom#option('default', 'highlight_mode_insert', 'WarningMsg') " Color for selected line
 
   nnoremap <C-f> :<C-u>Denite grep<CR>
   " Use file_rec/git when in a git repo
