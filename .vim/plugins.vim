@@ -209,10 +209,22 @@ endif
 " }
 
 " Denite {
-  if executable('pt')
+  if executable('rg')
+    call denite#custom#var('file_rec', 'command', ['rg', '--files', '--glob', '!.git'])
+    call denite#custom#var('grep', 'command', ['rg'])
+    call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--no-heading'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
+  elseif executable('pt')
     call denite#custom#var('file_rec', 'command', ['pt', '--follow', '--nocolor', '--nogroup', (has('win32') ? '-g:' : '-g='), ''])
     call denite#custom#var('grep', 'command', ['pt'])
     call denite#custom#var('grep', 'default_opts', ['--nogroup', '--nocolor', '--smart-case'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', [])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
   endif
 
   call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])  " Closer to the ancestor-first behaviour
@@ -224,7 +236,7 @@ endif
   call denite#custom#option('default', 'highlight_mode', 'WarningMsg') " Color for selected line
   call denite#custom#option('default', 'highlight_mode_insert', 'WarningMsg') " Color for selected line
 
-  nnoremap <C-f> :<C-u>Denite grep<CR>
+  nnoremap <C-s> :<C-u>DeniteProjectDir grep<CR>
   " Use file_rec/git when in a git repo
   nnoremap <silent> <C-p> :<C-u>DeniteProjectDir `isdirectory('.git') != '' ? 'file_rec/git' : 'file_rec'`<CR>
 " }
