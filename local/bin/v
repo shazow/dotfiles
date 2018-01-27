@@ -1,19 +1,19 @@
 #!/bin/bash
 if [[ "$TERM" == "screen" ]]; then
-    vim $@
+    vim "$@"
     exit $?
 fi
 
 vims=("/Applications/Neovim.app" $(which gvim) "/Applications/MacVim.app" "vim")
 
-for p in ${vims[@]}; do
+for p in "${vims[@]}"; do
     if [[ "$p" == *.app ]]; then
         if [[ -d "$p" ]]; then
-            open -a "$p" $@
+            open -a "$p" "$@"
             exit $?
         fi
     else
-        $p $@
+        "$p" "$@"
         exit $?
     fi
 done

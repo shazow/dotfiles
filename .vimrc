@@ -1,30 +1,18 @@
+" Vanilla (neo)vim configurations are here.
+" Plugin configurations are in .vim/plugins.vim
+
 set nocompatible
 set runtimepath+=$DOTFILES_PATH/.vim
 set background=dark
 colorscheme mylokai
-
-" Figure out the system Python for Neovim.
-if exists("$VIRTUAL_ENV")
-    let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
-else
-    let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
-endif
+scriptencoding utf-8
 
 " Enable some nvim features.
-"let $NVIM_TUI_ENABLE_TRUE_COLOR=1  " Broken, pending: https://github.com/neovim/neovim/issues/2953
-let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 " Enable plugins
-filetype off
 set shell=/bin/bash
 source $DOTFILES_PATH/.vim/plugins.vim
-
-" Syntax and encoding
-syntax on " Syntax highlighting
-filetype on " Try to detect filetypes
-filetype plugin indent on " Enable loading indent file for filetype
-scriptencoding utf-8
 
 " Keep all temporary and backup files in ~/.vim
 set viminfo='10,\"100,:20,%,n~/.vim/viminfo
@@ -81,6 +69,7 @@ set splitright
 " General mappings
 nnoremap <leader>\ :noh<return> " Turn off highlighting
 nnoremap <silent><leader>w :call search('\u', 'W')<CR> " Jump TitleCase words
+nnoremap <leader>so :so $MYVIMRC<return> " Reload source
 
 vmap > >gv " Retain visual select when indenting
 vmap < <gv " Retain visual select when indenting
@@ -130,7 +119,6 @@ nnoremap <M-w> :tabclose<CR>
 nnoremap <M-t> :tabnew %<CR>
 nnoremap <M-T> :call PaneToTab()<CR>
 
-
 " Keep vim's directory context same as the current buffer
 if exists('+autochdir')
     set autochdir
@@ -142,7 +130,6 @@ endif
 set list listchars=tab:>\ ,trail:.,extends:$,nbsp:_
 set fillchars=fold:-
 
-
 " Evaporate rogue spaces
 function! StripWhitespace()
     exec ':%s/\s*$//g'
@@ -151,7 +138,7 @@ noremap <leader><space> :call StripWhitespace()<CR>
 
 
 " Find the nearest Makefile and run it
-func! MakeUp()
+function! MakeUp()
     let makefile = findfile("Makefile", ".;")
     if makefile != ""
         silent exe "NeomakeSh make -C " . fnamemodify(makefile, ':p:h')
@@ -161,30 +148,61 @@ autocmd BufWritePost *.scss call MakeUp()
 
 
 " Open the current pane in a tab and close the pane
-func! PaneToTab()
+function! PaneToTab()
     silent exe "close | tabnew +" . line(".") . " " . expand("%:p")
 endfunc
 
 " Ignore Noun-y words when spell checking
-func! IgnoreNounSpell()
+function! IgnoreNounSpell()
     syn match myExCapitalWords +\<\w*[A-Z]\S*\>+ contains=@NoSpell
     "syn match CamelCase /\<[A-Z][a-z]\+[A-Z].\{-}\>/ contains=@NoSpell transparent
     "syn cluster Spell add=CamelCase
 endfunc
 
 " Set tab width
-func! SetTab(width)
+function! SetTab(width)
     let &tabstop=a:width
     let &softtabstop=a:width
     let &shiftwidth=a:width
 endfunc
 
+" Save/Load macro
+" Borrowed from https://github.com/junegunn/dotfiles/blob/master/vimrc
+function! s:save_macro(name, file)
+  let content = eval('@'.a:name)
+  if !empty(content)
+    call writefile(split(content, "\n"), a:file)
+    echom len(content) . " bytes save to ". a:file
+  endif
+endfunction
+command! -nargs=* SaveMacro call <SID>save_macro(<f-args>)
+
+function! s:load_macro(file, name)
+  let data = join(readfile(a:file), "\n")
+  call setreg(a:name, data, 'c')
+  echom "Macro loaded to @". a:name
+endfunction
+command! -nargs=* LoadMacro call <SID>load_macro(<f-args>)
+
+" Open FILENAME:LINE:COL
+" Borrowed from https://github.com/junegunn/dotfiles/blob/master/vimrc
+function! s:goto_line()
+  let tokens = split(expand('%'), ':')
+  if len(tokens) <= 1 || !filereadable(tokens[0])
+    return
+  endif
+
+  let file = tokens[0]
+  let rest = map(tokens[1:], 'str2nr(v:val)')
+  let line = get(rest, 0, 1)
+  let col  = get(rest, 1, 1)
+  bd!
+  silent execute 'e' file
+  execute printf('normal! %dG%d|', line, col)
+endfunction
+autocmd BufNewFile * nested call s:goto_line()
 
 " Extra:
-
-"" Fix bug in css syntax highlighting overriding css-color.
-"" FIXME: Remove when https://github.com/ChrisYip/Better-CSS-Syntax-for-Vim/issues/4 is fixed
-au Filetype css,less source ~/.vim/bundle/vim-css-color/after/syntax/css.vim
 
 "" Detect RFC files
 au FileType text if expand('%:t') =~? 'rfc\d\+' | set filetype=rfc | endif
