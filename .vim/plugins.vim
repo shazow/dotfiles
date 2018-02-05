@@ -32,13 +32,13 @@ Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' } " Profiling
 
 "" Language support
 if has("nvim")
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Replaces neocomplcache
-    Plug 'zchee/deoplete-jedi' " Python static analysis engine
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Replaces neocomplcache
 else
-    Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-    Plug 'Shougo/neocomplete.vim'
-    Plug 'davidhalter/jedi-vim' " Python static analysis engine
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
 endif
+Plug 'zchee/deoplete-jedi' " Python static analysis engine
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
@@ -147,16 +147,11 @@ function! s:tab_complete()
     endif
 
     " Let deoplete do its thing.
-    if has("nvim")
-        return deoplete#mappings#manual_complete()
-    else
-        return neocomplete#mappings#manual_complete()
-    endif
+    return deoplete#mappings#manual_complete()
 endfunction
 
 imap <expr><silent><tab> <SID>tab_complete()
 
-if has("nvim")
 " deoplete {
     let g:deoplete#enable_at_startup = 1
     let g:deoplete#auto_completion_start_length = 5
@@ -177,35 +172,6 @@ if has("nvim")
 
     let g:deoplete#omni_patterns = {}
     let g:deoplete#omni_patterns.rust = '[(\.)(::)]'
-" }
-else
-" neocomplete {
-    " Disable AutoComplPop.
-    let g:acp_enableAtStartup = 0
-    let g:neocomplete#enable_at_startup = 1
-    let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#sources#syntax#min_keyword_length = 5
-    let g:neocomplete#disable_auto_complete=1
-
-    " Plugin key-mappings.
-    imap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
-    smap <C-k> <Right><Plug>(neosnippet_expand_or_jump)
-
-    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-
-    " Jedi
-    autocmd FileType python setlocal omnifunc=jedi#completions
-    let g:jedi#completions_enabled = 0
-    let g:jedi#auto_vim_configuration = 0
-    let g:jedi#auto_vim_configuration = 0
-    if !exists('g:neocomplete#force_omni_input_patterns')
-      let g:neocomplete#force_omni_input_patterns = {}
-    endif
-    let g:neocomplete#force_omni_input_patterns.python =
-        \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-        " alternative pattern: '\h\w*\|[^. \t]\.\w*'
-endif
 " }
 
 " neosnippet {
