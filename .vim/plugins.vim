@@ -38,7 +38,8 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'zchee/deoplete-jedi' " Python static analysis engine
+Plug 'davidhalter/jedi', { 'for': 'python' } " Python static analysis engine
+Plug 'zchee/deoplete-jedi', { 'for': 'python' }
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
