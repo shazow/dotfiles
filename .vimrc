@@ -205,7 +205,10 @@ autocmd BufNewFile * nested call s:goto_line()
 " Extra:
 
 "" Detect RFC files
-au FileType text if expand('%:t') =~? 'rfc\d\+' | set filetype=rfc | endif
+autocmd FileType text if expand('%:t') =~? 'rfc\d\+' | set filetype=rfc | endif
+
+"" .ract files for ractive
+autocmd BufNewFile,BufRead *.ract set filetype=mustache
 
 "" Move the quickfix window to the very bottom.
 autocmd FileType qf wincmd J

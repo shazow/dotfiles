@@ -78,6 +78,7 @@ Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' }
 Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' } " optional syntax highlighting for RFC files
 Plug 'cespare/vim-toml'
 Plug 'tomlion/vim-solidity', { 'for': 'solidity' } " Solidity
+Plug 'mustache/vim-mustache-handlebars'
 
 "" Colorschemes
 Plug 'jacoborus/tender.vim'
