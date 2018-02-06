@@ -4,7 +4,7 @@ if [[ "$TERM" == "screen" ]]; then
     exit $?
 fi
 
-vims=("/Applications/Neovim.app" $(which gvim) "/Applications/MacVim.app" "vim")
+vims=("mvim" "gvim" "vim")
 
 for p in "${vims[@]}"; do
     if [[ "$p" == *.app ]]; then
@@ -13,7 +13,7 @@ for p in "${vims[@]}"; do
             exit $?
         fi
     else
-        "$p" "$@"
+        "$p" --remote-tab-silent "$@"
         exit $?
     fi
 done
