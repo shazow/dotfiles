@@ -37,8 +37,7 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'davidhalter/jedi', { 'for': 'python' } " Python static analysis engine
-Plug 'zchee/deoplete-jedi', { 'for': 'python' }
+Plug 'zchee/deoplete-jedi', { 'for': 'python' }  " Python static analysis engine, vendors jedi
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
@@ -131,6 +130,10 @@ endfunction
 imap <expr><silent><tab> <SID>tab_complete()
 
 " deoplete {
+    " Debug:
+    "call deoplete#enable_logging('DEBUG', $HOME.'/deoplete.log')
+    "call deoplete#custom#set('jedi', 'debug_enabled', 1)
+
     let g:deoplete#enable_at_startup = 1
     let g:deoplete#auto_completion_start_length = 5
     let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
@@ -143,10 +146,19 @@ imap <expr><silent><tab> <SID>tab_complete()
 
     " doplete + vim-jedi for Python
     " TODO: Port to deoplete-jedi
-    let g:jedi#completions_enabled = 0
-    let g:jedi#auto_vim_configuration = 0
-    let g:jedi#smart_auto_mappings = 0
-    let g:jedi#show_call_signatures = 0
+    "let g:jedi#completions_enabled = 0
+    "let g:jedi#auto_vim_configuration = 0
+    "let g:jedi#smart_auto_mappings = 0
+    "let g:jedi#show_call_signatures = 0
+
+    "au FileType python nmap gd :call jedi#goto_definitions()<CR>
+    "au FileType python nmap ga :call jedi#goto_assignments()<CR>
+    let g:jedi#goto_assignments_command = 'ga'
+    let g:jedi#goto_definitions_command = 'gd'
+    let g:jedi#rename_command = '<leader>r'
+    let g:jedi#usages_command = '<leader>u'
+
+    let g:deoplete#sources#jedi#show_docstring = 1
 
     let g:deoplete#omni_patterns = {}
     let g:deoplete#omni_patterns.rust = '[(\.)(::)]'
