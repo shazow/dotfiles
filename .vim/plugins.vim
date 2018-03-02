@@ -28,6 +28,7 @@ Plug 'tpope/vim-sleuth' " Auto-detect buffer settings
 Plug 'Shougo/vinarise.vim' " Hex editor
 Plug 'Shougo/denite.nvim' " Unite replacement
 Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' } " Profiling
+Plug 'MattesGroeger/vim-bookmarks' " Annotations
 
 "" Language support
 if has("nvim")
