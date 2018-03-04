@@ -167,6 +167,13 @@ if &t_Co > 255
    hi Special         ctermfg=81  ctermbg=232
    hi SpecialKey      ctermfg=245
 
+   if has("spell")
+      hi SpellBad    ctermfg=175 ctermbg=none cterm=underline
+      hi SpellCap    ctermfg=17
+      hi SpellLocal  ctermfg=17
+      hi SpellRare   ctermfg=none ctermbg=none cterm=reverse
+   endif
+
    hi Statement       ctermfg=161               cterm=bold
    hi StatusLine      ctermfg=238 ctermbg=253
    hi StatusLineNC    ctermfg=244 ctermbg=232
