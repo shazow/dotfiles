@@ -25,9 +25,9 @@ Plug 'arecarn/crunch.vim' " Calculator
 Plug 'arecarn/selection.vim' " Crunch dep
 Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-sleuth' " Auto-detect buffer settings
+Plug 'tpope/vim-eunuch' " :Rename :Mkdir etc
 Plug 'Shougo/vinarise.vim' " Hex editor
 Plug 'Shougo/denite.nvim' " Unite replacement
-Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' } " Profiling
 Plug 'MattesGroeger/vim-bookmarks' " Annotations
 
 "" Language support
