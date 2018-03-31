@@ -21,7 +21,17 @@ f() {
 #   dotfiles $ fcd bin
 #   dotfiles/local/bin $
 fcd() {
-    target=$(find . -name "*$**" -type d | head -n1)
+    local target="$(find . -name "*$**" -type d | head -n1)"
+    if [[ "$target" ]]; then
+        cd "$target"
+    else
+        echo "Directory not found: $*"; return
+    fi
+}
+
+# Find a source dir using findsrc and cd into it
+scd() {
+    local target="$(findsrc "$*" | head -n1)"
     if [[ "$target" ]]; then
         cd "$target"
     else
@@ -157,7 +167,14 @@ w() {
 
 # Workspace navigation functions
 
-PROJECTS_DIR=~/projects
+if [[ -z "$PROJECTS_DIR" ]]; then
+    PROJECTS_DIR="$HOME/projects"
+fi
+
+if [[ -z "$SOURCE_DIRS" ]]; then
+    SOURCES_DIRS="$PROJECTS_DIR"
+fi
+
 BIN_GO="$(which go)"
 
 # Jump to a project (and activate environment)
@@ -225,6 +242,18 @@ create_virtualenv() {
     virtualenv "$env_path" -p "$(which python)" --prompt="($name)"
     ln -s "$env_path/bin/activate" "$path/.profile"
     source "$env_path/bin/activate"
+}
+
+# Traverse shallow depth of SOURCE_DIRS and find the first match
+findsrc() {
+    declare query="$1" srcpaths=""
+    if [[ -z "SOURCE_DIRS" ]]; then
+        echo "\$SOURCE_DIRS is empty."
+        return 1
+    fi
+    IFS=":" srcpaths=( $SOURCE_DIRS )
+    # TODO: Backport to `find`?
+    fd -d3 -td "$query" ${srcpaths[@]}
 }
 
 # cd to root of the current repository
