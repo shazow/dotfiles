@@ -9,6 +9,7 @@
 
 upload() {
     # Given a filepath and a target name, upload the screenshot
+    chmod +r "$1"
     scp "$1" "ip.shazow.net:sites/tmp.shazow.net/screenshots/$2"
 }
 
@@ -20,9 +21,9 @@ url() {
 ### (End)
 
 screenshot() {
-    if which -s scrot; then
+    if $(which scrot &> /dev/null); then
         scrot -s $1 || return -1
-    elif which -s screencapture; then
+    elif $(which screencapture &> /dev/null); then
         screencapture -i $1 || return -1
     else
         echo "No screenshot utility found. Install scrot."
@@ -31,9 +32,9 @@ screenshot() {
 }
 
 clipboard() {
-    if which -s xclip; then
+    if $(which xclip &> /dev/null); then
         echo $1 | xclip
-    elif which -s pbcopy; then
+    elif $(which pbcopy &> /dev/null); then
         echo $1 | pbcopy
     else
         echo "No clipboard utility found. Install xclip."
@@ -42,10 +43,12 @@ clipboard() {
 }
 
 notify() {
-    if which -s osascript; then
-        osascript -e "display notification \"$1\" with title \"Screenshot\""
+    if $(which osascript &> /dev/null); then
+        osascript -e "display notification \"$2\" with title \"$1\""
+    elif $(which notify-send &> /dev/null); then
+        notify-send "$1" "$2"
     else
-        echo "Notification not supported, skipped: $1"
+        echo "Notification not supported, skipped: $1: $2"
         return -1
     fi
 }
@@ -55,14 +58,17 @@ fail() {
     exit $1
 }
 
+# Fail early
+set -e
+
 # If a path is given, use that instead of taking a screenshot
 target="$1"
 
 name="screenshot_$(date '+%Y-%m-%d')"
-tmppath="$(mktemp -t ss)" || fail 1 "failed to allocate a temporary file"
+tmppath="$(mktemp -t ss.XXXX.png)" || fail 1 "failed to allocate a temporary file"
 
 # Make it hard to guess
-random_string=$(head -c512 /dev/urandom | md5 -q | head -c4)
+random_string=$(head -c512 /dev/urandom | shasum | head -c4)
 
 # Compose full filename
 filename="${name}_${random_string}.png"
@@ -87,6 +93,8 @@ clipboard "${url}"
 echo "Copied to clipboard."
 
 # Clean up
-rm "${tmppath}"
+if [[ -f "${tmppath}" ]]; then
+    rm "${tmppath}"
+fi
 
-notify "Uploaded screenshot: ${url}"
+notify "Uploaded Screenshot" "${url}"
