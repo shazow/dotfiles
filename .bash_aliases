@@ -6,6 +6,7 @@ alias ,="ls -lAGh"
 alias ..="cd .."
 alias -- -="cd -"
 
+alias ls='ls --color=auto'
 alias lsdir='find . -type d -depth 1'
 alias cdrandom='cd "$(lsdir | randomline $(lsdir | wc -l))"'
 
