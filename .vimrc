@@ -10,9 +10,19 @@ scriptencoding utf-8
 " Enable some nvim features.
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
+" Figure out the system Python for Neovim.
+if exists("$VIRTUAL_ENV")
+    if substitute(system("which python | xargs readlink"), "\n", '', 'g') == "python2"
+        let g:python2_host_prog=substitute(system("which -a python | head -n2 | tail -n1"), "\n", '', 'g')
+    else
+        let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
+    endif
+endif
+
 " Enable plugins
 set shell=/bin/bash
 source $DOTFILES_PATH/.vim/plugins.vim
+
 
 " Keep all temporary and backup files in ~/.vim
 set viminfo='10,\"100,:20,%,n~/.vim/viminfo

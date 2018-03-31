@@ -34,11 +34,12 @@ Plug 'MattesGroeger/vim-bookmarks' " Annotations
 if has("nvim")
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Replaces neocomplcache
 else
+  Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'zchee/deoplete-jedi', { 'for': 'python' }  " Python static analysis engine, vendors jedi
+Plug 'zchee/deoplete-jedi', { 'for': ['python', 'python3']  }  " Python static analysis engine, vendors jedi
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
@@ -311,7 +312,9 @@ let g:markdown_enable_insert_mode_mappings = 0 " avoid overriding our <tab> bind
 au BufNewFile,BufReadPost *.md set filetype=markdown
 au BufNewFile,BufReadPost *.md :call IgnoreNounSpell()
 au FileType markdown nmap <leader>t :Toc<CR>
-au FileType markdown setlocal formatoptions=t textwidth=80 linebreak
+"au FileType markdown setlocal formatoptions=t textwidth=80 linebreak
+" Add list support
+au FileType markdown setlocal formatoptions=tron textwidth=80 linebreak
 
 " vim-pencil
 " goyo (zenroom)
