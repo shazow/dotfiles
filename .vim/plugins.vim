@@ -9,7 +9,6 @@ Plug 'honza/vim-snippets'
 "" Other
 Plug 'tmhedberg/matchit'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'scrooloose/nerdcommenter'
@@ -26,19 +25,21 @@ Plug 'arecarn/crunch.vim' " Calculator
 Plug 'arecarn/selection.vim' " Crunch dep
 Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-sleuth' " Auto-detect buffer settings
+Plug 'tpope/vim-eunuch' " :Rename :Mkdir etc
 Plug 'Shougo/vinarise.vim' " Hex editor
 Plug 'Shougo/denite.nvim' " Unite replacement
-Plug 'tweekmonster/startuptime.vim', { 'on': 'StartupTime' } " Profiling
+Plug 'MattesGroeger/vim-bookmarks' " Annotations
 
 "" Language support
 if has("nvim")
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Replaces neocomplcache
 else
+  Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'zchee/deoplete-jedi', { 'for': 'python' }  " Python static analysis engine, vendors jedi
+Plug 'zchee/deoplete-jedi', { 'for': ['python', 'python3']  }  " Python static analysis engine, vendors jedi
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
@@ -92,29 +93,6 @@ vnoremap <leader>C :Crunch!<CR>
 
 " Matchit
 autocmd FileType mako let b:match_words = '<\(\w\w*\):</\1,{:}'
-
-" ctrlp {
-    let g:ctrlp_cmd = 'CtrlPMixed' " Search all the things.
-    let g:ctrlp_working_path_mode = 'ra' " Nearest ancestor
-    let g:ctrlp_mruf_max = 25
-    let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-        \ 'file': '\.exe$\|\.so$\|\.dll$' }
-
-    let g:ctrlp_user_command = {
-        \ 'types': {
-            \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
-            \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-        \ },
-        \ 'fallback': 'find %s -type f'
-    \ }
-    " Reuse already-open buffers? (Default: 'Et')
-    let g:ctrlp_switch_buffer = 0
-
-    nnoremap <silent> <D-p> :CtrlP<CR>
-    nnoremap <silent> <D-r> :CtrlPMRU<CR>
-    nnoremap <leader>p :CtrlPTag<cr> " Ctags integration
-"}
 
 " Autocompletion
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -213,11 +191,36 @@ imap <expr><silent><tab> <SID>tab_complete()
 " }
 
 " Denite {
+  if executable('rg')
+    call denite#custom#var('file_rec', 'command', ['rg', '--files', '--glob', '!.git'])
+    call denite#custom#var('grep', 'command', ['rg'])
+    call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--no-heading'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
+  elseif executable('pt')
+    call denite#custom#var('file_rec', 'command', ['pt', '--follow', '--nocolor', '--nogroup', (has('win32') ? '-g:' : '-g='), ''])
+    call denite#custom#var('grep', 'command', ['pt'])
+    call denite#custom#var('grep', 'default_opts', ['--nogroup', '--nocolor', '--smart-case'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', [])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
+  endif
 
-call denite#custom#var('file_rec', 'command',
-	\ ['pt', '--follow', '--nocolor', '--nogroup',
-	\  (has('win32') ? '-g:' : '-g='), ''])
+  call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])  " Closer to the ancestor-first behaviour
+  call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+  call denite#custom#var('file_rec/git', 'command', ['git', 'ls-files', '-co', '--exclude-standard'])
 
+  call denite#custom#map('insert', '<down>', '<denite:move_to_next_line>', 'noremap')
+  call denite#custom#map('insert', '<up>', '<denite:move_to_previous_line>', 'noremap')
+  call denite#custom#option('default', 'highlight_mode', 'WarningMsg') " Color for selected line
+  call denite#custom#option('default', 'highlight_mode_insert', 'WarningMsg') " Color for selected line
+
+  nnoremap <C-s> :<C-u>DeniteProjectDir grep<CR>
+  " Use file_rec/git when in a git repo
+  nnoremap <silent> <C-p> :<C-u>DeniteProjectDir `isdirectory('.git') != '' ? 'file_rec/git' : 'file_rec'`<CR>
 " }
 
 " UndoTree {
@@ -263,7 +266,7 @@ call denite#custom#var('file_rec', 'command',
 let g:python_highlight_all = 1
 
 " vim-vue
-let g:vue_disable_pre_processors=1
+let g:vue_disable_pre_processors = 1
 
 " vim-go
 autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
@@ -302,7 +305,6 @@ au FileType rust nmap gD <Plug>(rust-def)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
 autocmd! BufWritePost *.rs NeomakeProject cargo
 
-
 " vim-markdown
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter = 1
@@ -310,7 +312,9 @@ let g:markdown_enable_insert_mode_mappings = 0 " avoid overriding our <tab> bind
 au BufNewFile,BufReadPost *.md set filetype=markdown
 au BufNewFile,BufReadPost *.md :call IgnoreNounSpell()
 au FileType markdown nmap <leader>t :Toc<CR>
-au FileType markdown setlocal formatoptions=t textwidth=80 linebreak
+"au FileType markdown setlocal formatoptions=t textwidth=80 linebreak
+" Add list support
+au FileType markdown setlocal formatoptions=tron textwidth=80 linebreak
 
 " vim-pencil
 " goyo (zenroom)
@@ -371,8 +375,7 @@ endfunction
 
 function! LightLineMode()
   let fname = expand('%:t')
-  return fname == 'ControlP' ? 'CtrlP' :
-        \ fname =~ 'NERD_tree' ? 'NERDTree' :
+  return fname =~ 'NERD_tree' ? 'NERDTree' :
         \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 

@@ -1,7 +1,8 @@
 # Augment environment with user-local installs
 if [[ ! "$DOTFILES_LOADED" ]]; then
     export DOTFILES_LOADED=1
-    export PATH=$HOME/local/bin:$DOTFILES_PATH/local/bin:/usr/local/bin:$PATH:/sbin:/usr/local/sbin
+    export XDG_BIN_HOME=$HOME/local/bin
+    export PATH=$XDG_BIN_HOME:$DOTFILES_PATH/local/bin:/usr/local/bin:$PATH:/sbin:/usr/local/sbin
     export PYTHONPATH=$PYTHONPATH
     export GOPATH=$HOME/local/go
     export VISUAL="$(which vim)"
