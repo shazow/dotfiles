@@ -21,7 +21,9 @@ url() {
 ### (End)
 
 screenshot() {
-    if $(which scrot &> /dev/null); then
+    if $(which maim &> /dev/null); then
+        maim -s $1 || return -1
+    elif $(which scrot &> /dev/null); then
         scrot -s $1 || return -1
     elif $(which screencapture &> /dev/null); then
         screencapture -i $1 || return -1
@@ -33,7 +35,7 @@ screenshot() {
 
 clipboard() {
     if $(which xclip &> /dev/null); then
-        echo $1 | xclip
+        echo $1 | xclip -r -selection clipboard
     elif $(which pbcopy &> /dev/null); then
         echo $1 | pbcopy
     else
