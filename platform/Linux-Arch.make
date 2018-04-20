@@ -16,4 +16,6 @@ net-online:
 	$(NETDEVICES) | while read d; do sudo ip link set "$$d" up; done
 
 timezone:
-    timedatectl set-timezone "$(curl -s https://timezoneapi.io/api/ip/ | jq -r .data.timezone.id)"
+	@echo "Updating time: $(shell date +"%r %Z")"
+	curl -s https://timezoneapi.io/api/ip/ | jq -r .data.timezone.id | xargs timedatectl set-timezone
+	@echo "New time: $(shell date +"%r %Z")"
