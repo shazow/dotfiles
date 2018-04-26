@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Save commands for later. Fairly experimental, use with care.
+
+laterfile="${LATERFILE:-$HOME/.local/Laterfile}"
+
+timestamp() {
+    date --rfc-3339=seconds
+}
+
+execute() {
+    if [[ ! -f "$laterfile" ]]; then
+        echo "Laterfile does not exist: $laterfile"
+        return 2
+    fi
+
+    echo "Executing $(wc -l "$laterfile" | cut -d ' ' -f1) entries from Laterfile: [$laterfile]"
+    while read line; do
+        echo " \$ ${line}"
+    done < "$laterfile"
+
+    read -n1 -p "Continue? [y/N] " r && echo
+    if [[ "$r" != "y" ]]; then
+        echo "Aborting."
+        return 1
+    fi
+
+    # TODO: Save to tmp file to avoid race condition maybe?
+    echo "Executing..."
+
+    local count=1
+    while read line; do
+        echo "*** [${count}] ***"
+        echo "${line}" | sh --verbose
+        echo
+        count=$((count+1))
+    done < "$laterfile"
+
+    echo "Clearing..."
+    echo "# Last run: $(timestamp)" > "$laterfile"
+}
+
+append() {
+    echo "Appending to Laterfile: [$laterfile]"
+    echo "TIMESTAMP=\"$(timestamp)\" cd \"${PWD}\" && $@" | tee -a "$laterfile"
+}
+
+main() {
+    set -eo pipefail; [[ "$TRACE" ]] && set -x
+
+    if [[ ! "$1" ]]; then
+      execute
+      exit $?
+    fi
+
+    append "$@"
+}
+
+main "$@"
