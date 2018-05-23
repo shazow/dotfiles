@@ -45,7 +45,9 @@ Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
 Plug 'leshill/vim-json'
 Plug 'posva/vim-vue', { 'for': 'vue' }
-Plug 'gabrielelana/vim-markdown'
+Plug 'godlygeek/tabular' " Table formatting for markdown
+Plug 'plasticboy/vim-markdown'
+"Plug 'gabrielelana/vim-markdown'
 Plug 'hdima/python-syntax', { 'for': 'python' }
 Plug 'hynek/vim-python-pep8-indent', { 'for': 'python' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
@@ -308,6 +310,7 @@ autocmd! BufWritePost *.rs NeomakeProject cargo
 " vim-markdown
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter = 1
+let g:markdown_enable_folding = 0 " Really slow for tables, https://github.com/gabrielelana/vim-markdown/issues/58
 let g:markdown_enable_insert_mode_mappings = 0 " avoid overriding our <tab> binding
 au BufNewFile,BufReadPost *.md set filetype=markdown
 au BufNewFile,BufReadPost *.md :call IgnoreNounSpell()
