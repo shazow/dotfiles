@@ -129,6 +129,10 @@ nnoremap <M-w> :tabclose<CR>
 nnoremap <M-t> :tabnew %<CR>
 nnoremap <M-T> :call PaneToTab()<CR>
 
+""" Quickfix
+nnoremap <M-n> :cnext<CR>
+nnoremap <M-p> :cprev<CR>
+
 " Keep vim's directory context same as the current buffer
 if exists('+autochdir')
     set autochdir
