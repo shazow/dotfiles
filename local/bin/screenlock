@@ -1,3 +1,10 @@
 #!/bin/bash
 # TODO: Make this cross-platform?
+
+readonly min_backlight="5"
+readonly current="$(xbacklight | cut -d '.' -f1)"
+if [[ "$current" -lt "$min_backlight" ]]; then
+    xbacklight -set "$min_backlight"
+fi
+
 i3lock -c 000000 -f -n
