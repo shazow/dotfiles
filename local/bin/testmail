@@ -12,6 +12,7 @@ readonly api_url="https://api.mailgun.net/v3/$MAILGUN_API_DOMAIN"
 readonly from="ping@$api_domain"
 readonly to_ping="$TESTMAIL_PING"
 readonly to_fail="$TESTMAIL_FAIL"
+readonly retry_num=3
 readonly retry_sleep=10
 
 sendmail() {
@@ -35,7 +36,7 @@ retrieve() {
 confirm() {
     declare subject="$1"
 
-    count=3
+    count=$retry_num
     while [[ "$count" -gt 0 ]]; do
         # We're expecting two accepted emails with the subject: One sent, one received.
         if [[ $(retrieve "$subject" | jq ".items | length") == 2 ]]; then
