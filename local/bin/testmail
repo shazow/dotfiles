@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+# Set these envirnoment variables:
+# - $MAILGUN_API_KEY (looks like "key-....")
+# - $MAILGUN_API_DOMAIN (whatever domain you're using, or sandbox*.mailgun.org)
+# - $TESTMAIL_PING (email that forwards to postmaster@$MAILGUN_API_DOMAIN or similar)
+# - $TESTMAIL_FAIL (reliable email to receive failure alerts at)
+
+readonly api_auth="api:$MAILGUN_API_KEY"
+readonly api_url="https://api.mailgun.net/v3/$MAILGUN_API_DOMAIN"
+
+readonly from="ping@$api_domain"
+readonly to_ping="$TESTMAIL_PING"
+readonly to_fail="$TESTMAIL_FAIL"
+readonly retry_sleep=10
+
+sendmail() {
+    declare to="$1" subject="$2" body="$3"
+
+    curl -s --user "$api_auth" "$api_url/messages" \
+        -F from="$from" \
+        -F to="$to" \
+        -F subject="$subject" \
+        -F text="$body" > /dev/null
+    return $?
+}
+
+retrieve() {
+    declare subject="$1"
+
+    curl -s -G -d subject="$subject" -s --user "$api_auth" "$api_url/events" \
+        -d subject="$subject" -d event="accepted"
+}
+
+confirm() {
+    declare subject="$1"
+
+    count=3
+    while [[ "$count" -gt 0 ]]; do
+        # We're expecting two accepted emails with the subject: One sent, one received.
+        if [[ $(retrieve "$subject" | jq ".items | length") == 2 ]]; then
+            # All good
+            return 0
+        fi
+
+        # Try again after a bit
+        sleep "$retry_sleep"
+        count=$((count-1))
+    done
+
+    echo "Failed to receive confirmation, aborting"
+    return 1
+}
+
+fail() {
+    declare reason="$1"
+    echo "Failure: $reason" > /dev/stderr
+    sendmail "$to_fail" "ALERT: Email ping failed: $to_ping" "$reason"
+}
+
+main() {
+    set -eo pipefail; [[ "$TRACE" ]] && set -x
+
+    declare \
+        cmd="$1"
+        ping="ping_$RANDOM" \
+        body="ping test"
+
+    sendmail "$to_ping" "$ping" "$body" || fail "Failed to send ping"
+
+    # Give it some moments, email is slow -_-
+    sleep 3
+
+    confirm "$ping" || fail "Missing confirmation"
+}
+
+[[ "$0" == "$BASH_SOURCE" ]] && main "$@"
