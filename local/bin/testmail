@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
-
+# testmail - Test email forwarding.
+# This works by sending an email to an address which forwards it back to
+# mailgun, then checking that mailgun received it. If it fails, it will send an
+# alert to a fallback email.
+#
 # Set these envirnoment variables:
 # - $MAILGUN_API_KEY (looks like "key-....")
 # - $MAILGUN_API_DOMAIN (whatever domain you're using, or sandbox*.mailgun.org)
