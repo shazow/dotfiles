@@ -9,10 +9,10 @@
 readonly api_auth="api:$MAILGUN_API_KEY"
 readonly api_url="https://api.mailgun.net/v3/$MAILGUN_API_DOMAIN"
 
-readonly from="ping@$api_domain"
+readonly from="ping@$MAILGUN_API_DOMAIN"
 readonly to_ping="$TESTMAIL_PING"
 readonly to_fail="$TESTMAIL_FAIL"
-readonly retry_num=3
+readonly retry_num=${RETRIES_NUM:-3}
 readonly retry_sleep=10
 
 sendmail() {
@@ -29,7 +29,7 @@ sendmail() {
 retrieve() {
     declare subject="$1"
 
-    curl -s -G -d subject="$subject" -s --user "$api_auth" "$api_url/events" \
+    curl -s -G --user "$api_auth" "$api_url/events" \
         -d subject="$subject" -d event="accepted"
 }
 
@@ -70,7 +70,7 @@ main() {
     sendmail "$to_ping" "$ping" "$body" || fail "Failed to send ping"
 
     # Give it some moments, email is slow -_-
-    sleep 3
+    sleep 5
 
     confirm "$ping" || fail "Missing confirmation"
 }
