@@ -54,7 +54,7 @@ confirm() {
 
 fail() {
     declare reason="$1"
-    echo "Failure: $reason" > /dev/stderr
+    >&2 echo "Failure: $reason"
     sendmail "$to_fail" "ALERT: Email ping failed: $to_ping" "$reason"
 }
 
