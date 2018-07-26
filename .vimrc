@@ -232,7 +232,7 @@ if has('gui_running') && !exists("g:gvimrc_init")
     source $DOTFILES_PATH/.gvimrc
 endif
 
-"" Detect readonly buffers
+"" Detect readonly buffers (neovim-only)
 hi! ReadOnlyNormal ctermbg=0
 if exists('+winhighlight')
   autocmd BufReadPost * if &readonly
