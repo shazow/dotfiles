@@ -29,10 +29,12 @@ Plug 'tpope/vim-eunuch' " :Rename :Mkdir etc
 Plug 'Shougo/vinarise.vim' " Hex editor
 Plug 'Shougo/denite.nvim' " Unite replacement
 Plug 'MattesGroeger/vim-bookmarks' " Annotations
+"Plug 'airblade/vim-gitgutter' " Git staging state gutter
 
 "" Language support
 if has("nvim")
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Replaces neocomplcache
+  Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 else
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   Plug 'Shougo/deoplete.nvim'
