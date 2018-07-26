@@ -231,3 +231,11 @@ autocmd FileType qf wincmd J
 if has('gui_running') && !exists("g:gvimrc_init")
     source $DOTFILES_PATH/.gvimrc
 endif
+
+"" Detect readonly buffers
+hi! ReadOnlyNormal ctermbg=0
+if exists('+winhighlight')
+  autocmd BufReadPost * if &readonly
+        \|  set winhighlight=Normal:ReadOnlyNormal
+        \| endif
+endif
