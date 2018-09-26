@@ -37,6 +37,7 @@ if has("nvim")
   Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 else
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+  Plug 'Shougo/vimshell.vim' "Obsolete?
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
@@ -53,10 +54,11 @@ Plug 'plasticboy/vim-markdown'
 Plug 'hdima/python-syntax', { 'for': 'python' }
 Plug 'hynek/vim-python-pep8-indent', { 'for': 'python' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
-if $GOPATH != ""
+if executable('go')
     Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go'}
     Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': 'go' }
     Plug 'rhysd/vim-go-impl', { 'for': 'go' }
+    Plug 'sebdah/vim-delve', { 'for': 'go' }
 endif
 if executable('rustc')
     Plug 'rust-lang/rust.vim', { 'for': 'rust' }
@@ -66,7 +68,11 @@ if executable('rustc')
     endif
 endif
 if executable('tsc')
-  Plug 'Quramy/tsuquyomi', { 'for': 'typescript' } " Typescript IDE
+  if has("nvim")
+    Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " TypeScrpit IDE
+  else
+    Plug 'Quramy/tsuquyomi', { 'for': 'typescript' } " Typescript IDE
+  endif
 endif
 Plug 'ivalkeen/vim-simpledb', { 'for': 'sql' }
 
@@ -74,7 +80,7 @@ Plug 'ivalkeen/vim-simpledb', { 'for': 'sql' }
 Plug 'ap/vim-css-color', { 'for': ['css', 'scss'] }  " Breaks in markdown?
 Plug 'hail2u/vim-css3-syntax'
 Plug 'othree/yajs.vim', { 'for': 'javascript' }
-Plug 'leafgarland/typescript-vim', { 'for': 'typescript' } " Typescript syntax
+Plug 'HerringtonDarkholme/yats.vim', { 'for': 'typescript' } " Typescript syntax
 Plug 'othree/html5.vim'
 Plug 'sophacles/vim-bundle-mako', { 'for': 'mako' }
 Plug 'groenewege/vim-less', { 'for': 'less' }
@@ -144,6 +150,7 @@ imap <expr><silent><tab> <SID>tab_complete()
     let g:deoplete#auto_completion_start_length = 5
     let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
     let g:deoplete#disable_auto_complete = 1
+
 
     " deoplete-go
     set completeopt+=noinsert
@@ -292,6 +299,7 @@ let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
 let g:go_test_timeout = "3s"
 let g:go_auto_type_info = 1
+let g:go_info_mode='guru' " Instead of gocode
 
 "" Go Enable syntax highlighting per default
 let g:go_highlight_types = 1

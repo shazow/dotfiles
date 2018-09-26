@@ -20,6 +20,6 @@ net-offline:
 
 timezone:
 	@echo "Updating time: $(shell date +"%r %Z")"
-	curl -s https://ipapi.co/timezone/ | xargs timedatectl set-timezone
+	timedatectl set-timezone "$(shell curl -s https://ipapi.co/timezone/)"
 	#curl -s https://timezoneapi.io/api/ip/ | jq -r .data.timezone.id | xargs timedatectl set-timezone
 	@echo "New time: $(shell date +"%r %Z")"
