@@ -1,11 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Lock the screen more reliably, specifically for i3.
 # TODO: Make this cross-platform?
 
-readonly min_backlight="5"
-readonly current="$(xbacklight | cut -d '.' -f1)"
-if [[ "$current" -lt "$min_backlight" ]]; then
-    xbacklight -set "$min_backlight"
-fi
+min_backlight() {
+    # Don't let the screen lock with 0 brightness, otherwise the unlock interface
+    # is not visible.
+    declare min_backlight="$1"
+    readonly current="$(xbacklight | cut -d '.' -f1)"
+    if [[ "$current" -lt "$min_backlight" ]]; then
+        xbacklight -set "$min_backlight"
+    fi
+}
 
 abort() {
     # Better to kill i3/x than to return an unlocked session.
@@ -17,8 +22,17 @@ lock() {
     return $?
 }
 
-if ! lock; then
-    # If at first we don't succeed...
-    sleep 0.5
-    lock || abort
-fi
+
+main() {
+    set -eo pipefail; [[ "$TRACE" ]] && set -x
+
+    min_backlight 5
+
+    if ! lock; then
+        # If at first we don't succeed...
+        sleep 0.5
+        lock || abort
+    fi
+}
+
+main "$@"
