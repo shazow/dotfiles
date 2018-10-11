@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # Lock the screen more reliably, specifically for i3.
-# TODO: Make this cross-platform?
+#
+# Fun fact: There are various edge cases where i3lock will fail to lock. For
+# example, if your windowing system has a right-click popup window open while
+# This script attempts to compensate for that.
+#
+# TODO: Make this cross-platform
 
 min_backlight() {
     # Don't let the screen lock with 0 brightness, otherwise the unlock interface
