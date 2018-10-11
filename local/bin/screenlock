@@ -5,6 +5,9 @@
 # example, if your windowing system has a right-click popup window open while
 # This script attempts to compensate for that.
 #
+# Related discussions:
+# - https://github.com/i3/i3lock/issues/35
+#
 # TODO: Make this cross-platform
 
 min_backlight() {
