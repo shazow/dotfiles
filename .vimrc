@@ -9,6 +9,7 @@ scriptencoding utf-8
 
 " Enable some nvim features.
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+set termguicolors
 
 " Figure out the system Python for Neovim.
 if exists("$VIRTUAL_ENV")

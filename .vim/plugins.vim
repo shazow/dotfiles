@@ -30,6 +30,7 @@ Plug 'Shougo/vinarise.vim' " Hex editor
 Plug 'Shougo/denite.nvim' " Unite replacement
 Plug 'MattesGroeger/vim-bookmarks' " Annotations
 "Plug 'airblade/vim-gitgutter' " Git staging state gutter
+Plug 'jamessan/vim-gnupg' " Inline editing of gpg-encrypted files
 
 "" Language support
 if has("nvim")
@@ -329,10 +330,14 @@ au FileType markdown nmap <leader>t :Toc<CR>
 " Add list support
 au FileType markdown setlocal formatoptions=tron textwidth=80 linebreak
 
-" vim-pencil
 " goyo (zenroom)
 let g:goyo_width=82
 nnoremap <Leader>z :Goyo<CR>
+
+" limelight
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+let g:limelight_default_coefficient = 0.7
 
 " neomake
 autocmd! BufWritePost *.py Neomake
