@@ -5,7 +5,8 @@ if [[ ! "$DOTFILES_LOADED" ]]; then
     export PATH=$XDG_BIN_HOME:$DOTFILES_PATH/local/bin:/usr/local/bin:$PATH:/sbin:/usr/local/sbin
     export PYTHONPATH=$PYTHONPATH
     export GOPATH=$HOME/local/go
-    export VISUAL="$(which vim)"
+    export VISUAL="vim"
+    export EDITOR="vim"
 fi
 
 export HISTSIZE=10000
