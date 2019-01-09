@@ -14,9 +14,9 @@ min_backlight() {
     # Don't let the screen lock with 0 brightness, otherwise the unlock interface
     # is not visible.
     declare min_backlight="$1"
-    readonly current="$(xbacklight | cut -d '.' -f1)"
+    readonly current="$(light | cut -d '.' -f1)"
     if [[ "$current" -lt "$min_backlight" ]]; then
-        xbacklight -set "$min_backlight"
+        light -S "$min_backlight"
     fi
 }
 
