@@ -21,9 +21,7 @@ if exists("$VIRTUAL_ENV")
 endif
 
 " Enable plugins
-set shell=/bin/bash
 source $DOTFILES_PATH/.vim/plugins.vim
-
 
 " Keep all temporary and backup files in ~/.vim
 set viminfo='10,\"100,:20,%,n~/.vim/viminfo
