@@ -34,11 +34,11 @@ Plug 'jamessan/vim-gnupg' " Inline editing of gpg-encrypted files
 
 "" Language support
 if has("nvim")
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Replaces neocomplcache
   Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+  Plug 'junegunn/fzf.vim' " Needed for some LanguageClient features :/
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " Replaces neocomplcache
 else
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-  Plug 'Shougo/vimshell.vim' "Obsolete?
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
@@ -63,7 +63,6 @@ if executable('go')
 endif
 if executable('rustc')
     Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-    Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
     if executable('racer')
       Plug 'racer-rust/vim-racer', { 'for': 'rust' }
     endif
@@ -91,6 +90,7 @@ Plug 'vim-scripts/rfc-syntax', { 'for': 'rfc' } " optional syntax highlighting f
 Plug 'cespare/vim-toml'
 Plug 'tomlion/vim-solidity', { 'for': 'solidity' } " Solidity
 Plug 'mustache/vim-mustache-handlebars'
+Plug 'lnl7/vim-nix', { 'for': 'nix'} " Nix nix nix nix
 
 "" Colorschemes
 Plug 'jacoborus/tender.vim'
@@ -286,7 +286,8 @@ autocmd FileType go setlocal noexpandtab shiftwidth=4 tabstop=4 softtabstop=4
 au FileType go nmap <leader>gd <Plug>(go-doc)
 au FileType go nmap <leader>gv <Plug>(go-doc-vertical)
 au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
-au FileType go nmap <leader>b <Plug>(go-build)
+"au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 au FileType go nmap <leader>ru <Plug>(go-run)
 au FileType go nmap <leader>re <Plug>(go-rename)
 au FileType go nmap <leader>te <plug>(go-test)
@@ -296,11 +297,27 @@ au FileType go nmap <leader>ii <Plug>(go-implements)
 au FileType go nmap gd <Plug>(go-def-vertical)
 au FileType go nmap gD <Plug>(go-def)
 
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
 let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
 let g:go_test_timeout = "3s"
 let g:go_auto_type_info = 1
 let g:go_info_mode='guru' " Instead of gocode
+
+" rust
+let g:rustfmt_autosave = 1
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ["rls"],
+    \ }
+
 
 "" Go Enable syntax highlighting per default
 let g:go_highlight_types = 1
