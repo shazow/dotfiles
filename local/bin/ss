@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Take a screenshot of a selected area and upload it somewhere.
 #
 # Requires:
