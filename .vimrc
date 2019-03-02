@@ -223,6 +223,9 @@ autocmd FileType text if expand('%:t') =~? 'rfc\d\+' | set filetype=rfc | endif
 "" .ract files for ractive
 autocmd BufNewFile,BufRead *.ract set filetype=mustache
 
+"" .make files for Makefiles
+autocmd BufNewFile,BufRead *.make set filetype=Makefile
+
 "" Move the quickfix window to the very bottom.
 autocmd FileType qf wincmd J
 
