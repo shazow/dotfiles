@@ -51,7 +51,7 @@ Plug 'leshill/vim-json'
 Plug 'posva/vim-vue', { 'for': 'vue' }
 Plug 'godlygeek/tabular' " Table formatting for markdown
 Plug 'plasticboy/vim-markdown'
-"Plug 'gabrielelana/vim-markdown'
+"Plug 'gabrielelana/vim-markdown'  " Each markdown plugin has pros/cons :/
 Plug 'hdima/python-syntax', { 'for': 'python' }
 Plug 'hynek/vim-python-pep8-indent', { 'for': 'python' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
@@ -61,7 +61,7 @@ if executable('go')
     Plug 'rhysd/vim-go-impl', { 'for': 'go' }
     Plug 'sebdah/vim-delve', { 'for': 'go' }
 endif
-if executable('rustc')
+if executable('cargo')
     Plug 'rust-lang/rust.vim', { 'for': 'rust' }
     if executable('racer')
       Plug 'racer-rust/vim-racer', { 'for': 'rust' }
