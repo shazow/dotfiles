@@ -310,7 +310,8 @@ let g:go_def_mapping_enabled = 0
 let g:go_fmt_command = "goimports"
 let g:go_test_timeout = "3s"
 let g:go_auto_type_info = 1
-let g:go_info_mode='guru' " Instead of gocode
+let g:go_def_mode = 'gopls'
+"let g:go_info_mode='guru' " Instead of gocode
 
 " rust
 let g:rustfmt_autosave = 1
