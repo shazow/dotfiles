@@ -17,3 +17,6 @@ clean:
 battery:
 	sudo powertop --auto-tune
 	pulseaudio -k
+
+upgrade-pkg:
+	sudo nix-build '<nixpkgs>' -A $$PKG
