@@ -26,6 +26,7 @@ Plug 'arecarn/selection.vim' " Crunch dep
 Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-sleuth' " Auto-detect buffer settings
 Plug 'tpope/vim-eunuch' " :Rename :Mkdir etc
+Plug 'tpope/vim-repeat' " Repeat plugin calls
 Plug 'Shougo/vinarise.vim' " Hex editor
 Plug 'Shougo/denite.nvim' " Unite replacement
 Plug 'MattesGroeger/vim-bookmarks' " Annotations
@@ -49,9 +50,10 @@ Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
 Plug 'leshill/vim-json'
 Plug 'posva/vim-vue', { 'for': 'vue' }
-Plug 'godlygeek/tabular' " Table formatting for markdown
-Plug 'plasticboy/vim-markdown'
+"Plug 'godlygeek/tabular' " Table formatting for markdown
+"Plug 'plasticboy/vim-markdown'
 "Plug 'gabrielelana/vim-markdown'  " Each markdown plugin has pros/cons :/
+Plug 'SidOfc/mkdx', { 'for': 'markdown' }
 Plug 'hdima/python-syntax', { 'for': 'python' }
 Plug 'hynek/vim-python-pep8-indent', { 'for': 'python' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
@@ -336,17 +338,25 @@ au FileType rust nmap gD <Plug>(rust-def)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
 autocmd! BufWritePost *.rs NeomakeProject cargo
 
+" mkdx
+let g:mkdx#settings = {
+  \ 'highlight': { 'enable': 1 },
+  \ 'enter': { 'shift': 1 },
+  \ 'toc': { 'text': 'Table of Contents', 'update_on_write': 1,
+  \          'details': { 'nesting_level': 0 } },
+  \ 'fold': { 'enable': 1 }
+  \ }
+
 " vim-markdown
-let g:vim_markdown_folding_disabled=1
+let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_frontmatter = 1
 let g:markdown_enable_folding = 0 " Really slow for tables, https://github.com/gabrielelana/vim-markdown/issues/58
 let g:markdown_enable_insert_mode_mappings = 0 " avoid overriding our <tab> binding
 au BufNewFile,BufReadPost *.md set filetype=markdown
 au BufNewFile,BufReadPost *.md :call IgnoreNounSpell()
-au FileType markdown nmap <leader>t :Toc<CR>
-"au FileType markdown setlocal formatoptions=t textwidth=80 linebreak
-" Add list support
-au FileType markdown setlocal formatoptions=tron textwidth=80 linebreak
+"au FileType markdown nmap <leader>t :Toc<CR>
+" Add list support for vim-markdown
+"au FileType markdown setlocal formatoptions=tron textwidth=80 linebreak
 
 " goyo (zenroom)
 let g:goyo_width=82

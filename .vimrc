@@ -42,8 +42,9 @@ set encoding=utf-8
 set termencoding=utf-8
 set tabstop=4 " Tab
 set shiftwidth=4 " Indent
-set softtabstop=4 " Backspace
+set softtabstop=4 " Tab/Backspace
 set expandtab " Convert tabs to spaces
+set autoindent
 
 set ruler " Position at the bottom of the screen
 set shortmess=atI " Avoid 'press a key' prompt
