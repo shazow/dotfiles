@@ -1,5 +1,6 @@
 update: sync
 	sudo nixos-rebuild switch --upgrade
+	nix-env -u '*'
 	home-manager switch
 	flatpak update --appstream && flatpak update
 
