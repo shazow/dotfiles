@@ -279,6 +279,24 @@ up() {
     done
 }
 
+# find the nearest parent $1*.nix file and nix-shell into it, without changing
+# directories.
+upshell() {
+    declare pattern="${1}*.nix"
+    local cwd=${PWD%/}
+    while [[ -d $cwd ]]; do
+        local candidate="$(compgen -G "${cwd}/${pattern}" | head -n1)"
+        if [[ -f "${candidate}" ]]; then
+            echo "Found nix-shell, entering: ${candidate}"
+            nix-shell "${candidate}"
+            return 0
+        fi
+        cwd=${cwd%/*}
+    done
+    echo "No nix-shell: ${1}*.nix"
+    return 1
+}
+
 # http://www.foo.com/bar -> foo.com
 domain() {
     local parts=(${1//\// });
