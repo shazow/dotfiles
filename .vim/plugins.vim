@@ -77,6 +77,8 @@ if executable('tsc')
   endif
 endif
 Plug 'ivalkeen/vim-simpledb', { 'for': 'sql' }
+Plug 'hashivim/vim-terraform', { 'for': 'terraform' }
+Plug 'juliosueiras/vim-terraform-completion', { 'for': 'terraform' }
 
 "" Syntax highlighting
 Plug 'ap/vim-css-color', { 'for': ['css', 'scss'] }  " Breaks in markdown?
@@ -206,26 +208,24 @@ imap <expr><silent><tab> <SID>tab_complete()
 
 " Denite {
   if executable('rg')
-    call denite#custom#var('file_rec', 'command', ['rg', '--files', '--glob', '!.git'])
     call denite#custom#var('grep', 'command', ['rg'])
-    call denite#custom#var('grep', 'default_opts', ['--vimgrep', '--no-heading'])
+    call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep', '--no-heading'])
     call denite#custom#var('grep', 'recursive_opts', [])
     call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
     call denite#custom#var('grep', 'separator', ['--'])
     call denite#custom#var('grep', 'final_opts', [])
   elseif executable('pt')
-    call denite#custom#var('file_rec', 'command', ['pt', '--follow', '--nocolor', '--nogroup', (has('win32') ? '-g:' : '-g='), ''])
     call denite#custom#var('grep', 'command', ['pt'])
-    call denite#custom#var('grep', 'default_opts', ['--nogroup', '--nocolor', '--smart-case'])
+    call denite#custom#var('grep', 'default_opts', ['-i', '--nogroup', '--nocolor', '--smart-case'])
     call denite#custom#var('grep', 'recursive_opts', [])
     call denite#custom#var('grep', 'pattern_opt', [])
     call denite#custom#var('grep', 'separator', ['--'])
     call denite#custom#var('grep', 'final_opts', [])
   endif
 
-  call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])  " Closer to the ancestor-first behaviour
-  call denite#custom#alias('source', 'file_rec/git', 'file_rec')
-  call denite#custom#var('file_rec/git', 'command', ['git', 'ls-files', '-co', '--exclude-standard'])
+  call denite#custom#source('file/rec', 'sorters', ['sorter/sublime']) " Closer to the ancestor-first behaviour
+  call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+  call denite#custom#var('file/rec/git', 'command', ['git', 'ls-files', '-co', '--exclude-standard'])
 
   call denite#custom#map('insert', '<down>', '<denite:move_to_next_line>', 'noremap')
   call denite#custom#map('insert', '<up>', '<denite:move_to_previous_line>', 'noremap')
@@ -234,7 +234,7 @@ imap <expr><silent><tab> <SID>tab_complete()
 
   nnoremap <C-s> :<C-u>DeniteProjectDir grep<CR>
   " Use file_rec/git when in a git repo
-  nnoremap <silent> <C-p> :<C-u>DeniteProjectDir `isdirectory('.git') != '' ? 'file_rec/git' : 'file_rec'`<CR>
+  nnoremap <silent> <C-p> :<C-u>DeniteProjectDir `isdirectory('.git') != '' ? 'file/rec/git' : 'file/rec'`<CR>
 " }
 
 " UndoTree {

@@ -1,8 +1,3 @@
-if [[ "$TERM" == "screen" ]]; then
-    # Screen doesn't load .bash_profile?
-    source $DOTFILES_PATH/.bash_profile
-fi
-
 # Load auxiliary configurations
 declare load_files=(~/.bash_private ~/.bash_aliases)
 
