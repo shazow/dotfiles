@@ -28,7 +28,7 @@ Plug 'tpope/vim-sleuth' " Auto-detect buffer settings
 Plug 'tpope/vim-eunuch' " :Rename :Mkdir etc
 Plug 'tpope/vim-repeat' " Repeat plugin calls
 Plug 'Shougo/vinarise.vim' " Hex editor
-Plug 'Shougo/denite.nvim' " Unite replacement
+Plug 'Shougo/denite.nvim', { 'tag': '*' } " Unite replacement
 Plug 'MattesGroeger/vim-bookmarks' " Annotations
 "Plug 'airblade/vim-gitgutter' " Git staging state gutter
 Plug 'jamessan/vim-gnupg' " Inline editing of gpg-encrypted files
@@ -224,8 +224,16 @@ imap <expr><silent><tab> <SID>tab_complete()
   endif
 
   call denite#custom#source('file/rec', 'sorters', ['sorter/sublime']) " Closer to the ancestor-first behaviour
-  call denite#custom#alias('source', 'file/rec/git', 'file/rec')
-  call denite#custom#var('file/rec/git', 'command', ['git', 'ls-files', '-co', '--exclude-standard'])
+
+  autocmd FileType denite call s:denite_my_settings()
+  function! s:denite_my_settings() abort
+    nnoremap <silent><buffer><expr> <CR> denite#do_map('do_action')
+    nnoremap <silent><buffer><expr> d denite#do_map('do_action', 'delete')
+    nnoremap <silent><buffer><expr> p denite#do_map('do_action', 'preview')
+    nnoremap <silent><buffer><expr> q denite#do_map('quit')
+    nnoremap <silent><buffer><expr> i denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
+  endfunction
 
   call denite#custom#map('insert', '<down>', '<denite:move_to_next_line>', 'noremap')
   call denite#custom#map('insert', '<up>', '<denite:move_to_previous_line>', 'noremap')
@@ -234,6 +242,9 @@ imap <expr><silent><tab> <SID>tab_complete()
 
   nnoremap <C-s> :<C-u>DeniteProjectDir grep<CR>
   " Use file_rec/git when in a git repo
+  call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+  call denite#custom#var('file/rec/git', 'command', ['git', 'ls-files', '-co', '--exclude-standard'])
+  "nnoremap <silent> <C-p> :<C-u>Denite `finddir('.git', ';') != '' ? 'file/rec/git' : 'file/rec'`<CR>
   nnoremap <silent> <C-p> :<C-u>DeniteProjectDir `isdirectory('.git') != '' ? 'file/rec/git' : 'file/rec'`<CR>
 " }
 
