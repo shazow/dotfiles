@@ -13,10 +13,9 @@ set termguicolors
 
 " Figure out the system Python for Neovim.
 if exists("$VIRTUAL_ENV")
-    if substitute(system("which python | xargs readlink"), "\n", '', 'g') == "python2"
+  let g:python3_host_prog=$VIRTUAL_ENV . "/bin/python3"
+  if substitute(system("which python | xargs readlink"), "\n", '', 'g') == "python2"
         let g:python2_host_prog=substitute(system("which -a python | head -n2 | tail -n1"), "\n", '', 'g')
-    else
-        let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
     endif
 endif
 

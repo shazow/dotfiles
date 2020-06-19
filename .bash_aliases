@@ -12,3 +12,5 @@ alias cdrandom='cd "$(lsdir | randomline $(lsdir | wc -l))"'
 
 alias vincognito='vim --noplugin -u NONE -U NONE -i NONE --cmd "set noswapfile" --cmd "set nobackup"'
 alias ssh-unsafe='ssh -o "UserKnownHostsFile /dev/null" -o StrictHostKeyChecking=no'
+
+alias r='vim -R'

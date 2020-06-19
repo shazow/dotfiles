@@ -24,6 +24,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'arecarn/crunch.vim' " Calculator
 Plug 'arecarn/selection.vim' " Crunch dep
 Plug 'vimwiki/vimwiki'
+Plug 'mattn/calendar-vim'
 Plug 'tpope/vim-sleuth' " Auto-detect buffer settings
 Plug 'tpope/vim-eunuch' " :Rename :Mkdir etc
 Plug 'tpope/vim-repeat' " Repeat plugin calls
@@ -44,7 +45,8 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'zchee/deoplete-jedi', { 'for': ['python', 'python3']  }  " Python static analysis engine, vendors jedi
+Plug 'deoplete-plugins/deoplete-jedi', { 'for': ['python', 'python3']  }  " Python static analysis engine, vendors jedi
+Plug 'davidhalter/jedi-vim', { 'for': ['python', 'python3'] } " deoplete-jedi doesn't handle everything yet (e.g. jump to definition): https://github.com/deoplete-plugins/deoplete-jedi/issues/35
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
@@ -56,7 +58,7 @@ Plug 'posva/vim-vue', { 'for': 'vue' }
 Plug 'SidOfc/mkdx', { 'for': 'markdown' }
 Plug 'hdima/python-syntax', { 'for': 'python' }
 Plug 'hynek/vim-python-pep8-indent', { 'for': 'python' }
-Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
+"Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' } " Doesn't work for py3+neovim?
 if executable('go')
     Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go'}
     Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': 'go' }
@@ -71,7 +73,7 @@ if executable('cargo')
 endif
 if executable('tsc')
   if has("nvim")
-    Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " TypeScrpit IDE
+    " Broken? Plug 'mhartington/nvim-typescript', {'do': './install.sh'} " TypeScrpit IDE
   else
     Plug 'Quramy/tsuquyomi', { 'for': 'typescript' } " Typescript IDE
   endif
@@ -141,7 +143,7 @@ function! s:tab_complete()
     endif
 
     " Let deoplete do its thing.
-    return deoplete#mappings#manual_complete()
+    return deoplete#manual_complete()
 endfunction
 
 imap <expr><silent><tab> <SID>tab_complete()
@@ -163,14 +165,14 @@ imap <expr><silent><tab> <SID>tab_complete()
     "set completeopt+=preview
 
     " doplete + vim-jedi for Python
-    " TODO: Port to deoplete-jedi
-    "let g:jedi#completions_enabled = 0
-    "let g:jedi#auto_vim_configuration = 0
-    "let g:jedi#smart_auto_mappings = 0
+    " TODO: Remove once deoplete-jedi supports everything
+    let g:jedi#completions_enabled = 0
+    let g:jedi#auto_vim_configuration = 0
+    let g:jedi#smart_auto_mappings = 0
     "let g:jedi#show_call_signatures = 0
 
-    "au FileType python nmap gd :call jedi#goto_definitions()<CR>
-    "au FileType python nmap ga :call jedi#goto_assignments()<CR>
+    "au FileType python nmap gd :call jedi#goto_definitions_command()<CR>
+    "au FileType python nmap ga :call jedi#goto_assignments_command()<CR>
     let g:jedi#goto_assignments_command = 'ga'
     let g:jedi#goto_definitions_command = 'gd'
     let g:jedi#rename_command = '<leader>r'
@@ -239,13 +241,21 @@ imap <expr><silent><tab> <SID>tab_complete()
   call denite#custom#map('insert', '<up>', '<denite:move_to_previous_line>', 'noremap')
   call denite#custom#option('default', 'highlight_mode', 'WarningMsg') " Color for selected line
   call denite#custom#option('default', 'highlight_mode_insert', 'WarningMsg') " Color for selected line
+  call denite#custom#option('default', {
+        \ 'highlight_filter_background': 'CursorLine',
+        \ 'source_names': 'short',
+        \ 'split': 'floating',
+        \ 'filter_split_direction': 'floating',
+        \ 'vertical_preview': v:true,
+        \ 'floating_preview': v:true,
+        \ })
 
   nnoremap <C-s> :<C-u>DeniteProjectDir grep<CR>
   " Use file_rec/git when in a git repo
   call denite#custom#alias('source', 'file/rec/git', 'file/rec')
   call denite#custom#var('file/rec/git', 'command', ['git', 'ls-files', '-co', '--exclude-standard'])
   "nnoremap <silent> <C-p> :<C-u>Denite `finddir('.git', ';') != '' ? 'file/rec/git' : 'file/rec'`<CR>
-  nnoremap <silent> <C-p> :<C-u>DeniteProjectDir `isdirectory('.git') != '' ? 'file/rec/git' : 'file/rec'`<CR>
+  nnoremap <silent> <C-p> :<C-u>DeniteProjectDir -start-filter `finddir('.git', ';') != '' ? 'file/rec/git' : 'file/rec'`<CR>
 " }
 
 " UndoTree {
@@ -377,6 +387,13 @@ nnoremap <Leader>z :Goyo<CR>
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 let g:limelight_default_coefficient = 0.7
+
+" vimwiki
+let g:vimwiki_list = [{'path': '~/txt/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_listsyms = ' ○◐●✓'
+let g:vimwiki_folding = '' " Switch to 'expr' for smart folding
+let g:vimwiki_global_ext = 0 " Don't treat .md outside of vimwiki_list as wiki
+
 
 " neomake
 autocmd! BufWritePost *.py Neomake
