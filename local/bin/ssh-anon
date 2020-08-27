@@ -1,1 +1,7 @@
-ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes $@
+ssh \
+    -o "StrictHostKeyChecking=no" \
+    -o "UserKnownHostsFile=/dev/null" \
+    -o "IdentitiesOnly=yes" \
+    -o "IdentityFile=/dev/null" \
+    -o "PubkeyAuthentication=no" \
+    $@
