@@ -20,6 +20,11 @@ url() {
 
 ### (End)
 
+err() {
+    echo "$*" > /dev/stderr
+    return -1
+}
+
 screenshot() {
     if $(which maim &> /dev/null); then
         maim -s $1 || return -1
@@ -28,7 +33,7 @@ screenshot() {
     elif $(which screencapture &> /dev/null); then
         screencapture -i $1 || return -1
     else
-        echo "No screenshot utility found. Install scrot."
+        err "No screenshot utility found. Install scrot."
         return -1
     fi
 }
@@ -39,7 +44,7 @@ clipboard() {
     elif $(which pbcopy &> /dev/null); then
         echo $1 | pbcopy
     else
-        echo "No clipboard utility found. Install xclip."
+        err "No clipboard utility found. Install xclip."
         return -1
     fi
 }
@@ -50,7 +55,18 @@ notify() {
     elif $(which notify-send &> /dev/null); then
         notify-send "$1" "$2"
     else
-        echo "Notification not supported, skipped: $1: $2"
+        err "Notification not supported, skipped: $1: $2"
+        return -1
+    fi
+}
+
+sum() {
+    if $(which sha256sum &> /dev/null); then
+        sha256sum | head -c4
+    elif $(which shasum &> /dev/null); then
+        shasum | head -c4
+    else
+        err "Sum utility not found. Install sha256sum or shasum."
         return -1
     fi
 }
@@ -70,7 +86,7 @@ name="screenshot_$(date '+%Y-%m-%d')"
 tmppath="$(mktemp -t ss.XXXX.png)" || fail 1 "failed to allocate a temporary file"
 
 # Make it hard to guess
-random_string=$(head -c512 /dev/urandom | shasum | head -c4)
+random_string=$(head -c512 /dev/urandom | sum | head -c4)
 
 # Compose full filename
 filename="${name}_${random_string}.png"
