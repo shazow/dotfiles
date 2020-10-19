@@ -4,7 +4,7 @@ call plug#begin('~/.vim/bundle')
 "" Early dependencies
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
-Plug 'honza/vim-snippets'
+Plug 'honza/vim-snippets' " Used by neosnippet instead of 'Shougo/neosnippet-snippets'
 
 "" Other
 Plug 'tmhedberg/matchit'
@@ -31,7 +31,7 @@ Plug 'tpope/vim-repeat' " Repeat plugin calls
 Plug 'Shougo/vinarise.vim' " Hex editor
 Plug 'Shougo/denite.nvim', { 'tag': '*' } " Unite replacement
 Plug 'MattesGroeger/vim-bookmarks' " Annotations
-"Plug 'airblade/vim-gitgutter' " Git staging state gutter
+Plug 'airblade/vim-gitgutter' " Git staging state gutter
 Plug 'jamessan/vim-gnupg' " Inline editing of gpg-encrypted files
 
 "" Language support
@@ -47,7 +47,7 @@ else
 endif
 Plug 'deoplete-plugins/deoplete-jedi', { 'for': ['python', 'python3']  }  " Python static analysis engine, vendors jedi
 Plug 'davidhalter/jedi-vim', { 'for': ['python', 'python3'] } " deoplete-jedi doesn't handle everything yet (e.g. jump to definition): https://github.com/deoplete-plugins/deoplete-jedi/issues/35
-Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet' " TODO: Someday, replace neosnippet: Plug 'Shougo/deoppet.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/echodoc.vim'
 Plug 'janko-m/vim-test'
 Plug 'leshill/vim-json'
@@ -56,6 +56,7 @@ Plug 'posva/vim-vue', { 'for': 'vue' }
 "Plug 'plasticboy/vim-markdown'
 "Plug 'gabrielelana/vim-markdown'  " Each markdown plugin has pros/cons :/
 Plug 'SidOfc/mkdx', { 'for': 'markdown' }
+Plug 'skanehira/preview-markdown.vim', { 'for': 'markdown' }
 Plug 'hdima/python-syntax', { 'for': 'python' }
 Plug 'hynek/vim-python-pep8-indent', { 'for': 'python' }
 "Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' } " Doesn't work for py3+neovim?
@@ -97,6 +98,7 @@ Plug 'cespare/vim-toml'
 Plug 'tomlion/vim-solidity', { 'for': 'solidity' } " Solidity
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'lnl7/vim-nix', { 'for': 'nix'} " Nix nix nix nix
+Plug 'evanleck/vim-svelte', { 'branch': 'main', 'for': 'svelte' }
 
 "" Colorschemes
 Plug 'jacoborus/tender.vim'
@@ -155,9 +157,10 @@ imap <expr><silent><tab> <SID>tab_complete()
 
     let g:deoplete#enable_at_startup = 1
     let g:deoplete#auto_completion_start_length = 5
-    let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
     let g:deoplete#disable_auto_complete = 1
 
+    "let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+    call deoplete#custom#option('omni_patterns', { 'go': '[^. *\t]\.\w*' })
 
     " deoplete-go
     set completeopt+=noinsert
@@ -296,6 +299,14 @@ imap <expr><silent><tab> <SID>tab_complete()
     \ }
 " }
 
+" LanguageClient-neovim
+nmap <leader>l <Plug>(lcn-menu)
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rls'],
+    \ 'python': ['pyls'],
+    \ 'lua': ['lua-lsp'],
+    \ }
+
 
 " vim-python
 let g:python_highlight_all = 1
@@ -338,10 +349,6 @@ let g:go_def_mode = 'gopls'
 
 " rust
 let g:rustfmt_autosave = 1
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ["rls"],
-    \ }
-
 
 "" Go Enable syntax highlighting per default
 let g:go_highlight_types = 1
@@ -378,6 +385,12 @@ au BufNewFile,BufReadPost *.md :call IgnoreNounSpell()
 "au FileType markdown nmap <leader>t :Toc<CR>
 " Add list support for vim-markdown
 "au FileType markdown setlocal formatoptions=tron textwidth=80 linebreak
+
+" skanehira/preview-markdown.vim
+let g:preview_markdown_parser = 'glow'
+
+" vimwiki
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
 
 " goyo (zenroom)
 let g:goyo_width=82
