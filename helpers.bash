@@ -175,7 +175,7 @@ if [[ -z "$SOURCE_DIRS" ]]; then
     SOURCES_DIRS="$PROJECTS_DIR"
 fi
 
-BIN_GO="$(which go)"
+BIN_GO="$(which go 2> /dev/null)"
 
 # Jump to a project (and activate environment)
 go() {
