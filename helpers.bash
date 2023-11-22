@@ -21,7 +21,7 @@ f() {
 #   dotfiles $ fcd bin
 #   dotfiles/local/bin $
 fcd() {
-    local target="$(find . -name "*$**" -type d | head -n1)"
+    local target="$(find . -name "*${*}*" -type d | head -n1)"
     if [[ "$target" ]]; then
         cd "$target"
     else
@@ -31,7 +31,7 @@ fcd() {
 
 # Find a source dir using findsrc and cd into it
 scd() {
-    local target="$(findsrc "$*" | head -n1)"
+    local target="$(findsrc "${*}" | head -n1)"
     if [[ "$target" ]]; then
         cd "$target"
     else
@@ -172,7 +172,7 @@ if [[ -z "$PROJECTS_DIR" ]]; then
 fi
 
 if [[ -z "$SOURCE_DIRS" ]]; then
-    SOURCES_DIRS="$PROJECTS_DIR"
+    SOURCE_DIRS="$PROJECTS_DIR"
 fi
 
 BIN_GO="$(which go 2> /dev/null)"
@@ -247,11 +247,15 @@ create_virtualenv() {
 # Traverse shallow depth of SOURCE_DIRS and find the first match
 findsrc() {
     declare query="$1" srcpaths=""
-    if [[ -z "SOURCE_DIRS" ]]; then
+    if [[ -z "$SOURCE_DIRS" ]]; then
         echo "\$SOURCE_DIRS is empty."
         return 1
     fi
     IFS=":" srcpaths=( $SOURCE_DIRS )
+    if [[ ! "$srcpaths" ]]; then
+        # Single element
+        srcpaths=( "$SOURCE_DIRS" )
+    fi
     # TODO: Backport to `find`?
     fd -d3 -td "$query" ${srcpaths[@]}
 }
