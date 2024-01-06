@@ -1,3 +1,14 @@
 #!/usr/bin/env bash
-sleep 0.5
-xset dpms force off
+if command -v xset > /dev/null; then
+  xset s activate
+  exit $?
+fi
+
+if command -v swaymsg > /dev/null; then
+  readonly toggle=$([[ $(swaymsg -t get_outputs -r | jq ".[] | .dpms") = "true" ]] && echo off || echo on)
+  swaymsg "output * dpms $toggle"
+  exit $?
+fi
+
+echo "need xset or swaymsg"
+exit 1
