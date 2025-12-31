@@ -39,6 +39,27 @@ scd() {
     fi
 }
 
+# Autocomplete function for scd
+_complete_scd() {
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    local srcpaths
+
+    if [[ -z "$SOURCE_DIRS" ]]; then
+        return 0
+    fi
+
+    local OLD_IFS="$IFS"
+    IFS=":" srcpaths=( $SOURCE_DIRS )
+    IFS="$OLD_IFS"
+
+    # Use fd to find all directories up to depth 3, extract basenames, and filter with compgen
+    local targets
+    targets=$(fd -d3 -td . "${srcpaths[@]}" --color=never | xargs -n1 basename)
+
+    COMPREPLY=( $(compgen -W "$targets" -- "$cur") )
+}
+complete -F _complete_scd scd
+
 # Find a running process named like $1
 # Example:
 #   $ p iterm
@@ -251,7 +272,9 @@ findsrc() {
         echo "\$SOURCE_DIRS is empty."
         return 1
     fi
+    local OLD_IFS="$IFS"
     IFS=":" srcpaths=( $SOURCE_DIRS )
+    IFS="$OLD_IFS"
     if [[ ! "$srcpaths" ]]; then
         # Single element
         srcpaths=( "$SOURCE_DIRS" )
