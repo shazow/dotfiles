@@ -52,9 +52,9 @@ _complete_scd() {
     IFS=":" srcpaths=( $SOURCE_DIRS )
     IFS="$OLD_IFS"
 
-    # Use fd to find all directories up to depth 3, extract basenames, and filter with compgen
+    # Use fd to find all directories up to depth 1, extract basenames, and filter with compgen
     local targets
-    targets=$(fd -d3 -td . "${srcpaths[@]}" --color=never | xargs -n1 basename)
+    targets=$(fd -d1 -td . "${srcpaths[@]}" --color=never | xargs -n1 basename)
 
     COMPREPLY=( $(compgen -W "$targets" -- "$cur") )
 }
